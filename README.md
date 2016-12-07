@@ -12,10 +12,15 @@ Short Installment:
 
 On your Raspi, do that:
 
+# install node if not installed.
+# install apache2 if not installed. (node only maybe later.)
+
 cd /home/pi/Documents
 git clone https://github.com/ben0bi/ThereWillBeLED
+sudo cp -r ThereWillBeLED/client_html/* /var/www
 
-# ok, now you have the stuff in the right directory, now..
+# /var/www is apaches default web directory. Use another one if you want.
+# ok, now you have the stuff in the right directories, now..
 
 sudo nano /etc/rc.local
 
@@ -25,7 +30,9 @@ sudo nano /etc/rc.local
 
 # Press Ctrl-O to save the file, Ctrl-X to exit.
 
-Done. Restart your pi and it should run.
+# Done. Restart your Pi and it should run.
+# If all went good, the LEDs should show the local IP if the raspi is connected.
+# Over that IP you can now change text and stuff.
 
 ******************************************************************************
 Extended, for debugging reasons and stuff:
@@ -39,9 +46,10 @@ Extended, for debugging reasons and stuff:
 	(Maybe you need to install apache first...full node support maybe later.)
 3. Restart your machine: It should run now.
 
-4. You can access the program with "screen -R" or autoboot/stop
+4. You can access the running program with "screen -R" or autoboot/stop
 
 5. On startup, the box shows its own local IP if it is connected to the LAN.
-You can connect to that IP and change the text, without having to use a screen for the RaspbPi.
+You can connect to that IP and change the text, without having to use a 
+display for the RaspbPi.
 
 6. Have Fun!

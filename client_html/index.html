@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BE+LED Client</title>
+<style>
+body 
+{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#wrapper
+{
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 800px;
+	max-width: 80%;
+}
+
+#changebtn_field:
+{
+	width: 200px;
+}
+
+#input_field
+{
+	width: 100%;
+}
+
+input
+{
+	width: 500px;
+	font-size: 15pt;
+}
+
+#footer 
+{
+	position:absolute; 
+	bottom: 10px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>
+</head>
+<body>
+
+<div id="wrapper">
+<h1>Be+LED</h1>
+
+<table border ="1">
+<tr>
+<td>
+<h3>[EN]</h3>
+Input your text, to let it run on the device shown below.<br />
+The text repeats until another text will be sent.<br />
+It will change when you press the "Change"-Button.<br />
+<br />
+You can use special symbols and commands between brackets #3 {}. They are listed below.
+</td><td>
+<h3>[DE]</h3>
+Gib deinen Text ein, um ihn auf dem unten gezeigten Ger&auml;t durchlaufen zu lassen.<br />
+Der Text wiederholt sich so lange, bis ein anderer Text eingegeben wurde.<br />
+Der aktuelle Text wird ersetzt, sobald Du die "Change"-Schaltfl&auml;che dr&uuml;ckst.<br />
+<br />
+Mit geschweiften Klammern {} kannst Du spezielle Symbole anzeigen und Befehle ausf&uuml;hren. Sie sind unten aufgelistet.</br>
+</td>
+</tr><tr>
+	<td colspan="2">
+		<table border="0">
+			<tr>
+				<td id="input_field"><input type="text" id="LED_input_field" placeholder="Gib deinen Text hier ein. / Input your Text here."></input></td>
+				<td id="changebtn_field"><a href="#" onclick="ChangeLEDText();">Change</a></td>
+			</tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+<br />
+[BILD Geraet] [Bild Standort] [Gegenbild Standort]<br />
+<br />
+Actual Text [<a href="#" onclick="GetLEDText();">refresh</a>]: <span id="actualtext">Please wait...(Maybe the server is not running.)</span><br />
+<br />
+<br />
+</div>
+<div id="footer">
+	<hr>
+	<center>BE+LED by ben0bi @ ben0bi enterprises AND web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+</div>
+
+
+<script src="data/js/jquery-3.1.1.min.js"></script>
+<script>
+
+// get my host name.
+var LEDPort = 3000;
+var srvr = window.location.hostname;
+function GetLEDText()
+{
+	$(function() {
+		$.post("http://"+srvr+":"+LEDPort+"/gettext","",function(data,status,xhr) {
+			$("#actualtext").html(data);
+		},"text");
+	});
+}
+
+function ChangeLEDText()
+{
+	var content = $("#LED_input_field").val();
+	$.post("http://"+srvr+":"+LEDPort+"/addtext",{content_text: content},function(data,status,xhr) {
+		$("#actualtext").html(data);
+	},"text");
+}
+
+GetLEDText();
+</script>
+
+</body>
+</html>

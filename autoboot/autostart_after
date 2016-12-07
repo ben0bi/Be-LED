@@ -1,0 +1,7 @@
+#!/bin/bash
+# Script called by autostart.
+# by ben0bi@web4me in 2016
+# Start the server with 100 LEDs.
+
+sudo -S node node_LED_server.js 100 <../autoboot/sudo_passwd
+

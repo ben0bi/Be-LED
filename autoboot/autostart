@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# LED Server Autostart Script
+# by ben0bi @ web4me @ 2016
+
+# 0. Set the right directory below.
+# 1. Set the right password in the file sudo_passwd
+# 2. Call this script in your /etc/rc.locale
+# 3. Restart your machine - it should run now.
+
+cd /home/pi/Documents
+cd ThereWillBeLED/node_module
+
+echo " "
+echo "+++ STARTING LED SERVER +++++++++++++++++++++++++++++++++++++++++++++++"
+screen -S LEDscreen -d -m ../autoboot/autostart_after
+echo "+ ..done.                                                             +"
+echo "+ Use the autoboot/stop script from console to get to the screen or   +"
+echo "+ type 'sudo screen -r LEDscreen', press [ENTER] and then,            +"
+echo "+ press Ctrl-C to exit.                                               +"
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo " "

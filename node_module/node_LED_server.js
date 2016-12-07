@@ -5,9 +5,9 @@ var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {He
 var my_http = require("http");
 var qs = require("querystring");
 
-var ws281x = require('lib/rpi-ws281x-native/lib/ws281x-native');
-var mcs=require("lib/LED_charset_multispace");
-var colours = require("lib/LED_colours");
+var ws281x = require('./lib/rpi-ws281x-native/lib/ws281x-native');
+var mcs=require("./lib/fonts/LED_charset_multispace");
+var colours = require("./lib/LED_colours");
 
 var NUM_LEDS = parseInt(process.argv[2], 10) || 10,
     pixelData = new Uint32Array(NUM_LEDS);

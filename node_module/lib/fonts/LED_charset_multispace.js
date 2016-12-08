@@ -349,7 +349,7 @@ scK.push([0,1,0,1,0,0,0,0]);
 scK.push([0,1,0,0,1,0,0,0]);
 scK.push([0,1,0,0,0,1,0,0]);
 scK.push([0,1,0,0,0,0,1,0]);
-scK.push([0,0,0,0,0,0,0,0,0,0]);
+scK.push([0,0,0,0,0,0,0,0]);
 scK = LF.mirrorV(scK);
 scr[20] = scr["k"] = scr["K"] = scK;
 
@@ -400,7 +400,7 @@ scr[23] = scr["n"] = scr["N"] = scN;
 
 // o
 var scO=new Array();
-scO.push([0,0,0,0,0,0,0,0,0,0]);
+scO.push([0,0,0,0,0,0,0,0,0]);
 scO.push([0,0,0,1,1,1,0,0,0]);
 scO.push([0,0,1,0,0,0,1,0,0]);
 scO.push([0,1,0,0,0,0,0,1,0]);
@@ -409,7 +409,7 @@ scO.push([0,1,0,0,0,0,0,1,0]);
 scO.push([0,1,0,0,0,0,0,1,0]);
 scO.push([0,0,1,0,0,0,1,0,0]);
 scO.push([0,0,0,1,1,1,0,0,0]);
-scO.push([0,0,0,0,0,0,0,0,0,0]);
+scO.push([0,0,0,0,0,0,0,0,0]);
 scr[24] = scr["o"] = scr["O"] = scO;
 
 // p
@@ -438,7 +438,7 @@ scQ.push([0,1,0,0,0,0,0,1,0]);
 scQ.push([0,1,0,0,0,1,0,1,0]);
 scQ.push([0,0,1,0,0,0,1,0,0]);
 scQ.push([0,0,0,1,1,1,0,1,0]);
-scQ.push([0,0,0,0,0,0,0,0,0,0]);
+scQ.push([0,0,0,0,0,0,0,0,0]);
 scQ = LF.mirrorV(scQ);
 scr[26] = scr["q"] = scr["Q"] = scQ;
 
@@ -459,7 +459,7 @@ scr[27] = scr["r"] = scr["R"] = scR;
 
 // s
 var scS=new Array();
-scS.push([0,0,0,0,0,0,0,0,0,0]);
+scS.push([0,0,0,0,0,0,0,0]);
 scS.push([0,0,0,1,1,1,0,0]);
 scS.push([0,0,1,0,0,0,1,0]);
 scS.push([0,1,0,0,0,0,0,0]);
@@ -468,7 +468,7 @@ scS.push([0,0,0,0,0,1,0,0]);
 scS.push([0,0,0,0,0,0,1,0]);
 scS.push([0,1,0,0,0,1,0,0]);
 scS.push([0,0,1,1,1,0,0,0]);
-scS.push([0,0,0,0,0,0,0,0,0,0]);
+scS.push([0,0,0,0,0,0,0,0]);
 scS = LF.mirrorV(scS);
 scr[28] = scr["s"] = scr["S"] = scS;
 
@@ -483,7 +483,7 @@ scT.push([0,0,0,1,0,0,0]);
 scT.push([0,0,0,1,0,0,0]);
 scT.push([0,0,0,1,0,0,0]);
 scT.push([0,0,0,1,0,0,0]);
-scT.push([0,0,0,0,0,0,0,0]);
+scT.push([0,0,0,0,0,0,0]);
 scT = LF.mirrorV(scT);
 scr[29] = scr["t"] = scr["T"] = scT;
 
@@ -564,16 +564,16 @@ scr[34] = scr["y"] = scr["Y"] = scY;
 
 // z
 var scZ=new Array();
-scZ.push([0,0,0,0,0,0,0,0,0]);
-scZ.push([0,0,0,0,0,0,0,0,0]);
-scZ.push([0,1,1,1,1,1,1,1,0]);
-scZ.push([0,0,0,0,0,0,1,0,0]);
-scZ.push([0,0,0,0,0,1,0,0,0]);
-scZ.push([0,0,0,0,1,0,0,0,0]);
-scZ.push([0,0,0,1,0,0,0,0,0]);
-scZ.push([0,0,1,0,0,0,0,0,0]);
-scZ.push([0,1,1,1,1,1,1,1,0]);
-scZ.push([0,0,0,0,0,0,0,0,0]);
+scZ.push([0,0,0,0,0,0,0,0,0,0]);
+scZ.push([0,1,1,1,1,1,1,1,1,0]);
+scZ.push([0,0,0,0,0,0,0,1,0,0]);
+scZ.push([0,0,0,0,0,0,1,0,0,0]);
+scZ.push([0,0,0,0,0,1,0,0,0,0]);
+scZ.push([0,0,0,0,1,0,0,0,0,0]);
+scZ.push([0,0,0,1,0,0,0,0,0,0]);
+scZ.push([0,0,1,0,0,0,0,0,0,0]);
+scZ.push([0,1,1,1,1,1,1,1,1,0]);
+scZ.push([0,0,0,0,0,0,0,0,0,0]);
 scZ = LF.mirrorV(scZ);
 scr[35] = scr["z"] = scr["Z"] = scZ;
 
@@ -671,16 +671,16 @@ scr[41] = scr["/"]= scSlash;
 
 // @ at 
 var scAt=new Array();
-scAt.push([0,0,0,0,0,0,0,0,0,0]);
-scAt.push([0,0,1,1,1,1,1,0,0,0]);
-scAt.push([0,1,0,0,0,0,0,1,0,0]);
-scAt.push([0,1,0,0,1,1,0,1,0,0]);
-scAt.push([0,1,0,1,0,1,0,1,0,0]);
-scAt.push([0,1,0,1,0,1,0,1,0,0]);
-scAt.push([0,1,0,0,1,1,1,0,0,0]);
-scAt.push([0,1,0,0,0,0,0,0,1,0]);
-scAt.push([0,0,1,1,1,1,1,1,0,0]);
-scAt.push([0,0,0,0,0,0,0,0,0,0]);
+scAt.push([0,0,0,0,0,0,0,0,0,0,0]);
+scAt.push([0,0,1,1,1,1,1,0,0,1,0]);
+scAt.push([0,1,0,0,0,0,0,1,0,1,0]);
+scAt.push([0,1,0,0,1,1,0,1,0,1,0]);
+scAt.push([0,1,0,1,0,1,0,1,0,1,0]);
+scAt.push([0,1,0,1,0,1,0,1,0,1,0]);
+scAt.push([0,1,0,0,1,1,1,0,0,1,0]);
+scAt.push([0,1,0,0,0,0,0,0,1,0,0]);
+scAt.push([0,0,1,1,1,1,1,1,0,0,0]);
+scAt.push([0,0,0,0,0,0,0,0,0,0,0]);
 scAt = LF.mirrorV(scAt);
 scr[42] = scr["@"]= scAt;
 
@@ -755,6 +755,21 @@ scEq.push([0,0,0,0,0,0,0,0]);
 scEq.push([0,0,0,0,0,0,0,0]);
 scr[47] = scr["="]= scEq;
 
+// percent %
+var scPercent=new Array();
+scPercent.push([0,0,0,0,0,0,0,0,0,0]);
+scPercent.push([0,0,1,0,0,0,0,0,1,0]);
+scPercent.push([0,1,0,1,0,0,0,1,0,0]);
+scPercent.push([0,0,1,0,0,0,1,0,0,0]);
+scPercent.push([0,0,0,0,0,1,0,0,0,0]);
+scPercent.push([0,0,0,0,1,0,0,0,0,0]);
+scPercent.push([0,0,0,1,0,0,0,1,0,0]);
+scPercent.push([0,0,1,0,0,0,1,0,1,0]);
+scPercent.push([0,1,0,0,0,0,0,1,0,0]);
+scPercent.push([0,0,0,0,0,0,0,0,0,0]);
+scPercent = LF.mirrorV(scPercent);
+scr[48] = scr["%"]= scPercent;
+
 // braces () {}
 var scBr1=new Array();
 scBr1.push([0,0,0,0,0,0]);
@@ -768,8 +783,8 @@ scBr1.push([0,0,1,0,0,0]);
 scBr1.push([0,0,0,1,1,0]);
 scBr1.push([0,0,0,0,0,0]);
 scBr1c = LF.mirrorH(scBr1);
-scr[48] = scr["("] = scr["{"] = scBr1;
-scr[49] = scr[")"]= scr["}"] = scBr1c;
+scr[49] = scr["("] = scr["{"] = scBr1;
+scr[50] = scr[")"]= scr["}"] = scBr1c;
 
 // braces []
 var scBr2=new Array();
@@ -784,8 +799,8 @@ scBr2.push([0,1,0,0,0]);
 scBr2.push([0,1,1,1,0]);
 scBr2.push([0,0,0,0,0]);
 scBr2c = LF.mirrorH(scBr2);
-scr[50] = scr["["]= scBr2;
-scr[51] = scr["]"]= scBr2c;
+scr[51] = scr["["]= scBr2;
+scr[52] = scr["]"]= scBr2c;
 
 // braces, gt, lt <>
 var scBr3=new Array();
@@ -800,8 +815,8 @@ scBr3.push([0,0,0,1,0,0]);
 scBr3.push([0,0,0,0,1,0]);
 scBr3.push([0,0,0,0,0,0]);
 scBr3c = LF.mirrorH(scBr3);
-scr[52] = scr["<"]= scBr3;
-scr[53] = scr[">"]= scBr3c;
+scr[53] = scr["<"]= scBr3;
+scr[54] = scr[">"]= scBr3c;
 
 // questionmark
 var scQuest=new Array();
@@ -816,7 +831,7 @@ scQuest.push([0,0,0,0,0,0,0,0]);
 scQuest.push([0,0,0,1,0,0,0,0]);
 scQuest.push([0,0,0,0,0,0,0,0]);
 scQuest = LF.mirrorV(scQuest);
-scr[54] = scr["?"]= scQuest;
+scr[55] = scr["?"]= scQuest;
 
 // exlamationmark !
 var scEx=new Array();
@@ -831,7 +846,7 @@ scEx.push([0,0,0,0,0,0]);
 scEx.push([0,0,0,1,0,0]);
 scEx.push([0,0,0,0,0,0]);
 scEx = LF.mirrorV(scEx);
-scr[55] = scr["!"]= scEx;
+scr[56] = scr["!"]= scEx;
 
 // OTHER SYMBOLS
 
@@ -846,7 +861,7 @@ scWrong.push([1,0,1,2,1,1,2,1,0,1]);
 scWrong.push([1,1,2,1,0,0,1,2,1,1]);
 scWrong.push([1,2,1,0,0,0,0,1,2,1]);
 scWrong.push([1,1,1,1,1,1,1,1,1,1]);
-scr[56] = scr["Wrong"] = scr["WRONG"] = scr["wrong"] = scr["false"] = scr["False"]= scr["FALSE"] = scWrong;
+scr[57] = scr["Wrong"] = scr["WRONG"] = scr["wrong"] = scr["false"] = scr["False"]= scr["FALSE"] = scWrong;
 
 var scSmiley = new Array();
 scSmiley.push([0,0,0,1,1,1,1,0,0,0]);
@@ -860,7 +875,7 @@ scSmiley.push([0,1,0,0,1,1,0,0,1,0]);
 scSmiley.push([0,0,1,0,0,0,0,1,0,0]);
 scSmiley.push([0,0,0,1,1,1,1,0,0,0]);
 scSmiley = LF.mirrorV(scSmiley);
-scr[57] = scr["smiley"] = scr["Smiley"] = scr["SMILEY"] = scr[":)"] = scSmiley;
+scr[58] = scr["smiley"] = scr["Smiley"] = scr["SMILEY"] = scr[":)"] = scSmiley;
 
 var scZwinker = new Array();
 scZwinker.push([0,0,0,1,1,1,1,0,0,0]);
@@ -874,7 +889,7 @@ scZwinker.push([0,1,3,2,2,2,2,3,1,0]);
 scZwinker.push([0,0,1,3,3,3,3,1,0,0]);
 scZwinker.push([0,0,0,1,1,1,1,0,0,0]);
 scZwinker = LF.mirrorV(scZwinker);
-scr[58] = scr[";)"] = scr["fullsmiley"] = scr["FullSmiley"] = scr["FULLSMILEY"] = scZwinker;
+scr[59] = scr[";)"] = scr["fullsmiley"] = scr["FullSmiley"] = scr["FULLSMILEY"] = scZwinker;
 
 var scEmptyHeart=new Array();
 scEmptyHeart.push([0,0,1,0,0,0,1,0,0]);
@@ -888,7 +903,7 @@ scEmptyHeart.push([0,0,1,0,0,0,1,0,0]);
 scEmptyHeart.push([0,0,0,1,0,1,0,0,0]);
 scEmptyHeart.push([0,0,0,0,1,0,0,0,0]);
 scEmptyHeart = LF.mirrorV(scEmptyHeart);
-scr[59] = scr["EmptyHeart"] = scr["Emptyheart"] = scr["emptyheart"] = scr["LeerHerz"]= scr["Leerherz"] = scr["leerherz"] = scr["EMPTYHEART"] = scr["LEERHERZ"] = scEmptyHeart;
+scr[60] = scr["EmptyHeart"] = scr["Emptyheart"] = scr["emptyheart"] = scr["LeerHerz"]= scr["Leerherz"] = scr["leerherz"] = scr["EMPTYHEART"] = scr["LEERHERZ"] = scEmptyHeart;
 
 var scQuarterHeart=new Array();
 scQuarterHeart.push([0,0,1,0,0,0,1,0,0]);
@@ -902,7 +917,7 @@ scQuarterHeart.push([0,0,1,2,2,0,1,0,0]);
 scQuarterHeart.push([0,0,0,1,2,1,0,0,0]);
 scQuarterHeart.push([0,0,0,0,1,0,0,0,0]);
 scQuarterHeart = LF.mirrorV(scQuarterHeart);
-scr[60] = scr["QuarterHeart"] = scr["quarterheart"] = scr["Quarterheart"] = scr["viertelherz"] = scr["ViertelHerz"] = scr["Viertelherz"] = scr["QUARTERHEART"] = scr["VIERTELHERZ"]= scQuarterHeart;
+scr[61] = scr["QuarterHeart"] = scr["quarterheart"] = scr["Quarterheart"] = scr["viertelherz"] = scr["ViertelHerz"] = scr["Viertelherz"] = scr["QUARTERHEART"] = scr["VIERTELHERZ"]= scQuarterHeart;
 
 var scHalfHeart=new Array();
 scHalfHeart.push([0,0,1,0,0,0,1,0,0]);
@@ -916,7 +931,7 @@ scHalfHeart.push([0,0,1,2,2,0,1,0,0]);
 scHalfHeart.push([0,0,0,1,0,1,0,0,0]);
 scHalfHeart.push([0,0,0,0,1,0,0,0,0]);
 scHalfHeart = LF.mirrorV(scHalfHeart);
-scr[61] = scr["HalfHeart"] = scr["halfheart"] = scr["Halfheart"] = scr["halbherz"] = scr["HalbHerz"] = scr["Halbherz"] = scr["HALFHEART"] = scr["HALBHERZ"]= scHalfHeart;
+scr[62] = scr["HalfHeart"] = scr["halfheart"] = scr["Halfheart"] = scr["halbherz"] = scr["HalbHerz"] = scr["Halbherz"] = scr["HALFHEART"] = scr["HALBHERZ"]= scHalfHeart;
 
 var scHeart=new Array();
 scHeart.push([0,0,1,0,0,0,1,0,0]);
@@ -930,7 +945,7 @@ scHeart.push([0,0,1,2,2,2,1,0,0]);
 scHeart.push([0,0,0,1,2,1,0,0,0]);
 scHeart.push([0,0,0,0,1,0,0,0,0]);
 scHeart = LF.mirrorV(scHeart);
-scr[62] = scr["Heart"] = scr["heart"] = scr["fullheart"] = scr["herz"] = scr["Herz"] = scr["FullHeart"] = scr["Fullheart"] = scr["HEART"] = scr["FULLHEART"] = scr["HERZ"]= scHeart;
+scr[63] = scr["Heart"] = scr["heart"] = scr["fullheart"] = scr["herz"] = scr["Herz"] = scr["FullHeart"] = scr["Fullheart"] = scr["HEART"] = scr["FULLHEART"] = scr["HERZ"]= scHeart;
 
 // ---- exposed functions.
 var getMultiSym = function(index) 

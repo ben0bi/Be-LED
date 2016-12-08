@@ -196,7 +196,6 @@ var clearData =function()
 
 // ++++ INITIALIZE
 ws281x.init(NUM_LEDS);
-clearData();
 // clear array before setting brightness.
 ws281x.render(clearData());
 ws281x.setBrightness(16);
@@ -204,6 +203,7 @@ ws281x.setBrightness(16);
 // reset white to orange.
 colours.set(1, 1, 255, 127, 0);
 
+// switch to eye friendly palette.
 colours.switchToPalette(1);
 
 // ++++ trap the SIGINT and reset before exit

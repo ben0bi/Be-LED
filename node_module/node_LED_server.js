@@ -273,13 +273,13 @@ setInterval(function ()
 
 	//var pixelData=getRenderSymbol("pal"); // or globalsymbol.
 	var pixelData=getRenderText(realText,globalX);
-	
-	ws281x.render(pixelData);
-	
+		
 	// change symbol every some frames (30 = 1 second)
 	frames++;
-	if(frames >= 1)
+	if(frames >= 3)
 	{
+		ws281x.render(pixelData);
+
 		frames = 0;
 
 		globalX--;
@@ -292,7 +292,7 @@ setInterval(function ()
 			globalsymbol = 0;
 
 	}
-}, 1000 / 30);
+}, 1000 / 120);
 
 // ++++ text listening server.
 var serverPort = 3000;

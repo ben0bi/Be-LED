@@ -8,12 +8,11 @@
 # 2. Call this script in your /etc/rc.locale
 # 3. Restart your machine - it should run now.
 
-cd /home/pi/Documents
-cd ThereWillBeLED/node_module
+cd /home/pi/Documents/ThereWillBeLED
 
 echo " "
 echo "+++ STARTING LED SERVER +++++++++++++++++++++++++++++++++++++++++++++++"
-screen -S LEDscreen -d -m ../autoboot/autostart_after
+screen -S LEDscreen -d -m autoboot/autostart_after
 echo "+ ..done.                                                             +"
 echo "+ Use the autoboot/stop script from console to get to the screen or   +"
 echo "+ type 'sudo screen -r LEDscreen', press [ENTER] and then,            +"

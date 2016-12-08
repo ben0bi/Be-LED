@@ -3,5 +3,5 @@
 # by ben0bi@web4me in 2016
 # Start the server with 100 LEDs.
 
-sudo -S node node_LED_server.js 100 <../autoboot/sudo_passwd
+sudo -S node node_module/node_LED_server.js 100 <autoboot/sudo_passwd
 

@@ -13,6 +13,7 @@ body
 
 #wrapper
 {
+	position: relative;
 	margin-left: auto;
 	margin-right: auto;
 	min-width: 800px;
@@ -29,19 +30,68 @@ body
 	width: 100%;
 }
 
-input
+#footer_wrapper
 {
-	width: 500px;
-	font-size: 15pt;
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
 }
 
 #footer 
 {
-	position:absolute; 
-	bottom: 10px;
+	/* position:absolute; */
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
+	min-width: 800px;
+	max-width: 80%
+}
+
+#changebtn_field
+{
+	padding: 10px;
+}
+
+#changebtn_button
+{
+	box-shadow: #6CCC6C 0px 0px 0px 3px;
+	background: #92C278;
+	background: linear-gradient(#92C278 5%, #6E9E47 100%) #92C278;
+	border-radius: 10px;
+	border: 2px solid #60964E;
+	display: inline-block;
+	cursor: pointer;
+	color: white;
+	font-family: "Courier New";
+	font-size: 19px;
+	font-weight: bold;
+	padding: 3px 32px;
+	text-decoration: none;
+	text-shadow: #396628 0px 1px 50px;
+}
+
+#changebtn_button:visited {color: white;}
+
+#changebtn_button:hover
+{
+	box-shadow: #FF6CCC 0px 0px 0px 3px;
+	border: 2px solid #FFFF33;
+	color: #92FF78;
+	background: #9278C2;
+	background: linear-gradient(#9278C2 5%, #6E479E 100%) #9278C2;
+}
+
+#LED_input_field
+{
+	background: #6CFF6C;
+	font-size: 15pt;
+	height: 30px;
+}
+
+.localeimage
+{
+	width: 100px;
+	padding: auto;
 }
 </style>
 </head>
@@ -52,27 +102,30 @@ input
 
 <table border ="1">
 <tr>
-<td>
-<h3>[EN]</h3>
+<td id="text_en" style="width: 50%">
+<img src="data/images/en.jpg" class="localeimage"><br />
 Input your text, to let it run on the device shown below.<br />
 The text repeats until another text will be sent.<br />
 It will change when you press the "Change"-Button.<br />
 <br />
 You can use special symbols and commands between brackets #3 {}. They are listed below.
-</td><td>
-<h3>[DE]</h3>
+</td>
+
+<td id="text_de" tyle="width: 50%">
+<img src="data/images/DE.jpg" class="localeimage"><br />
 Gib deinen Text ein, um ihn auf dem unten gezeigten Ger&auml;t durchlaufen zu lassen.<br />
 Der Text wiederholt sich so lange, bis ein anderer Text eingegeben wurde.<br />
 Der aktuelle Text wird ersetzt, sobald Du die "Change"-Schaltfl&auml;che dr&uuml;ckst.<br />
 <br />
 Mit geschweiften Klammern {} kannst Du spezielle Symbole anzeigen und Befehle ausf&uuml;hren. Sie sind unten aufgelistet.</br>
 </td>
+
 </tr><tr>
 	<td colspan="2">
-		<table border="0">
+		<table border="0" style="width: 100%">
 			<tr>
-				<td id="input_field"><input type="text" id="LED_input_field" placeholder="Gib deinen Text hier ein. / Input your Text here."></input></td>
-				<td id="changebtn_field"><a href="#" onclick="ChangeLEDText();">Change</a></td>
+				<td id="input_field"><input type="text" id="LED_input_field" placeholder="Input your Text here. / Gib deinen Text hier ein." style="width: 100%"></input></td>
+				<td id="changebtn_field"><a href="#" onclick="ChangeLEDText();" id="changebtn_button">Change</a></td>
 			</tr>
 		</table>
 	</td>
@@ -80,17 +133,20 @@ Mit geschweiften Klammern {} kannst Du spezielle Symbole anzeigen und Befehle au
 </table>
 
 <br />
-[BILD Geraet] [Bild Standort] [Gegenbild Standort]<br />
+[BILD Geraet/IMAGE Device] [Bild Standort/Image Location] [Gegenbild Standort/Counter-Image Location]<br />
 <br />
 Actual Text [<a href="#" onclick="GetLEDText();">refresh</a>]: <span id="actualtext">Please wait...(Maybe the server is not running.)</span><br />
 <br />
 <br />
 </div>
-<div id="footer">
-	<hr>
-	<center>BE+LED by ben0bi @ ben0bi enterprises AND web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+<div id="footer_wrapper">
+	<div id="footer">
+		<hr>
+		<center>BE+LED by ben0bi @ ben0bi enterprises AND web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+	</div>
 </div>
 
+<!-- JAVASCRIPTS -->
 
 <script src="data/js/jquery-3.1.1.min.js"></script>
 <script>

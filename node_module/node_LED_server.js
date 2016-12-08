@@ -1,3 +1,5 @@
+var AppVersion = "0.1.0";
+
 // attraction mode text.
 var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
 
@@ -7,10 +9,16 @@ var qs = require("querystring");
 
 var ws281x = require('./lib/rpi-ws281x-native/lib/ws281x-native');
 var mcs=require("./lib/fonts/LED_charset_multispace");
+var LED=require("./lib/LED_functions");
 var colours = require("./lib/LED_colours");
 
-var NUM_LEDS = parseInt(process.argv[2], 10) || 10,
+// get width and height from console.
+var WIDTH = parseInt(process.argv[2], 10) || 10,
+    HEIGHT = parseInt(process.argv[3], 10) || 10,
+    NUM_LEDS = WIDTH * HEIGHT;
     pixelData = new Uint32Array(NUM_LEDS);
+
+LED.setDisplaySize(WIDTH, HEIGHT);
 
 var screenWidth = parseInt(process.argv[3], 10) || 10;
 var screenHeight = NUM_LEDS / screenWidth;
@@ -45,159 +53,10 @@ var getRenderSymbol = function(symIndex)
 	return pd;
 };
 
-// ++++ get (some) characters of a text onto the screen.
-var getRenderText = function(text, posX)
-{
-	var screen = Array();
-	// build 2dimensional screen array
-	for(x = 0;x < screenWidth; x++)
-	{
-		var screeny = Array();
-		screen.push(screeny);
-		for(y=0;y<screenHeight;y++)
-		{
-			screen[x][y] = 0;
-		}
-	}
-
-	// render the text into the screen.
-	var charheight = mcs.height();
-	var pixels = 0; // actual x position on the text, in pixels.
-	var getSymbol = false;
-	symbol = "";
-	for(tp=0;tp<text.length;tp++)
-	{
-		var startx = posX + pixels;
-		var sym=text.charAt(tp);
-
-		// get special symbols between {}
-		if(sym=="}")
-		{
-			getSymbol=false;
-		}
-
-		if(getSymbol) {
-			symbol+=sym;
-		}else{
-			if(sym!="}") {symbol=sym;}
-		}
-
-		if(sym=="{")
-		{
-			getSymbol=true;
-			symbol = "";
-		}
-		
-		// there is something to render.
-		if(!getSymbol)
-		{
-			// get the symbol.
-			var chsym = mcs.get(symbol);
-			var chwidth=mcs.width(symbol);
-			// performance boost.
-			// its in the screen, draw it.
-			if(startx+chwidth-1 >= 0 && startx-chwidth+1 < screenWidth)
-			{
-				for(var x=0;x<chwidth;x++)
-				{
-					for(var y=0;y<charheight;y++)
-					{
-						// it could be halfway out of the screen, so check that.
-						if(y>=0 && y<screenHeight && x+startx>=0 && x+startx<screenWidth)
-						{
-							// its really in the screen.
-							screen[x+startx][y] = chsym[y][x];
-						}
-					}
-				}
-			}
-
-			// do not count special chars.
-			if(sym!="{")
-				pixels+=chwidth;
-		}
-	}
-
-
-	// render the screen into a onedimensional array.
-	var pd = new Array();
-	for(var y=0;y<screenHeight;y++)
-	{
-		for(var x=0;x<screenWidth;x++)
-		{
-			pd.push(screen[x][y]);
-		}
-	}
-
-	return convertScreenToColor(pd);
-};
-
-// ++++ get the real text length counting special symbols as 1.
-var getRealTextLength = function(text, inPixels)
-{
-	var vtlen=text.length;	// char amount
-	var vtPlen=0;		// pixel amount
-	var getSymbol=false;	// do we get a symbol name?
-	var symbol = "";
-
-	for(var tp=0;tp<text.length;tp++)
-	{
-		var sym=text.charAt(tp);
-
-		// get special symbols between {}
-		if(sym=="}")
-		{
-			getSymbol=false;
-			vtlen--;
-		}
-
-		if(getSymbol) {
-			symbol+=sym;
-			vtlen--;
-		}else{
-			// set the symbol
-			if(sym!="}") {symbol=sym;}
-		}
-
-		if(sym=="{")
-		{
-			getSymbol=true;
-			symbol = "";
-		}
-
-		if(symbol!="" && !getSymbol)
-			vtPlen += mcs.width(symbol);
-	}
-	
-	if(inPixels)
-		return vtPlen;
-	return vtlen;
-}
-
-// ++++ convert an array with color numbers to a real LED array with colors.
-var convertScreenToColor = function(arr)
-{
-	var pd=new Uint32Array(arr.length);
-	for(var i=0;i<arr.length;i++)
-	{
-		pd[i] = colours.get(arr[i])
-	}
-	return pd;
-}
-
-// ++++ get a clear screen array.
-var clearData =function()
-{
-	var pd = new Uint32Array(NUM_LEDS);
-	for(var i=0;i<NUM_LEDS;i++)
-		pd[i]=0;
-	return pd;	
-}
-
 // ++++ INITIALIZE
 ws281x.init(NUM_LEDS);
 // clear array before setting brightness.
-ws281x.render(clearData());
+ws281x.render(LED.clearData());
 ws281x.setBrightness(16);
 
 // reset white to orange.
@@ -250,11 +109,12 @@ if(localIP.length > 0)
 	realText+="{Smiley} {Smiley} ";
 }
 realText+=attractionText;
-var realTextLength = getRealTextLength(realText, true);
+var realTextLength = LED.getRealTextLength(realText, mcs);
 
 setInterval(function () 
 {
-	// does not get ip right at startup.
+	// does not get ip right at startup when booting,
+	// so wait until its here.
 	if(localIP.length<=0)
 	{
 		localIP = getMyLocalIP();
@@ -267,14 +127,14 @@ setInterval(function ()
 			}
 			realText+="{Smiley} {Smiley} ";
 			realText+=attractionText;
-			realTextLength = getRealTextLength(realText, true);
+			realTextLength = LED.getRealTextLength(realText, mcs);
 		}
 	}
 
 	//var pixelData=getRenderSymbol("pal"); // or globalsymbol.
-	var pixelData=getRenderText(realText,globalX);
+	var pixelData=LED.getRenderText(realText,globalX, mcs);
 		
-	// change symbol every some frames (30 = 1 second)
+	// change symbol every some frames (120 = 1 second)
 	frames++;
 	if(frames >= 3)
 	{
@@ -315,7 +175,7 @@ var server = my_http.createServer(function(request, response)
 	      var data = qs.parse(body);
 		console.log("+ Setting new Text: "+data.content_text);
 		realText=data.content_text
-		realTextLength = getRealTextLength(realText,true);
+		realTextLength = LED.getRealTextLength(realText,mcs);
 		globalX = screenWidth+2;
 		response.write(realText);
 		response.end();
@@ -335,7 +195,7 @@ server.listen(serverPort);
 // ++++ final output.
 console.log("++++ LED SERVER RUNNING FOR "+NUM_LEDS+" UNITS  +++");
 console.log(" ");
-console.log("Be+LED vAlpha by ben0bi in 2016ad / 30ahc");
+console.log("Be+LED "+AppVersion+" by ben0bi in 2016ad / 30ahc");
 console.log(" ");
 console.log("Local IPs:");
 console.log(localIP);

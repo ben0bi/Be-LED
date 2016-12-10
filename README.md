@@ -16,29 +16,28 @@ Short Installment:
 
 On your Raspi, do that:
 
-# install node if not installed.
-# install apache2 if not installed. 
-# The apache page is there because the box can always respond, 
-# also if the node server does not run.
++ install node if not installed.
++ install apache2 if not installed. 
++ The apache page is there because the box can always respond, also if the node server does not run.
 
 cd /home/pi/Documents
 git clone https://github.com/ben0bi/ThereWillBeLED
 sudo cp -r ThereWillBeLED/client_html/* /var/www
 
-# /var/www is apaches default web directory. Use another one if you want.
-# ok, now you have the stuff in the right directories, now..
++ /var/www is apaches default web directory. Use another one if you want.
++ ok, now you have the stuff in the right directories, now..
 
 sudo nano /etc/rc.local
 
-# at the end, before the endifs, add
++ at the end, before the endifs, add
 
 /home/pi/Documents/ThereWillBeLED/autoboot/autostart
 
-# Press Ctrl-O to save the file, Ctrl-X to exit.
++ Press Ctrl-O to save the file, Ctrl-X to exit.
 
-# Done. Restart your Pi and it should run.
-# If all went good, the LEDs should show the local IP if the raspi is connected.
-# Over that IP you can now change text and stuff.
++ Done. Restart your Pi and it should run.
++ If all went good, the LEDs should show the local IP if the raspi is connected.
++ Over that IP you can now change text and stuff.
 
 ******************************************************************************
 Extended, for debugging reasons and stuff:

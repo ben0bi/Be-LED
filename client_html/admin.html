@@ -31,6 +31,7 @@
 <script src="data/js/globals.js"></script>
 <script>
 	var srvr = window.location.hostname;
+	var logged_in = false;
 	function sendPassword()
 	{
 		var origPass = $("#password_field").val();
@@ -45,10 +46,16 @@
 		
 		$.post("http://"+srvr+":"+LEDPort+"/admin",{password: sendpass},function(data,status,xhr) 
 		{
-			if(data == "N0P3")
+			if(data == "N0P3") {
 				$("#result").html("Nope Buddy, this one is not for you.");
-			else
+				logged_in = false;
+			}else if(data == "D0P3") {
+				$("#result").html("Nope. There went something wrong. Sorry.");
+				logged_in = false;
+			}else{
 				$("#wrapper").html(data);
+				logged_in = true;
+			}
 		},"text");		
 	}
 </script>

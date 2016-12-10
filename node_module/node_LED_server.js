@@ -194,16 +194,40 @@ var server = my_http.createServer(function(request, response)
 			});
 			request.on('end', function() {
 				var data = qs.parse(body);
-				console.log("+ Getting request for admin with this pass: "+data.password);
-				var responsetext="Nothing.";
-				if(data.password == "e579c47cffd1fc00d8671084969c2cc1a8b58269586ce66bc2f33973ba6f7cb5")
+				console.log("+ Getting request for admin page.");
+				var responsetext="Uhh...There is something wrong.";
+				
+				fs.readFile('./admin_password', 'utf8', function (err, FSdata)
 				{
-					responsetext="Yes, done, you are in the system.";
-				}else{
+					var granted = false;
 					responsetext="N0P3";
-				}
-				response.write(responsetext);
-				response.end();
+					if(err == null) {
+						console.log('+  Password file found.');
+						//console.log(FSdata+" ==> "+data.password);
+						if(FSdata == data.password) {granted = true;}
+					} else if(err.code == 'ENOENT') {
+						// file does not exist
+						console.log("+  There is no password file. Checking for default password.");
+						// hard coded default password: be+led
+						if(data.password == "e579c47cffd1fc00d8671084969c2cc1a8b58269586ce66bc2f33973ba6f7cb5") {granted = true;}
+					} else {
+						console.log('+  There is some error with the password file: ', err.code);
+						responsetext = "D0P3";
+					}
+					
+					if(!granted)
+					{
+						console.log("+  Access DENIED");
+						console.log("+  Response: "+responsetext);
+					}else{
+						console.log("+  Access GRANTED");
+						console.log("+  Sending admin page.");
+						responsetext="Yes, done, you are in the system.";
+					}
+						
+					response.write(responsetext);
+					response.end();
+				});
 			});			
 		}
 	}

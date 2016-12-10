@@ -1,0 +1,26 @@
+#changebtn_button
+{
+	box-shadow: #6CCC6C 0px 0px 0px 3px;
+	background: #92C278;
+	background: linear-gradient(#92C278 5%, #6E9E47 100%) #92C278;
+	border-radius: 10px;
+	border: 2px solid #60964E;
+	display: inline-block;
+	cursor: pointer;
+	color: white;
+	font-family: "Courier New";
+	text-shadow: #396628 0px 1px 50px;
+}
+
+#changebtn_button:visited {color: white;}
+
+#changebtn_button:hover
+{
+	box-shadow: #FF6CCC 0px 0px 0px 3px;
+	border: 2px solid #FFFF33;
+	color: #92FF78;
+	background: #9278C2;
+	background: linear-gradient(#9278C2 5%, #6E479E 100%) #9278C2;
+}
+
+#LED_input_field {background: #6CFF6C;}

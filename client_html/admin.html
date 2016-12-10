@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>BE+LED Client</title>
+<link rel="stylesheet" href="data/css/base.css" ></style>
+<link rel="stylesheet" href="data/css/theme_default.css" ></style>
+</head>
+<body>
+<div id="wrapper">
+	<h1>Be+LED Administration</h1>
+	<table border="0" style="width: 100%">
+		<tr>
+			<td id="input_field"><input type="password" id="password_field" class="input_field" placeholder="Password please." style="width: 100%"></input></td>
+			<td id="changebtn_field"><a href="#" onclick="sendPassword();" id="changebtn_button">Login</a></td>
+		</tr>
+	</table>
+	
+	<div id="result"></div>
+</div>
+
+<div id="footer_wrapper">
+	<div id="footer">
+		<hr>
+		<center>BE+LED by ben0bi @ ben0bi enterprises AND web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+	</div>
+</div>
+
+<script src="data/js/jquery-3.1.1.min.js"></script>
+<script src="data/js/sha256.js"></script>
+<script src="data/js/globals.js"></script>
+<script>
+	var srvr = window.location.hostname;
+	function sendPassword()
+	{
+		var origPass = $("#password_field").val();
+		if(origPass=="" || origPass==null)
+		{
+			$("#result").html("You need to provide at least one character. :)");
+			return;
+		}
+		var sendpass = sha256(origPass);
+		
+		//$("#result").html("Pass SHA:"+sendpass);
+		
+		$.post("http://"+srvr+":"+LEDPort+"/admin",{password: sendpass},function(data,status,xhr) 
+		{
+			if(data == "N0P3")
+				$("#result").html("Nope Buddy, this one is not for you.");
+			else
+				$("#wrapper").html(data);
+		},"text");		
+	}
+</script>
+</body>
+</html>

@@ -1,99 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8" />
 <title>BE+LED Client</title>
-<style>
-body 
-{
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-#wrapper
-{
-	position: relative;
-	margin-left: auto;
-	margin-right: auto;
-	min-width: 800px;
-	max-width: 80%;
-}
-
-#changebtn_field:
-{
-	width: 200px;
-}
-
-#input_field
-{
-	width: 100%;
-}
-
-#footer_wrapper
-{
-	position: absolute;
-	bottom: 10px;
-	width: 100%;
-}
-
-#footer 
-{
-	/* position:absolute; */
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	min-width: 800px;
-	max-width: 80%
-}
-
-#changebtn_field
-{
-	padding: 10px;
-}
-
-#changebtn_button
-{
-	box-shadow: #6CCC6C 0px 0px 0px 3px;
-	background: #92C278;
-	background: linear-gradient(#92C278 5%, #6E9E47 100%) #92C278;
-	border-radius: 10px;
-	border: 2px solid #60964E;
-	display: inline-block;
-	cursor: pointer;
-	color: white;
-	font-family: "Courier New";
-	font-size: 19px;
-	font-weight: bold;
-	padding: 3px 32px;
-	text-decoration: none;
-	text-shadow: #396628 0px 1px 50px;
-}
-
-#changebtn_button:visited {color: white;}
-
-#changebtn_button:hover
-{
-	box-shadow: #FF6CCC 0px 0px 0px 3px;
-	border: 2px solid #FFFF33;
-	color: #92FF78;
-	background: #9278C2;
-	background: linear-gradient(#9278C2 5%, #6E479E 100%) #9278C2;
-}
-
-#LED_input_field
-{
-	background: #6CFF6C;
-	font-size: 15pt;
-	height: 30px;
-}
-
-.localeimage
-{
-	width: 100px;
-	padding: auto;
-}
-</style>
+<link rel="stylesheet" href="data/css/base.css" ></style>
+<link rel="stylesheet" href="data/css/theme_default.css" ></style>
 </head>
 <body>
 
@@ -124,7 +35,7 @@ Mit geschweiften Klammern {} kannst Du spezielle Symbole anzeigen und Befehle au
 	<td colspan="2">
 		<table border="0" style="width: 100%">
 			<tr>
-				<td id="input_field"><input type="text" id="LED_input_field" placeholder="Input your Text here. / Gib deinen Text hier ein." style="width: 100%"></input></td>
+				<td id="input_field"><input type="text" id="LED_input_field" class="input_field" placeholder="Input your Text here. / Gib deinen Text hier ein." style="width: 100%"></input></td>
 				<td id="changebtn_field"><a href="#" onclick="ChangeLEDText();" id="changebtn_button">Change</a></td>
 			</tr>
 		</table>
@@ -149,10 +60,10 @@ Actual Text [<a href="#" onclick="GetLEDText();">refresh</a>]: <span id="actualt
 <!-- JAVASCRIPTS -->
 
 <script src="data/js/jquery-3.1.1.min.js"></script>
+<script src="data/js/globals.js"></script>
 <script>
 
 // get my host name.
-var LEDPort = 3000;
 var srvr = window.location.hostname;
 function GetLEDText()
 {

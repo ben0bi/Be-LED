@@ -6,6 +6,7 @@ var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {He
 // ++++ requires.
 var my_http = require("http");
 var qs = require("querystring");
+var fs = require("fs");
 
 var ws281x = require('./lib/rpi-ws281x-native/lib/ws281x-native');
 var mcs=require("./lib/fonts/LED_charset_multispace");
@@ -164,22 +165,47 @@ var server = my_http.createServer(function(request, response)
 	// write header.
 	response.writeHeader(200, {"Content-Type": "text/plain", "Access-Control-Allow-Origin": "*"});
 
-	// set new text.
-	if (request.method === 'POST' && url == '/addtext') 
+	if(request.method === 'POST')
 	{
-	    var body = '';
-	    request.on('data', function(chunk) {
-	      body += chunk;
-	    });
-	    request.on('end', function() {
-	      var data = qs.parse(body);
-		console.log("+ Setting new Text: "+data.content_text);
-		realText=data.content_text
-		realTextLength = LED.getRealTextLength(realText,mcs);
-		globalX = screenWidth+2;
-		response.write(realText);
-		response.end();
-	    });
+		// set new text.
+		if (url == '/addtext')
+		{
+			var body = '';
+			request.on('data', function(chunk) {
+			body += chunk;
+			});
+			request.on('end', function() {
+				var data = qs.parse(body);
+				console.log("+ Setting new Text: "+data.content_text);
+				realText=data.content_text
+				realTextLength = LED.getRealTextLength(realText,mcs);
+				globalX = screenWidth+2;
+				response.write(realText);
+				response.end();
+			});
+		}
+		
+		// get admin page on right password.
+		if(url == '/admin')
+		{
+			var body = '';
+			request.on('data', function(chunk) {
+			body += chunk;
+			});
+			request.on('end', function() {
+				var data = qs.parse(body);
+				console.log("+ Getting request for admin with this pass: "+data.password);
+				var responsetext="Nothing.";
+				if(data.password == "e579c47cffd1fc00d8671084969c2cc1a8b58269586ce66bc2f33973ba6f7cb5")
+				{
+					responsetext="Yes, done, you are in the system.";
+				}else{
+					responsetext="N0P3";
+				}
+				response.write(responsetext);
+				response.end();
+			});			
+		}
 	}
 
 	// get text.
@@ -189,6 +215,7 @@ var server = my_http.createServer(function(request, response)
 		response.write(realText);
 		response.end();
 	}
+	
 });
 server.listen(serverPort);
 

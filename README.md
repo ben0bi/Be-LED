@@ -6,6 +6,10 @@ Needs a Raspberry-Pi running Node.js.
 
 The ws2811-LED Panel/Strip must be connected to pin 6 and have its own power.
 
+1. Short installation manual.
+2. Extended installation manual for debugging.
+3. Administering the Box.
+
 ******************************************************************************
 
 Short Installment:
@@ -13,7 +17,9 @@ Short Installment:
 On your Raspi, do that:
 
 # install node if not installed.
-# install apache2 if not installed. (node only maybe later.)
+# install apache2 if not installed. 
+# The apache page is there because the box can always respond, 
+# also if the node server does not run.
 
 cd /home/pi/Documents
 git clone https://github.com/ben0bi/ThereWillBeLED
@@ -53,3 +59,20 @@ You can connect to that IP and change the text, without having to use a
 display for the RaspbPi.
 
 6. Have Fun!
+
+*******************************************************************************
+
+(TODO)
+
+Administering the Box + NOT YET FUNCTIONAL
+
+Go to BoxIP/admin.html and input the password you provided.
+If you install the box for the first time, the password is "be+led" without ". 
+You will be prompted to change it then.
+
+The password will be SHA2 encoded in the file and when you send it.
+The administer page will be sent as whole by node, if you input the right password.
+So, no one can change admin stuff (-html) if he does not know the password.
+
+If you forgot the password, just delete the server_password file. 
+If there is none, the password is be+led. ;)

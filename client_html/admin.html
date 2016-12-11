@@ -21,8 +21,9 @@
 
 <div id="footer_wrapper">
 	<div id="footer">
+		<div id="menu"><a href="index.html">Main Page</a></div>
 		<hr>
-		<center>BE+LED by ben0bi @ ben0bi enterprises AND web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+		<center>BE+LED by ben0bi @ ben0bi enterprises AND Web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
 	</div>
 </div>
 
@@ -44,7 +45,7 @@
 		
 		//$("#result").html("Pass SHA:"+sendpass);
 		
-		$.post("http://"+srvr+":"+LEDPort+"/admin",{password: sendpass},function(data,status,xhr) 
+		var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/admin",{password: sendpass},function(data,status,xhr) 
 		{
 			if(data == "N0P3") {
 				$("#result").html("Nope Buddy, this one is not for you.");
@@ -56,7 +57,10 @@
 				$("#wrapper").html(data);
 				logged_in = true;
 			}
-		},"text");		
+		},"text")
+  		.fail(function() {
+			$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+  		})		
 	}
 </script>
 </body>

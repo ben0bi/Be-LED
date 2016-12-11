@@ -11,18 +11,17 @@
 <div id="wrapper">
 <h1>Be+LED</h1>
 
-<table border ="1">
+<table border="1" style="width:100%;">
 <tr>
-<td id="text_en" style="width: 50%">
+<td id="text_en" style="width: 50%; vertical-align: top;">
 <img src="data/images/en.jpg" class="localeimage"><br />
 Input your text, to let it run on the device shown below.<br />
 The text repeats until another text will be sent.<br />
 It will change when you press the "Change"-Button.<br />
 <br />
-You can use special symbols and commands between brackets #3 {}. They are listed below.
+You can use special symbols and commands between curly brackets {}. They are listed below.
 </td>
-
-<td id="text_de" tyle="width: 50%">
+<td id="text_de" style="width: 50%; vertical-align: top;">
 <img src="data/images/DE.jpg" class="localeimage"><br />
 Gib deinen Text ein, um ihn auf dem unten gezeigten Ger&auml;t durchlaufen zu lassen.<br />
 Der Text wiederholt sich so lange, bis ein anderer Text eingegeben wurde.<br />
@@ -44,16 +43,17 @@ Mit geschweiften Klammern {} kannst Du spezielle Symbole anzeigen und Befehle au
 </table>
 
 <br />
+Actual Text [<a href="#" onclick="GetLEDText();">refresh</a>]:<br />
+<div id="actualtext">Please wait...</div><br />
+<br />
 [BILD Geraet/IMAGE Device] [Bild Standort/Image Location] [Gegenbild Standort/Counter-Image Location]<br />
-<br />
-Actual Text [<a href="#" onclick="GetLEDText();">refresh</a>]: <span id="actualtext">Please wait...(Maybe the server is not running.)</span><br />
-<br />
 <br />
 </div>
 <div id="footer_wrapper">
 	<div id="footer">
+		<div id="menu"><a href="admin.html">Administration</a></div>
 		<hr>
-		<center>BE+LED by ben0bi @ ben0bi enterprises AND web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+		<center>BE+LED by ben0bi @ ben0bi enterprises AND Web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
 	</div>
 </div>
 
@@ -62,15 +62,20 @@ Actual Text [<a href="#" onclick="GetLEDText();">refresh</a>]: <span id="actualt
 <script src="data/js/jquery-3.1.1.min.js"></script>
 <script src="data/js/globals.js"></script>
 <script>
-
 // get my host name.
 var srvr = window.location.hostname;
+
 function GetLEDText()
 {
+	// only if page is there.
 	$(function() {
-		$.post("http://"+srvr+":"+LEDPort+"/gettext","",function(data,status,xhr) {
+		var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/gettext","",function(data,status,xhr) {
 			$("#actualtext").html(data);
-		},"text");
+		},"text")
+		.fail(function() 
+		{
+			$("#actualtext").html("NOTHING: <span class='failtext'>Connection error. The server may not be running.</span>");
+		});
 	});
 }
 
@@ -82,6 +87,7 @@ function ChangeLEDText()
 	},"text");
 }
 
+// get the led text.
 GetLEDText();
 </script>
 

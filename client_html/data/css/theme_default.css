@@ -1,3 +1,33 @@
+body
+{
+	background: #1c1c1c;
+	color: #fffffc;
+}
+
+a, a:visited, a:hover
+{
+	text-decoration: none;
+	color: #2cf;
+}
+
+a:hover {color: #ff2;}
+
+#actualtext
+{
+	color: #2F2;
+	background: #000;
+	padding: 10px;
+	margin: 0px;	
+}
+
+.failtext
+{
+	padding: 10px;
+	padding-bottom: 11px;
+	color: #FF3;
+	background: #900;
+}
+
 #changebtn_button
 {
 	box-shadow: #6CCC6C 0px 0px 0px 3px;
@@ -24,3 +54,4 @@
 }
 
 #LED_input_field {background: #6CFF6C;}
+

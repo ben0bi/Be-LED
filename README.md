@@ -1,4 +1,7 @@
-ThereWillBeLed
+ThereWillBeLED
+a.k.a.
+Be+LED
+
 by ben0bi@web4me in 2016
 
 Autostarting node LED array server.

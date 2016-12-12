@@ -5,5 +5,7 @@
 # Server takes 2 parameters: Width and Height.
 # Start the server with 100 (10x10) LEDs.
 
+# [TODO: additional LEDs before and after "screen" for special lighting effects]
+
 sudo -S node node_module/node_LED_server.js 10 10 <autoboot/sudo_passwd
 

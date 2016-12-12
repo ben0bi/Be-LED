@@ -6,9 +6,18 @@ Needs a Raspberry-Pi running Node.js.
 
 The ws2811-LED Panel/Strip must be connected to pin 6 and have its own power.
 
+0. Important
 1. Short installation manual.
 2. Extended installation manual for debugging.
 3. Administering the Box.
+
+******************************************************************************
+Important:
+You NEED to operate from the ROOT DIR of this application.
+(You can NOT "cd autoboot" and then "./autostart_after", 
+it must be "autoboot/autostart_after". Also, as far as I know, 
+you can also NOT "cd node_client" and then "sudo node node_LED_server.js ...",
+you need to "sudo node node_client/node_LED_server.js ...". Sorry for that. 
 
 ******************************************************************************
 
@@ -23,6 +32,7 @@ On your Raspi, do that:
 cd /home/pi/Documents
 git clone https://github.com/ben0bi/ThereWillBeLED
 sudo cp -r ThereWillBeLED/client_html/* /var/www
+(you can also use "./deploy_html" ;) )
 
 + /var/www is apaches default web directory. Use another one if you want.
 + ok, now you have the stuff in the right directories, now..

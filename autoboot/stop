@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Autoboot Stop script by ben0bi @ web4me @ 2016"
-echo "If the screen was not found, try it without sudo." 
+echo "If the screen was not found, try it without sudo."
 echo "You started it as normal user then."
 echo " "
 echo "Going to the screen.."

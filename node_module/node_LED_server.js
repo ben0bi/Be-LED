@@ -157,7 +157,7 @@ setInterval(function ()
 
 
 // ++++ sending admin page.
-function sendAdminPage() {return "I am the admin page.";}
+function sendAdminPage() {return fs.readFileSync('./node_module/send_html/send_admin_page.html', "utf8");}
 function sendSetPasswordPage() {return fs.readFileSync('./node_module/send_html/send_new_admin_password.html', "utf8");};
 
 // ++++ text listening server.
@@ -172,7 +172,7 @@ var server = my_http.createServer(function(request, response)
 
 	if(request.method === 'POST')
 	{
-		// set new text.
+		// set new LED text.
 		if (url == '/addtext')
 		{
 			var body = '';
@@ -188,6 +188,16 @@ var server = my_http.createServer(function(request, response)
 				response.write(realText);
 				response.end();
 			});
+		}
+		
+		// just send the password reset page. 
+		// This function is only accessible over the admin page,
+		// so no one should be able to guess it.
+		if(url=="/uhsorrymanineedsomepasswordreset")
+		{
+			response.write(sendSetPasswordPage());
+			response.end();
+			return;
 		}
 
 		// set admin password.
@@ -291,14 +301,16 @@ var server = my_http.createServer(function(request, response)
 			response.write(responsetext);
 			response.end();
 		});
+		return;
 	}
-
+	
 	// get actual text on the LED.
 	if(url=="/gettext")
 	{
 		console.log("Response: "+realText);
 		response.write(realText);
 		response.end();
+		return;
 	}
 	
 });

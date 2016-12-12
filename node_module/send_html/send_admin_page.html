@@ -1,0 +1,24 @@
+<a href="#" onclick="GetResetPassword()">Set Password</a>
+<div id="result"></div>
+
+<script>
+function GetResetPassword()
+{
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/uhsorrymanineedsomepasswordreset",null,function(data,status,xhr) 
+	{
+		if(data == "N0P3") {
+			$("#result").html("The server will not give you that page, sorry.");
+		}else if(data == "D0P3"){
+			$("#result").html("Something strange is going on. Something really strange.");
+		}else{
+			origPass="";
+			checkPass="";
+			sendpass="";
+			$("#wrapper").html(data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+  	})	
+}
+</script>

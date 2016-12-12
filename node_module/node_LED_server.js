@@ -155,6 +155,11 @@ setInterval(function ()
 	}
 }, 1000 / 120);
 
+
+// ++++ sending admin page.
+function sendAdminPage() {return "I am the admin page.";}
+function sendSetPasswordPage() {return fs.readFileSync('./node_module/send_html/send_new_admin_password.html', "utf8");};
+
 // ++++ text listening server.
 var serverPort = 3000;
 var server = my_http.createServer(function(request, response)
@@ -184,6 +189,22 @@ var server = my_http.createServer(function(request, response)
 				response.end();
 			});
 		}
+
+		// set admin password.
+		if (url == '/setadminpassword')
+		{
+			var body = '';
+			request.on('data', function(chunk) {
+			body += chunk;
+			});
+			request.on('end', function() {
+				var data = qs.parse(body);
+				console.log("+ Setting new admin password.");
+				fs.writeFileSync("./admin_password",data.password, "utf8");
+				response.write("DONE");
+				response.end();
+			});
+		}
 		
 		// get admin page on right password.
 		if(url == '/admin')
@@ -200,6 +221,7 @@ var server = my_http.createServer(function(request, response)
 				fs.readFile('./admin_password', 'utf8', function (err, FSdata)
 				{
 					var granted = false;
+					var sendfile = false;
 					responsetext="N0P3";
 					if(err == null) {
 						console.log('+  Password file found.');
@@ -207,9 +229,11 @@ var server = my_http.createServer(function(request, response)
 						if(FSdata == data.password) {granted = true;}
 					} else if(err.code == 'ENOENT') {
 						// file does not exist
-						console.log("+  There is no password file. Checking for default password.");
+						console.log("+  There is no password file. Sending password creation page.");
+						responsetext=sendSetPasswordPage();
+						sendfile = true;
 						// hard coded default password: be+led
-						if(data.password == "e579c47cffd1fc00d8671084969c2cc1a8b58269586ce66bc2f33973ba6f7cb5") {granted = true;}
+						//if(data.password == "e579c47cffd1fc00d8671084969c2cc1a8b58269586ce66bc2f33973ba6f7cb5") {granted = true;}
 					} else {
 						console.log('+  There is some error with the password file: ', err.code);
 						responsetext = "D0P3";
@@ -218,13 +242,17 @@ var server = my_http.createServer(function(request, response)
 					if(!granted)
 					{
 						console.log("+  Access DENIED");
-						console.log("+  Response: "+responsetext);
+						if(!sendfile)
+							console.log("+  Response: "+responsetext);
 					}else{
 						console.log("+  Access GRANTED");
-						console.log("+  Sending admin page.");
-						responsetext="Yes, done, you are in the system.";
+						sendfile = true;
+						responsetext=sendAdminPage();
 					}
-						
+
+					if(sendfile)
+						console.log("+ Sending a file as response.");
+
 					response.write(responsetext);
 					response.end();
 				});
@@ -232,7 +260,40 @@ var server = my_http.createServer(function(request, response)
 		}
 	}
 
-	// get text.
+	// check if there is a password file and send set-password-page if not.
+	if(url=="/isconfigured")
+	{		
+		fs.readFile('./admin_password', 'utf8', function (err, FSdata)
+		{
+			console.log("+ Is page configured?");
+			var sendfile = false;
+			responsetext="N0P3";
+			if(err == null) 
+			{
+				console.log('+  Password file found.');
+				responsetext="Password_Is_Set";
+				//console.log(FSdata+" ==> "+data.password);
+			} else if(err.code == 'ENOENT') {
+						// file does not exist
+						console.log("+  There is no password file. Sending password creation page.");
+						responsetext=sendSetPasswordPage();
+						sendfile = true;
+						// hard coded default password: be+led
+						//if(data.password == "e579c47cffd1fc00d8671084969c2cc1a8b58269586ce66bc2f33973ba6f7cb5") {granted = true;}
+			} else {
+					console.log('+  There is some error with the password file: ', err.code);
+					responsetext = "D0P3";
+			}
+
+			if(sendfile)
+				console.log("+ Sending a file as response.");
+
+			response.write(responsetext);
+			response.end();
+		});
+	}
+
+	// get actual text on the LED.
 	if(url=="/gettext")
 	{
 		console.log("Response: "+realText);

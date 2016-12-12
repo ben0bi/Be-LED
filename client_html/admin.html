@@ -5,6 +5,7 @@
 <title>BE+LED Client</title>
 <link rel="stylesheet" href="data/css/base.css" ></style>
 <link rel="stylesheet" href="data/css/theme_default.css" ></style>
+
 </head>
 <body>
 <div id="wrapper">
@@ -54,6 +55,8 @@
 				$("#result").html("Nope. There went something wrong. Sorry.");
 				logged_in = false;
 			}else{
+				origPass="";
+				sendpass="";
 				$("#wrapper").html(data);
 				logged_in = true;
 			}
@@ -62,6 +65,23 @@
 			$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
   		})		
 	}
+	
+	$(document).ready(function()
+	{
+		var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/isconfigured",null,function(data,status,xhr) 
+		{
+			if(data == "N0P3" || data == "D0P3")
+			{
+				$("#result").html("Critical Error or something, on the server side. Sorry.");
+				logged_in = false;		
+			}else if(data!="Password_Is_Set") {
+				$("#wrapper").html(data);
+			}
+		},"text")
+  		.fail(function() {
+			$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+  		});
+	});
 </script>
 </body>
 </html>

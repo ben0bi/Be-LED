@@ -66,12 +66,11 @@ display for the RaspbPi.
 Administering the Box + NOT YET FUNCTIONAL
 
 Go to BoxIP/admin.html and input the password you provided.
-If you install the box for the first time, the password is "be+led" without ". 
-You will be prompted to change it then.
+If there is no password set, a password creation page pops up.
+If you forgot your password, just delete the admin_password file.
 
 The password will be SHA2 encoded in the file and when you send it.
 The administer page will be sent as whole by node, if you input the right password.
 So, no one can change admin stuff (-html) if he does not know the password.
 
-If you forgot the password, just delete the server_password file. 
-If there is none, the password is be+led. ;)
+You can also change the password on the admin page. [not yet]

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo cp -r client_html/* /var/www
+
+echo "Done."
+

@@ -7,5 +7,7 @@
 
 # [TODO: additional LEDs before and after "screen" for special lighting effects]
 
+echo "Starting server."
 sudo -S node node_module/node_LED_server.js 10 10 <autoboot/sudo_passwd
+echo "done."
 

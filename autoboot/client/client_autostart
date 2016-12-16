@@ -12,7 +12,7 @@ cd /home/pi/Documents/ThereWillBeLED
 
 echo " "
 echo "+++ STARTING LED SERVER +++++++++++++++++++++++++++++++++++++++++++++++"
-screen -S LEDscreen -d -m /home/pi/Documents/ThereWillBeLED/autoboot/client/client_autostart_after
+screen -S LEDscreen -d -m /home/pi/Documents/ThereWillBeLED/autoboot/client/client_autostart_after </home/pi/Documents/ThereWillBeLED/autoboot/sudo_passwd
 echo "+ ..done.                                                             +"
 echo "+ Use the autoboot/stop script from console to get to the screen or   +"
 echo "+ type 'sudo screen -r LEDscreen', press [ENTER] and then,            +"

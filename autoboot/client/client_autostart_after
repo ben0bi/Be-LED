@@ -1,0 +1,16 @@
+#!/bin/bash
+# Script called by autostart.
+# by ben0bi@web4me in 2016
+
+# Server takes 2 parameters: Width and Height.
+# Start the server with 100 (10x10) LEDs.
+
+# WARNING: You must maybe change each and every directory here for your config.
+# Refer to autoboot/autostart_after for the relative directories.
+
+# [TODO: additional LEDs before and after "screen" for special lighting effects]
+
+echo "Starting server."
+sudo -u root -S node /home/pi/Documents/ThereWillBeLED/node_module/node_LED_server.js 10 10 </home/pi/Documents/ThereWillBeLED/autoboot/sudo_passwd
+echo "done."
+

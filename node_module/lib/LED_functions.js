@@ -10,7 +10,19 @@ var colours = require("./LED_colours");
 
 var screenWidth = 0;
 var screenHeight = 0;
-var setLEDDisplaySize = function(width, height) {screenWidth=width;screenHeight=height;}
+var preLEDs = 0;
+var afterLEDs = 0;
+
+var setLEDDisplaySize = function(preSpecialLEDs, width, height, afterSpecialLEDs) 
+{
+	screenWidth=width;
+	screenHeight=height;
+	preLEDs=preSpecialLEDs;
+	afterLEDs=afterSpecialLEDs;
+	console.log("Display size: "+width+"x"+height);
+	console.log("--> Special LEDs before screen: "+preLEDs);	
+	console.log("--> Special LEDs after screen: "+afterLEDs);	
+}
 
 var mirrorH = function(arr)
 {
@@ -180,7 +192,7 @@ var convertScreenToColor = function(arr)
 // ++++ get a clear screen array.
 var clearData =function()
 {
-	var NUM_LEDS = screenWidth*screenHeight;
+	var NUM_LEDS = preLEDs+(screenWidth*screenHeight)+afterLEDs;
 	var pd = new Uint32Array(NUM_LEDS);
 	for(var i=0;i<NUM_LEDS;i++)
 		pd[i]=0;

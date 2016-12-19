@@ -14,12 +14,14 @@ var LED=require("./lib/LED_functions");
 var colours = require("./lib/LED_colours");
 
 // get width and height from console.
-var WIDTH = parseInt(process.argv[2], 10) || 10,
-    HEIGHT = parseInt(process.argv[3], 10) || 10,
-    NUM_LEDS = WIDTH * HEIGHT;
+var PRECOUNT = parseInt(process.argv[2], 10) || 0,
+    WIDTH = parseInt(process.argv[3], 10) || 10,
+    HEIGHT = parseInt(process.argv[4], 10) || 10,
+    AFTERCOUNT = parseInt(process.argv[5], 10) || 0,
+    NUM_LEDS = PRECOUNT+ (WIDTH * HEIGHT)+ AFTERCOUNT;
     pixelData = new Uint32Array(NUM_LEDS);
 
-LED.setDisplaySize(WIDTH, HEIGHT);
+LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
 
 var screenWidth = parseInt(process.argv[3], 10) || 10;
 var screenHeight = NUM_LEDS / screenWidth;
@@ -95,6 +97,7 @@ var getMyLocalIP = function()
 // ++++ animation-loop
 var frames = 0;
 var globalsymbol = 0;
+var color = 0;
 
 // set default text with local ip.
 var realText = "";
@@ -112,6 +115,7 @@ if(localIP.length > 0)
 realText+=attractionText;
 var realTextLength = LED.getRealTextLength(realText, mcs);
 
+// the loop function
 setInterval(function () 
 {
 	// does not get ip right at startup when booting,
@@ -132,8 +136,42 @@ setInterval(function ()
 		}
 	}
 
+	// RENDER THE SCREEN
 	//var pixelData=getRenderSymbol("pal"); // or globalsymbol.
-	var pixelData=LED.getRenderText(realText,globalX, mcs);
+	var screenData=LED.getRenderText(realText,globalX, mcs);
+	var pi=0;
+	var plen=pixelData.length;
+	var slen=screenData.length;
+	// render the pre array
+	if(PRECOUNT>0)
+	{
+		for(prei=0;prei<PRECOUNT;prei++)
+		{
+			if(pi<plen)
+				pixelData[pi]=colours.get(color);
+			pi++;
+		}
+	}
+	// render the screen data.
+	if(slen>0)
+	{
+		for(scri=0;scri<slen;scri++)
+		{
+			if(pi<plen)
+				pixelData[pi]=screenData[scri];
+			pi++;
+		}
+	}
+	// render the after array
+	if(AFTERCOUNT>0)
+	{
+		for(ai=0;ai<AFTERCOUNT;ai++)
+		{
+			if(pi<plen)
+				pixelData[pi]=colours.get(color);
+			pi++;
+		}
+	}
 		
 	// change symbol every some frames (120 = 1 second)
 	frames++;
@@ -142,10 +180,17 @@ setInterval(function ()
 		ws281x.render(pixelData);
 
 		frames = 0;
+		
 
+		// scroll
 		globalX--;
 		if(Math.abs(globalX)>realTextLength)
 			globalX = screenWidth;
+
+		// go through all colours
+		color++
+		if(color>=10)
+			color=0;
 
 		// go through all symbols (old attraction mode)
 		globalsymbol++;

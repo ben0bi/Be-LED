@@ -199,6 +199,89 @@ var clearData =function()
 	return pd;	
 }
 
+// ++++ Add a rain effect to the given screen array.
+var snowScreen = [];
+var snow = [];
+var hasSnow = false;
+var snowSteps = 0;
+
+function addSnow(screenData, steps)
+{
+	// initialize
+	if(!hasSnow)
+	{
+		// create the snow screen;
+		for(x=0;x<screenWidth;x++)
+		{
+			yline = [];
+			snowScreen.push(yline);
+			for(y=0;y<screenHeight;y++)
+			{
+				snowScreen[x][y] = 0;
+			}
+		}
+		
+		for(s=0;s<10;s++)
+			snow.push(parseInt(Math.random()*screenHeight)+screenHeight);
+		
+		hasSnow=true;
+	}
+	
+	// clear snow screen except the last two lines.
+	for(x=0;x<screenWidth;x++)
+	{
+		var h=0;
+		if(screenHeight>2)
+			h=1;
+		for(y=h;y<screenHeight;y++)
+		{
+			snowScreen[x][y]=0;
+		}
+	}
+	
+	// render snow flakes.
+	for(p=0;p<10;p++)
+	{
+		if(snow[p]>=0 && snow[p]<screenHeight)
+			snowScreen[p][snow[p]]=1;
+	}
+	
+	// set colour
+	var screenSize=screenData.length;
+	for(x=0;x<screenWidth;x++)
+	{
+		for(y=0;y<screenHeight;y++)
+		{
+			var pos= y*screenWidth+x;
+			// melting snow
+
+			// set color
+			if(pos>=0 && pos<screenSize && snowScreen[x][y]==1)
+			{
+				screenData[pos] = colours.get(10); // 4 is blue				
+			}
+		}
+		//var pos= rain[x]*screenWidth+x-(x%2);
+		//if(pos>=0 && pos<screenSize)
+		//		screenData[pos] = colours.get(10); // 4 is blue
+	}
+
+	// move
+	if(snowSteps > steps)
+	{
+		for(x=0;x<10;x++)
+		{
+			snow[x]-=1;
+			if(snow[x]< 0)
+				snow[x]= parseInt( Math.random()*10)+10;
+		}
+		snowSteps = 0;
+	}
+	
+	snowSteps++;
+	return screenData;
+}
+
 // MODULE EXPORTS
 module.exports.setDisplaySize = setLEDDisplaySize;
 module.exports.getRealTextLength = getRealTextLength;
@@ -206,3 +289,4 @@ module.exports.getRenderText = getRenderText;
 module.exports.clearData = clearData;
 module.exports.mirrorH = mirrorH;
 module.exports.mirrorV = mirrorV;
+module.exports.addSnow = addSnow;

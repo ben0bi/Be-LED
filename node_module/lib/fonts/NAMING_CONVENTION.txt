@@ -1,0 +1,13 @@
+It is not necessary but please use this naming convention:
+
+LED_charset_					// every charset should have the name charset in it.
+		monospace_			// for fonts where every char has the same size.
+		multispace_			// a font where the font (width) can differ from each other.
+				WxH		// the width and height of a standard character like A. 
+						//	(NOT like q or AE (I don t have the char on the keyboard..an A with 2 dots over it.))
+					(WxH)	// The real size of a char, including blank lines and such.
+
+E.g.
+	LED_charset_multispace_Wx7(Wx10).js	// A font with varying width and a height of 7 pixels. 
+						// In real, the font has 2 blank lines on top and one on the bottom, so it is Wx10 big.
+						// (Also, each char should have a blank line on the left and right.)

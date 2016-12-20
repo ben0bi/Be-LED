@@ -9,22 +9,19 @@ var qs = require("querystring");
 var fs = require("fs");
 
 var ws281x = require('./lib/rpi-ws281x-native/lib/ws281x-native');
-var mcs=require("./lib/fonts/LED_charset_multispace");
+var mcs=require("./lib/fonts/LED_charset_multispace_Wx7(Wx10)");
 var LED=require("./lib/LED_functions");
 var colours = require("./lib/LED_colours");
 
 // get width and height from console.
 var PRECOUNT = parseInt(process.argv[2], 10) || 0,
-    WIDTH = parseInt(process.argv[3], 10) || 10,
-    HEIGHT = parseInt(process.argv[4], 10) || 10,
+    screenWidth=WIDTH = parseInt(process.argv[3], 10) || 10,
+    screenHeight=HEIGHT = parseInt(process.argv[4], 10) || 10,
     AFTERCOUNT = parseInt(process.argv[5], 10) || 0,
     NUM_LEDS = PRECOUNT+ (WIDTH * HEIGHT)+ AFTERCOUNT;
     pixelData = new Uint32Array(NUM_LEDS);
 
 LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
-
-var screenWidth = parseInt(process.argv[3], 10) || 10;
-var screenHeight = NUM_LEDS / screenWidth;
 
 // global x position.
 var globalX = 0;
@@ -60,13 +57,7 @@ var getRenderSymbol = function(symIndex)
 ws281x.init(NUM_LEDS);
 // clear array before setting brightness.
 ws281x.render(LED.clearData());
-ws281x.setBrightness(16);
-
-// reset white to orange.
-colours.set(1, 1, 255, 127, 0);
-
-// switch to eye friendly palette.
-colours.switchToPalette(1);
+ws281x.setBrightness(32);
 
 // ++++ trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
@@ -94,11 +85,6 @@ var getMyLocalIP = function()
 	return addresses;
 }
 
-// ++++ animation-loop
-var frames = 0;
-var globalsymbol = 0;
-var color = 0;
-
 // set default text with local ip.
 var realText = "";
 var localIP = getMyLocalIP();
@@ -115,30 +101,21 @@ if(localIP.length > 0)
 realText+=attractionText;
 var realTextLength = LED.getRealTextLength(realText, mcs);
 
-// the loop function
-setInterval(function () 
-{
-	// does not get ip right at startup when booting,
-	// so wait until its here.
-	if(localIP.length<=0)
-	{
-		localIP = getMyLocalIP();
-		if(localIP.length > 0)
-		{
-			realText = "Local IP: ";
-			for(var loc=0;loc<localIP.length;loc++)
-			{
-				realText+=localIP[loc]+" {Smiley} ";
-			}
-			realText+="{Smiley} {Smiley} ";
-			realText+=attractionText;
-			realTextLength = LED.getRealTextLength(realText, mcs);
-		}
-	}
+// ++++ colouring
 
-	// RENDER THE SCREEN
+// reset white to orange.
+colours.set(1, 1, 255, 127, 0);
+colours.set(1,10,255,255,255);
+// switch to eye friendly palette.
+colours.switchToPalette(1);
+
+// ++++ RENDER FUNCTION
+function RENDER()
+{
+		// RENDER THE SCREEN
 	//var pixelData=getRenderSymbol("pal"); // or globalsymbol.
-	var screenData=LED.getRenderText(realText,globalX, mcs);
+	var screenData2=LED.getRenderText(realText,globalX, mcs);
+	var screenData=LED.addSnow(screenData2,2);
 	var pi=0;
 	var plen=pixelData.length;
 	var slen=screenData.length;
@@ -148,7 +125,7 @@ setInterval(function ()
 		for(prei=0;prei<PRECOUNT;prei++)
 		{
 			if(pi<plen)
-				pixelData[pi]=colours.get(color);
+				pixelData[pi]=colours.get(parseInt(color));
 			pi++;
 		}
 	}
@@ -172,24 +149,52 @@ setInterval(function ()
 			pi++;
 		}
 	}
+
+	// render the array on the LEDs
+	ws281x.render(pixelData);
+}
+
+// ++++ animation-loop
+var frames = 0;
+var globalsymbol = 0;
+var color = 0;
+
+// the loop function
+setInterval(function () 
+{
+	// does not get ip right at startup when booting,
+	// so wait until its here.
+	if(localIP.length<=0)
+	{
+		localIP = getMyLocalIP();
+		if(localIP.length > 0)
+		{
+			realText = "Local IP: ";
+			for(var loc=0;loc<localIP.length;loc++)
+			{
+				realText+=localIP[loc]+" {Smiley} ";
+			}
+			realText+="{Smiley} {Smiley} ";
+			realText+=attractionText;
+			realTextLength = LED.getRealTextLength(realText, mcs);
+		}
+	}
 		
 	// change symbol every some frames (120 = 1 second)
 	frames++;
-	if(frames >= 3)
+	if(frames >= 7)
 	{
-		ws281x.render(pixelData);
-
+		RENDER();
 		frames = 0;
 		
-
 		// scroll
 		globalX--;
 		if(Math.abs(globalX)>realTextLength)
 			globalX = screenWidth;
 
 		// go through all colours
-		color++
-		if(color>=10)
+		color+=0.1;
+		if(color>=20)
 			color=0;
 
 		// go through all symbols (old attraction mode)
@@ -198,10 +203,10 @@ setInterval(function ()
 			globalsymbol = 0;
 
 	}
-}, 1000 / 120);
+}, 1000 / 200); // 200 frames / sec
 
 
-// ++++ sending admin page.
+// ++++ sending some protected html pages.
 function sendAdminPage() {return fs.readFileSync('./node_module/send_html/send_admin_page.html', "utf8");}
 function sendSetPasswordPage() {return fs.readFileSync('./node_module/send_html/send_new_admin_password.html', "utf8");};
 

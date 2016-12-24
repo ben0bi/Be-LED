@@ -42,7 +42,7 @@ fs.readFile('./default_text', 'utf8', function (err, FSDefaultData)
 	} else {
 		console.log('+  There is some error with the default text file: ', err.code);
 	}
-}
+});
 // ++++ get a single character into the screen.
 /*
 var getRenderSymbol = function(symIndex)

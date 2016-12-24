@@ -1,5 +1,6 @@
-
-<input id="LED_defaultText" type="text">
+<h1>BE+LED Administration</h1>
+<br />
+<input id="LED_defaultText" type="text"></input>
 <a href="#" onclick="SetDefaultText()" class="button">Set Default Text</a><br />
 The default text is shown when the server starts, until another text is set.<br />
 <br />
@@ -8,7 +9,9 @@ Change the admin password.<br />
 <div id="result"></div>
 
 <script>
-function GetResetPassword()
+	
+// get the password reset page.
+var GetResetPassword = function()
 {
 	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/uhsorrymanineedsomepasswordreset",null,function(data,status,xhr) 
 	{
@@ -27,24 +30,26 @@ function GetResetPassword()
   	.fail(function() {
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
   	})	
-}
+};
 
-function SetDefaultText()
+// set the default text of the LED array.
+var SetDefaultText = function()
 {
-	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setdefaulttextXHX",null,function(data,status,xhr) 
+	var dtext = $("#LED_defaultText").val();
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setadminpasswordXHX",{defaulttext: dtext},function(data,status,xhr) 
 	{
 		if(data == "N0P3") {
-			$("#result").html("The server will not set the default text, sorry.");
+			$("#result").html("The server will not set the default text.");
 		}else if(data == "D0P3"){
-			$("#result").html("Something strange is going on. Something really strange.");
+			$("#result").html("Could not set default text, something strange is going on. Something really strange.");
 		}else{
-			// default text was set.
+			// all good.
 			$("#wrapper").html("Default text is now: "+data);
 		}
 	},"text")
   	.fail(function() {
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
-  	})	
-}
+	};
+};
 
 </script>

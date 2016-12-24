@@ -1,4 +1,4 @@
-var AppVersion = "0.1.1";
+var AppVersion = "0.2.0";
 
 // attraction mode text.
 var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
@@ -30,19 +30,13 @@ LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
 var globalX = 0;
 
 // maybe get another default text.
-fs.readFile('./default_text', 'utf8', function (err, FSDefaultData)
+var startuptext = fs.readFileSync('./default_text', 'utf8');
+if(startuptext)
 {
-	if(err == null) {
-		console.log('+  Default text file found: '+FSDefaultData);
+		console.log('+  Default text file found: '+startuptext);
 		//console.log(FSdata+" ==> "+data.password);
-		attractionText = FSDefaultData
-	} else if(err.code == 'ENOENT') {
-		// file does not exist
-		console.log("+  There is no default text file. Using hard coded default: "+ attractionText);
-	} else {
-		console.log('+  There is some error with the default text file: ', err.code);
-	}
-});
+		attractionText = startuptext;
+}
 // ++++ get a single character into the screen.
 /*
 var getRenderSymbol = function(symIndex)
@@ -121,11 +115,12 @@ var realTextLength = LED.getRealTextLength(realText, mcs);
 
 // ++++ colouring
 
-// reset white to orange.
-colours.set(1, 1, 255, 127, 0);
-colours.set(1,10,255,255,255);
 // switch to eye friendly palette.
 colours.switchToPalette(1);
+
+// reset white to orange.
+colours.set(1, 255, 127, 0);
+colours.set(10,255,255,255);
 
 // ++++ RENDER FUNCTION
 function RENDER()
@@ -265,20 +260,23 @@ var server = my_http.createServer(function(request, response)
 			});
 			return;
 		}
-		
+
 		// set default text which is shown after boot/restart.
-		if (url == '/setdefaulttextXHX')
+		if (url == '/setdefaulttextxhx')
 		{
+			console.log("+ Getting new default text..");
 			var body = '';
-			request.on('data', function(chunk) {
-			body += chunk;
+			request.on('data', function(chunk) 
+			{
+				body += chunk;
 			});
-			request.on('end', function() {
+			request.on('end', function() 
+			{
 				var data = qs.parse(body);
 				var newtext = data.defaulttext;
 				console.log("+ Setting new default text: "+newtext);
 				fs.writeFileSync("./default_text",newtext, "utf8");
-				response.write("DONE");
+				response.write(newtext);
 				response.end();
 			});
 			return;
@@ -295,7 +293,7 @@ var server = my_http.createServer(function(request, response)
 		}
 
 		// set admin password.
-		if (url == '/setadminpasswordXHX')
+		if (url == '/setadminpasswordxhx')
 		{
 			var body = '';
 			request.on('data', function(chunk) {

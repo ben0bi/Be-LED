@@ -1,12 +1,13 @@
-<h1>BE+LED Administration</h1>
+<h1>Be+LED Administration</h1>
 <br />
 <input id="LED_defaultText" type="text"></input>
-<a href="#" onclick="SetDefaultText()" class="button">Set Default Text</a><br />
-The default text is shown when the server starts, until another text is set.<br />
+<a href="#" onclick="SetDefaultText()" class="button">Set Startup Text</a><br />
+The startup text is shown when the server starts, until another text is set.<br />
 <br />
 <a href="#" onclick="GetResetPassword()" class="button">Set Password</a><br />
 Change the admin password.<br />
-<div id="result"></div>
+<br />
+<div id="result">++ Nothing Changed Yet ++</div>
 
 <script>
 	
@@ -20,7 +21,7 @@ var GetResetPassword = function()
 		}else if(data == "D0P3"){
 			$("#result").html("Something strange is going on. Something really strange.");
 		}else{
-			// all ok, reset password values.
+			// all ok, get password reset page.
 			origPass="";
 			checkPass="";
 			sendpass="";
@@ -32,24 +33,27 @@ var GetResetPassword = function()
   	})	
 };
 
+
 // set the default text of the LED array.
 var SetDefaultText = function()
 {
 	var dtext = $("#LED_defaultText").val();
-	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setadminpasswordXHX",{defaulttext: dtext},function(data,status,xhr) 
+	console.log("Trying to set default text to: "+dtext);
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setdefaulttextxhx",{defaulttext: dtext},function(data,status,xhr) 
 	{
-		if(data == "N0P3") {
+		if(data == "N0P3") 
+		{
 			$("#result").html("The server will not set the default text.");
 		}else if(data == "D0P3"){
 			$("#result").html("Could not set default text, something strange is going on. Something really strange.");
 		}else{
 			// all good.
-			$("#wrapper").html("Default text is now: "+data);
+			$("#result").html("Default startup text is now: "+data);
 		}
 	},"text")
   	.fail(function() {
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
-	};
+	});
 };
-
 </script>
+

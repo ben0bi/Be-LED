@@ -33,7 +33,7 @@ var getColourDirect = function(paletteIndex, colorIndex)
 // set a colour for a specific palette.
 var setColour = function(colourIndex, R, G, B)
 {
-	setColourDirect(actualpalette, colourIndex);
+	setColourDirect(actualpalette, colourIndex, R, G, B);
 };
 
 // set a colour for a specific palette.
@@ -63,31 +63,31 @@ var rgb2Int = function(r, g, b) {
 */
 
 // Standard set.
-setColour(0,0,0,0,0); 		// 0 = Black
-setColour(0,1,255,255,255); 	// 1 = White
-setColour(0,2,255,0, 0); 	// 2 = Red
-setColour(0,3,0,255,0); 	// 3 = Green
-setColour(0,4,0,0,255); 	// 4 = Blue
-setColour(0,5,255,127,0); 	// 5 = Orange
-setColour(0,6,255,255,0); 	// 6 = Yellow
-setColour(0,7,255,0,127);	// 7 = Pink/Rose
-setColour(0,8,0,255,127);	// 8 = Turkis
+setColourDirect(0,0,0,0,0); 		// 0 = Black
+setColourDirect(0,1,255,255,255); 	// 1 = White
+setColourDirect(0,2,255,0, 0); 		// 2 = Red
+setColourDirect(0,3,0,255,0); 		// 3 = Green
+setColourDirect(0,4,0,0,255); 		// 4 = Blue
+setColourDirect(0,5,255,127,0); 	// 5 = Orange
+setColourDirect(0,6,255,255,0); 	// 6 = Yellow
+setColourDirect(0,7,255,0,127);		// 7 = Pink/Rose
+setColourDirect(0,8,0,255,127);		// 8 = Turkis
 
 // Eye friendly set.
-setColour(1,0,0,0,0); 		// 0 = Black
-setColour(1,1,255,255,127); 	// 1 = White
-setColour(1,2,255,0, 0); 	// 2 = Red
-setColour(1,3,0,255,0); 	// 3 = Green
-setColour(1,4,0,0,127); 	// 4 = Blue
-setColour(1,5,255,127,0); 	// 5 = Orange
-setColour(1,6,127,127,0); 	// 6 = Yellow
-setColour(1,7,127,0,64);	// 7 = Pink/Rose
-setColour(1,8,0,127,64);	// 8 = Turkis
+setColourDirect(1,0,0,0,0); 		// 0 = Black
+setColourDirect(1,1,255,255,127); 	// 1 = White
+setColourDirect(1,2,255,0, 0); 		// 2 = Red
+setColourDirect(1,3,0,255,0); 		// 3 = Green
+setColourDirect(1,4,0,0,127); 		// 4 = Blue
+setColourDirect(1,5,255,127,0); 	// 5 = Orange
+setColourDirect(1,6,127,127,0); 	// 6 = Yellow
+setColourDirect(1,7,127,0,64);		// 7 = Pink/Rose
+setColourDirect(1,8,0,127,64);		// 8 = Turkis
 
 // EXPORTS
 module.exports.RGBtoInt = rgb2Int;
 module.exports.get = getColour;
 module.exports.getDirect = getColourDirect;
 module.exports.set = setColour;
-module.exports.set = setColourDirect;
+module.exports.setColour = setColourDirect;
 module.exports.switchToPalette = switchToPalette;

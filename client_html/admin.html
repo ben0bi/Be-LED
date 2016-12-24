@@ -13,7 +13,7 @@
 	<table border="0" style="width: 100%">
 		<tr>
 			<td id="input_field"><input type="password" id="password_field" class="input_field" placeholder="Password please." style="width: 100%"></input></td>
-			<td id="changebtn_field"><a href="#" onclick="sendPassword();" id="changebtn_button">Login</a></td>
+			<td id="changebtn_field"><a href="#" onclick="sendPassword();" class="button">Login</a></td>
 		</tr>
 	</table>
 	
@@ -29,7 +29,6 @@
 </div>
 
 <script src="data/js/jquery-3.1.1.min.js"></script>
-<script src="data/js/sha256.js"></script>
 <script src="data/js/globals.js"></script>
 <script>
 	var srvr = window.location.hostname;
@@ -42,11 +41,10 @@
 			$("#result").html("You need to provide at least one character. :)");
 			return;
 		}
-		var sendpass = sha256(origPass);
 		
-		//$("#result").html("Pass SHA:"+sendpass);
+		//$("#result").html("Pass SHA:"+origPass);
 		
-		var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/admin",{password: sendpass},function(data,status,xhr) 
+		var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/admin",{password: origPass},function(data,status,xhr) 
 		{
 			if(data == "N0P3") {
 				$("#result").html("Nope Buddy, this one is not for you.");
@@ -55,6 +53,7 @@
 				$("#result").html("Nope. There went something wrong. Sorry.");
 				logged_in = false;
 			}else{
+				// ok, reset values to not get them from memory.
 				origPass="";
 				sendpass="";
 				$("#wrapper").html(data);

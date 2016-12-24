@@ -17,20 +17,33 @@ var palette = Array();
 // get a colour on the actual palette.
 var getColour = function(index)
 {
-	if(!palette[actualpalette])
+	return getColourDirect(actualpalette, index);
+};
+
+// get a colour direct from your desired palette.
+var getColourDirect = function(paletteIndex, colorIndex)
+{
+	if(!palette[paletteIndex])
 		return 0;
-	if(!palette[actualpalette][index])
+	if(!palette[paletteIndex][colorIndex])
 		return 0;
-	return palette[actualpalette][index];
+	return palette[paletteIndex][colorIndex];
+}
+
+// set a colour for a specific palette.
+var setColour = function(colourIndex, R, G, B)
+{
+	setColourDirect(actualpalette, colourIndex);
 };
 
 // set a colour for a specific palette.
-var setColour = function(paletteIndex,colourIndex, R, G, B)
+var setColourDirect = function(paletteIndex,colourIndex, R, G, B)
 {
 	if(!palette[paletteIndex])
 		palette[paletteIndex] = Array();
 	palette[paletteIndex][colourIndex] = rgb2Int(R, G, B);
 };
+
 
 // switch to another palette.
 var switchToPalette = function(paletteIndex)
@@ -74,5 +87,7 @@ setColour(1,8,0,127,64);	// 8 = Turkis
 // EXPORTS
 module.exports.RGBtoInt = rgb2Int;
 module.exports.get = getColour;
+module.exports.getDirect = getColourDirect;
 module.exports.set = setColour;
+module.exports.set = setColourDirect;
 module.exports.switchToPalette = switchToPalette;

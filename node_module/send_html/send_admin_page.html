@@ -1,4 +1,10 @@
-<a href="#" onclick="GetResetPassword()">Set Password</a>
+
+<input id="LED_defaultText" type="text">
+<a href="#" onclick="SetDefaultText()" class="button">Set Default Text</a><br />
+The default text is shown when the server starts, until another text is set.<br />
+<br />
+<a href="#" onclick="GetResetPassword()" class="button">Set Password</a><br />
+Change the admin password.<br />
 <div id="result"></div>
 
 <script>
@@ -11,6 +17,7 @@ function GetResetPassword()
 		}else if(data == "D0P3"){
 			$("#result").html("Something strange is going on. Something really strange.");
 		}else{
+			// all ok, reset password values.
 			origPass="";
 			checkPass="";
 			sendpass="";
@@ -21,4 +28,23 @@ function GetResetPassword()
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
   	})	
 }
+
+function SetDefaultText()
+{
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setdefaulttextXHX",null,function(data,status,xhr) 
+	{
+		if(data == "N0P3") {
+			$("#result").html("The server will not set the default text, sorry.");
+		}else if(data == "D0P3"){
+			$("#result").html("Something strange is going on. Something really strange.");
+		}else{
+			// default text was set.
+			$("#wrapper").html("Default text is now: "+data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+  	})	
+}
+
 </script>

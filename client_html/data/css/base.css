@@ -40,7 +40,7 @@ body
 	text-align: right;
 }
 
-#changebtn_button
+.button
 {
 	display: inline-block;
 	padding: 3px 32px;

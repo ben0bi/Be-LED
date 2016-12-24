@@ -28,7 +28,7 @@ a:hover {color: #ff2;}
 	background: #900;
 }
 
-#changebtn_button
+.button
 {
 	box-shadow: #6CCC6C 0px 0px 0px 3px;
 	background: #92C278;
@@ -42,9 +42,9 @@ a:hover {color: #ff2;}
 	text-shadow: #396628 0px 1px 50px;
 }
 
-#changebtn_button:visited {color: white;}
+.button:visited {color: white;}
 
-#changebtn_button:hover
+.button:hover
 {
 	box-shadow: #FF6CCC 0px 0px 0px 3px;
 	border: 2px solid #FFFF33;

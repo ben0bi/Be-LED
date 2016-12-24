@@ -474,16 +474,16 @@ scr[27] = scr["r"] = scr["R"] = scR;
 
 // S
 var scS=new Array();
-scS.push([0,0,0,0,0,0,0]);
-scS.push([0,0,0,0,0,0,0]);
-scS.push([0,0,1,1,1,0,0]);
-scS.push([0,1,0,0,0,0,0]);
-scS.push([0,1,0,0,0,0,0]);
-scS.push([0,0,1,1,0,0,0]);
-scS.push([0,0,0,0,1,0,0]);
-scS.push([0,0,0,0,1,0,0]);
-scS.push([0,1,1,1,0,0,0]);
-scS.push([0,0,0,0,0,0,0]);
+scS.push([0,0,0,0,0,0]);
+scS.push([0,0,0,0,0,0]);
+scS.push([0,0,1,1,1,0]);
+scS.push([0,1,0,0,0,0]);
+scS.push([0,1,0,0,0,0]);
+scS.push([0,0,1,1,0,0]);
+scS.push([0,0,0,0,1,0]);
+scS.push([0,0,0,0,1,0]);
+scS.push([0,1,1,1,0,0]);
+scS.push([0,0,0,0,0,0]);
 scS = LF.mirrorV(scS);
 scr[28] = scr["s"] = scr["S"] = scS;
 

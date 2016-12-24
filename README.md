@@ -30,7 +30,8 @@ On your Raspi, do that:
 
 + install node if not installed.
 + install apache2 if not installed. 
-+ The apache page is there because the box can always respond, also if the node server does not run.
++ The apache page is there because the box can always respond then,
+	also if the node server does not run.
 
 cd /home/pi/Documents
 

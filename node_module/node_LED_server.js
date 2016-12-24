@@ -1,4 +1,4 @@
-var AppVersion = "0.1.0";
+var AppVersion = "0.1.1";
 
 // attraction mode text.
 var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
@@ -6,12 +6,15 @@ var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {He
 // ++++ requires.
 var my_http = require("http");
 var qs = require("querystring");
-var fs = require("fs");
+var fs = require("fs"); // for file operations.
+var os = require('os'); // for getting the IP.
 
-var ws281x = require('./lib/rpi-ws281x-native/lib/ws281x-native');
-var mcs=require("./lib/fonts/LED_charset_multispace_Wx7(Wx10)");
-var LED=require("./lib/LED_functions");
-var colours = require("./lib/LED_colours");
+var SHA = require('./lib/sha256');
+
+var ws281x = require('./lib/rpi-ws281x-native/lib/ws281x-native');  // the LED driver.
+var mcs=require("./lib/fonts/LED_charset_multispace_Wx7(Wx10)");	// the charset to use.
+var LED=require("./lib/LED_functions");								// the basic LED functions. Maybe the charset provides some own methods.
+var colours = require("./lib/LED_colours");							// color palettes.
 
 // get width and height from console.
 var PRECOUNT = parseInt(process.argv[2], 10) || 0,
@@ -26,7 +29,22 @@ LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
 // global x position.
 var globalX = 0;
 
+// maybe get another default text.
+fs.readFile('./default_text', 'utf8', function (err, FSDefaultData)
+{
+	if(err == null) {
+		console.log('+  Default text file found: '+FSDefaultData);
+		//console.log(FSdata+" ==> "+data.password);
+		attractionText = FSDefaultData
+	} else if(err.code == 'ENOENT') {
+		// file does not exist
+		console.log("+  There is no default text file. Using hard coded default: "+ attractionText);
+	} else {
+		console.log('+  There is some error with the default text file: ', err.code);
+	}
+}
 // ++++ get a single character into the screen.
+/*
 var getRenderSymbol = function(symIndex)
 {
 	var pd = new Uint32Array(NUM_LEDS);
@@ -52,6 +70,7 @@ var getRenderSymbol = function(symIndex)
 	}
 	return pd;
 };
+*/
 
 // ++++ INITIALIZE
 ws281x.init(NUM_LEDS);
@@ -66,7 +85,6 @@ process.on('SIGINT', function () {
 });
 
 // ++++ Get local IP addresses of this device.
-var os = require('os');
 var getMyLocalIP = function()
 {
 	var interfaces = os.networkInterfaces();
@@ -112,10 +130,10 @@ colours.switchToPalette(1);
 // ++++ RENDER FUNCTION
 function RENDER()
 {
-		// RENDER THE SCREEN
+	// RENDER THE SCREEN
 	//var pixelData=getRenderSymbol("pal"); // or globalsymbol.
-	var screenData2=LED.getRenderText(realText,globalX, mcs);
-	var screenData=LED.addSnow(screenData2,2);
+	var screenData=LED.getRenderText(realText,globalX, mcs);
+//	var screenData=LED.addSnow(screenData,2); // some snow flakes.
 	var pi=0;
 	var plen=pixelData.length;
 	var slen=screenData.length;
@@ -180,7 +198,7 @@ setInterval(function ()
 		}
 	}
 		
-	// change symbol every some frames (120 = 1 second)
+	// move some stuff every some frames (120 = 1 second)
 	frames++;
 	if(frames >= 7)
 	{
@@ -214,6 +232,12 @@ function sendSetPasswordPage() {return fs.readFileSync('./node_module/send_html/
 var serverPort = 3000;
 var server = my_http.createServer(function(request, response)
 {
+	
+	// YOU MUST SET A RETURN AFTER EACH VALID COMMAND!
+	// The return must be at the end of the command-if, 
+	// NOT at the end of the async methods!
+	// Else it will maybe return "D0P3" before the async call ends.
+	
 	var url=request.url.toLowerCase();
 	console.log("Request received: "+request.url);
 
@@ -230,6 +254,7 @@ var server = my_http.createServer(function(request, response)
 			body += chunk;
 			});
 			request.on('end', function() {
+				// TODO: add to array
 				var data = qs.parse(body);
 				console.log("+ Setting new Text: "+data.content_text);
 				realText=data.content_text
@@ -238,6 +263,25 @@ var server = my_http.createServer(function(request, response)
 				response.write(realText);
 				response.end();
 			});
+			return;
+		}
+		
+		// set default text which is shown after boot/restart.
+		if (url == '/setdefaulttextXHX')
+		{
+			var body = '';
+			request.on('data', function(chunk) {
+			body += chunk;
+			});
+			request.on('end', function() {
+				var data = qs.parse(body);
+				var newtext = data.defaulttext;
+				console.log("+ Setting new default text: "+newtext);
+				fs.writeFileSync("./default_text",newtext, "utf8");
+				response.write("DONE");
+				response.end();
+			});
+			return;
 		}
 		
 		// just send the password reset page. 
@@ -251,7 +295,7 @@ var server = my_http.createServer(function(request, response)
 		}
 
 		// set admin password.
-		if (url == '/setadminpassword')
+		if (url == '/setadminpasswordXHX')
 		{
 			var body = '';
 			request.on('data', function(chunk) {
@@ -259,13 +303,15 @@ var server = my_http.createServer(function(request, response)
 			});
 			request.on('end', function() {
 				var data = qs.parse(body);
-				console.log("+ Setting new admin password.");
-				fs.writeFileSync("./admin_password",data.password, "utf8");
+				var pw = SHA.sha256(data.password);
+				console.log("+ Setting new admin password. Hash: "+pw);
+				fs.writeFileSync("./admin_password",pw, "utf8");
 				response.write("DONE");
 				response.end();
 			});
+			return;
 		}
-		
+				
 		// get admin page on right password.
 		if(url == '/admin')
 		{
@@ -286,7 +332,7 @@ var server = my_http.createServer(function(request, response)
 					if(err == null) {
 						console.log('+  Password file found.');
 						//console.log(FSdata+" ==> "+data.password);
-						if(FSdata == data.password) {granted = true;}
+						if(FSdata == SHA.sha256(data.password)) {granted = true;}
 					} else if(err.code == 'ENOENT') {
 						// file does not exist
 						console.log("+  There is no password file. Sending password creation page.");
@@ -301,11 +347,11 @@ var server = my_http.createServer(function(request, response)
 					
 					if(!granted)
 					{
-						console.log("+  Access DENIED");
+						console.log("+  Access DENIED.");
 						if(!sendfile)
 							console.log("+  Response: "+responsetext);
 					}else{
-						console.log("+  Access GRANTED");
+						console.log("+  Access GRANTED.");
 						sendfile = true;
 						responsetext=sendAdminPage();
 					}
@@ -316,7 +362,8 @@ var server = my_http.createServer(function(request, response)
 					response.write(responsetext);
 					response.end();
 				});
-			});			
+			});
+			return;
 		}
 	}
 
@@ -346,7 +393,7 @@ var server = my_http.createServer(function(request, response)
 			}
 
 			if(sendfile)
-				console.log("+ Sending a file as response.");
+				console.log("+ Sending password setting page as response.");
 
 			response.write(responsetext);
 			response.end();
@@ -363,6 +410,8 @@ var server = my_http.createServer(function(request, response)
 		return;
 	}
 	
+	response.write("D0P3");
+	response.end();
 });
 server.listen(serverPort);
 

@@ -15,9 +15,6 @@ body
 	max-width: 80%;
 }
 
-#changebtn_field {width: 200px;padding: 10px;}
-#input_field {width: 100%;}
-
 #footer_wrapper
 {
 	position: absolute;
@@ -49,9 +46,17 @@ body
 	font-weight: bold;
 }
 
+.button_wrapper {width: 200px;padding: 10px;}
+
 .input_field 
-{	font-size: 15pt;
+{	
+	font-size: 15pt;
 	height: 30px;
+}
+
+.input_field_wrapper
+{
+	width: 100%;
 }
 
 .localeimage

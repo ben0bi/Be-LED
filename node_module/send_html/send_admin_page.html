@@ -1,12 +1,18 @@
 <h1>Be+LED Administration</h1>
-<br />
-<input id="LED_defaultText" type="text"></input>
-<a href="#" onclick="SetDefaultText()" class="button">Set Startup Text</a><br />
-The startup text is shown when the server starts, until another text is set.<br />
-<br />
 <a href="#" onclick="GetResetPassword()" class="button">Set Password</a><br />
-Change the admin password.<br />
 <br />
+Change the admin password.<br />
+<hr />
+<br /><table border="0" style="width:100%">
+	<tr>
+		<td class="input_field_wrapper"><input id="LED_defaultText" type="text" class="input_field" style="width: 100%"></input></td>
+		<td class="button_wrapper"><a href="#" onclick="SetDefaultText()" class="button" class="input_field"><nobr>Set Startup Text</nobr></a></td>
+	</tr>
+</table>
+<br />
+The startup text is shown when the server starts, until another text is set.<br />
+<hr />
+Result:
 <div id="result">++ Nothing Changed Yet ++</div>
 
 <script>
@@ -30,7 +36,7 @@ var GetResetPassword = function()
 	},"text")
   	.fail(function() {
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
-  	})	
+  	});
 };
 
 
@@ -38,6 +44,12 @@ var GetResetPassword = function()
 var SetDefaultText = function()
 {
 	var dtext = $("#LED_defaultText").val();
+	if(!dtext || dtext=="")
+	{
+		$("#result").html("You must input at least one character.");
+		return;
+	}
+	
 	console.log("Trying to set default text to: "+dtext);
 	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setdefaulttextxhx",{defaulttext: dtext},function(data,status,xhr) 
 	{

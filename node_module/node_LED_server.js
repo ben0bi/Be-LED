@@ -30,12 +30,17 @@ LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
 var globalX = 0;
 
 // maybe get another default text.
-var startuptext = fs.readFileSync('./default_text', 'utf8');
-if(startuptext)
+try
 {
-		console.log('+  Default text file found: '+startuptext);
+	var startuptext = fs.readFileSync('./default_text', 'utf8');
+	if(startuptext)
+	{
+		console.log('-->  Default text file found: '+startuptext);
 		//console.log(FSdata+" ==> "+data.password);
 		attractionText = startuptext;
+	}
+}catch(ex){
+	console.log("--> No default text file found, using hard coded text: "+attractionText);
 }
 // ++++ get a single character into the screen.
 /*

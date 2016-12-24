@@ -2,6 +2,8 @@ ThereWillBeLED
 a.k.a.
 Be+LED
 
+v0.2.0
+
 by ben0bi@web4me in 2016
 
 Autostarting node LED array server.

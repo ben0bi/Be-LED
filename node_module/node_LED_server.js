@@ -1,4 +1,4 @@
-var AppVersion = "0.2.0";
+var AppVersion = "0.2.1";
 
 // attraction mode text.
 var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";

@@ -671,46 +671,46 @@ scr[40] = scr[";"]= scSemicolon;
 
 // slash
 var scSlash=new Array();
-scSlash.push([0,0,0,0,0,0,0,0,0]);
-scSlash.push([0,0,0,0,0,0,0,0,0]);
-scSlash.push([0,0,0,0,0,0,0,1,0]);
-scSlash.push([0,0,0,0,0,0,1,0,0]);
-scSlash.push([0,0,0,0,0,1,0,0,0]);
-scSlash.push([0,0,0,0,1,0,0,0,0]);
-scSlash.push([0,0,0,1,0,0,0,0,0]);
-scSlash.push([0,0,1,0,0,0,0,0,0]);
-scSlash.push([0,1,0,0,0,0,0,0,0]);
-scSlash.push([0,0,0,0,0,0,0,0,0]);
+scSlash.push([0,0,0,0,0,0,0,0]);
+scSlash.push([0,0,0,0,0,0,0,0]);
+scSlash.push([0,0,0,0,0,0,0,1]);
+scSlash.push([0,0,0,0,0,0,1,0]);
+scSlash.push([0,0,0,0,0,1,0,0]);
+scSlash.push([0,0,0,0,1,0,0,0]);
+scSlash.push([0,0,0,1,0,0,0,0]);
+scSlash.push([0,0,1,0,0,0,0,0]);
+scSlash.push([0,1,0,0,0,0,0,0]);
+scSlash.push([0,0,0,0,0,0,0,0]);
 scSlash = LF.mirrorV(scSlash);
 scr[41] = scr["/"]= scSlash;
 
 // @ at 
 var scAt=new Array();
-scAt.push([0,0,0,0,0,0,0,0,0,0,0]);
-scAt.push([0,0,0,0,0,0,0,0,0,0,0]);
-scAt.push([0,0,1,1,1,1,1,0,0,0,0]);
-scAt.push([0,1,0,0,0,0,0,1,0,1,0]);
-scAt.push([0,1,0,0,1,1,0,1,0,1,0]);
-scAt.push([0,1,0,1,0,1,0,1,0,1,0]);
-scAt.push([0,1,0,0,1,1,1,0,0,1,0]);
-scAt.push([0,1,0,0,0,0,0,0,1,0,0]);
-scAt.push([0,0,1,1,1,1,1,1,0,0,0]);
-scAt.push([0,0,0,0,0,0,0,0,0,0,0]);
+scAt.push([0,0,0,0,0,0,0,0,0,0]);
+scAt.push([0,0,0,0,0,0,0,0,0,0]);
+scAt.push([0,0,1,1,1,1,1,0,0,0]);
+scAt.push([0,1,0,0,0,0,0,1,0,1]);
+scAt.push([0,1,0,0,1,1,0,1,0,1]);
+scAt.push([0,1,0,1,0,1,0,1,0,1]);
+scAt.push([0,1,0,0,1,1,1,0,0,1]);
+scAt.push([0,1,0,0,0,0,0,0,1,0]);
+scAt.push([0,0,1,1,1,1,1,1,0,0]);
+scAt.push([0,0,0,0,0,0,0,0,0,0]);
 scAt = LF.mirrorV(scAt);
 scr[42] = scr["@"]= scAt;
 
 // backslash
 var scBS=new Array();
-scBS.push([0,0,0,0,0,0,0,0,0]);
-scBS.push([0,0,0,0,0,0,0,0,0]);
-scBS.push([0,1,0,0,0,0,0,0,0]);
-scBS.push([0,0,1,0,0,0,0,0,0]);
-scBS.push([0,0,0,1,0,0,0,0,0]);
-scBS.push([0,0,0,0,1,0,0,0,0]);
-scBS.push([0,0,0,0,0,1,0,0,0]);
-scBS.push([0,0,0,0,0,0,1,0,0]);
-scBS.push([0,0,0,0,0,0,0,1,0]);
-scBS.push([0,0,0,0,0,0,0,0,0]);
+scBS.push([0,0,0,0,0,0,0,0]);
+scBS.push([0,0,0,0,0,0,0,0]);
+scBS.push([0,1,0,0,0,0,0,0]);
+scBS.push([0,0,1,0,0,0,0,0]);
+scBS.push([0,0,0,1,0,0,0,0]);
+scBS.push([0,0,0,0,1,0,0,0]);
+scBS.push([0,0,0,0,0,1,0,0]);
+scBS.push([0,0,0,0,0,0,1,0]);
+scBS.push([0,0,0,0,0,0,0,1]);
+scBS.push([0,0,0,0,0,0,0,0]);
 scBS = LF.mirrorV(scBS);
 scr[43] = scr["\\"]= scBS;
 
@@ -856,16 +856,16 @@ scr[55] = scr["?"]= scQuest;
 
 // exlamationmark !
 var scEx=new Array();
-scEx.push([0,0,0,0,0,0]);
-scEx.push([0,0,0,0,0,0]);
-scEx.push([0,0,1,1,1,0]);
-scEx.push([0,0,1,1,1,0]);
-scEx.push([0,0,1,1,1,0]);
-scEx.push([0,0,1,1,1,0]);
-scEx.push([0,0,0,1,0,0]);
-scEx.push([0,0,0,0,0,0]);
-scEx.push([0,0,0,1,0,0]);
-scEx.push([0,0,0,0,0,0]);
+scEx.push([0,0,0,0,0]);
+scEx.push([0,0,0,0,0]);
+scEx.push([0,1,1,1,0]);
+scEx.push([0,1,1,1,0]);
+scEx.push([0,1,1,1,0]);
+scEx.push([0,1,1,1,0]);
+scEx.push([0,0,1,0,0]);
+scEx.push([0,0,0,0,0]);
+scEx.push([0,0,1,0,0]);
+scEx.push([0,0,0,0,0]);
 scEx = LF.mirrorV(scEx);
 scr[56] = scr["!"]= scEx;
 

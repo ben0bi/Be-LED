@@ -77,6 +77,11 @@ var getRenderText = function(text, posX, charset)
 		if(sym=="}")
 		{
 			getSymbol=false;
+			// maybe add command and reset symbol.
+			if(parseCommand(symbol)==true)
+			{
+				symbol = "";
+			}
 		}
 
 		if(getSymbol) {
@@ -92,7 +97,7 @@ var getRenderText = function(text, posX, charset)
 		}
 		
 		// there is something to render.
-		if(!getSymbol)
+		if(!getSymbol && symbol!="")
 		{
 			// get the symbol.
 			var chsym = charset.get(symbol);
@@ -135,6 +140,21 @@ var getRenderText = function(text, posX, charset)
 	return convertScreenToColor(pd);
 };
 
+// ++++ checks if a symbol is a command and ads it to the command list.
+var parseCommand = function(symbol, verbose)
+{
+	if(verbose) console.log("Parsing: "+symbol);
+	if(symbol.length > 0)
+	{
+		if(symbol[0]=="%")
+		{
+			if(verbose) console.log("--> ITs A COMMAND!");
+			return true;
+		}
+	}
+	return false;
+}
+
 // ++++ get the real text length counting special symbols as 1.
 // charset is the loaded charset variable (with require).
 var getRealTextLength = function(text, charset)
@@ -152,10 +172,16 @@ var getRealTextLength = function(text, charset)
 		if(sym=="}")
 		{
 			getSymbol=false;
+			if(parseCommand(symbol, true)==true)
+			{
+				symbol = "";
+				vtlen--;
+			}
 			vtlen--;
 		}
 
-		if(getSymbol) {
+		if(getSymbol) 
+		{
 			symbol+=sym;
 			vtlen--;
 		}else{

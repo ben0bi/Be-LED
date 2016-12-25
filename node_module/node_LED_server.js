@@ -207,7 +207,7 @@ setInterval(function ()
 		
 		// scroll
 		globalX--;
-		if(Math.abs(globalX)>realTextLength+1)
+		if(Math.abs(globalX)-screenWidth>realTextLength)
 			globalX = screenWidth;
 
 		// go through all colours

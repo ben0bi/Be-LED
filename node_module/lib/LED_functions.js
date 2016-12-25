@@ -169,6 +169,7 @@ var getRealTextLength = function(text, charset)
 			symbol = "";
 		}
 
+		// add the width of the symbol.
 		if(charset && symbol!="" && !getSymbol)
 			vtPlen += charset.width(symbol);
 	}

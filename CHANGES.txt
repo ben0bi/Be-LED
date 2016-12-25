@@ -1,0 +1,4 @@
+0.2.2 + BugFix: Did not loop if the text has only one char.
+0.2.1 + Smaller gaps in font #3
+0.2.0 + Colouring lib changed, direct access possible now.
+0.1.0 + Initial Version, all before was unversioned.

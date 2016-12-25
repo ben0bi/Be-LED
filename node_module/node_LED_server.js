@@ -1,4 +1,4 @@
-var AppVersion = "0.2.1";
+var AppVersion = "0.2.2";
 
 // attraction mode text.
 var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
@@ -207,7 +207,7 @@ setInterval(function ()
 		
 		// scroll
 		globalX--;
-		if(Math.abs(globalX)>realTextLength)
+		if(Math.abs(globalX)>realTextLength+1)
 			globalX = screenWidth;
 
 		// go through all colours

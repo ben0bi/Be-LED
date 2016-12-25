@@ -1,4 +1,4 @@
-var AppVersion = "0.2.2";
+var AppVersion = "0.2.3";
 
 // attraction mode text.
 var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
@@ -121,11 +121,11 @@ var realTextLength = LED.getRealTextLength(realText, mcs);
 // ++++ colouring
 
 // switch to eye friendly palette.
-colours.switchToPalette(1);
+colours.switchToPalette(2);
 
 // reset white to orange.
-colours.set(1, 255, 127, 0);
-colours.set(10,255,255,255);
+//colours.set(1, 255, 127, 0);
+//colours.set(10,255,255,255);
 
 // ++++ RENDER FUNCTION
 function RENDER()

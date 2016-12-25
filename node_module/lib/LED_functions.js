@@ -48,11 +48,52 @@ var mirrorV = function(arr)
 	return arr2;
 };
 
+// ++++ checks if a symbol is a command and ads it to the command list.
+var parseCommand = function(symbol, commandList, verbose)
+{
+	if(verbose) console.log("Parsing: "+symbol);
+	if(symbol.length > 0)
+	{
+		if(symbol[0]=="%")
+		{
+			var valid = false;
+			if(verbose) console.log("--> ITs A COMMAND!");
+			
+			if(symbol.length>1)
+			{
+				var cmd = new Object();
+				switch(symbol[1])
+				{
+					// change palette COMMAND
+					case "p":
+					case "P":
+						if(verbose) console.log("--> --> CHANGE PALETTE");
+						cmd.cmd = "P";
+						cmd.value = 0;
+						valid = true;
+						if(commandList!=null) commandList.push(cmd);
+						break;
+					default:
+						break;
+				}
+			}
+			
+			if(!valid && verbose)
+				console.log("--> Command does not exist: {"+symbol+"}");
+			return true;
+		}
+	}
+	return false;
+}
+
 // ++++ get (some) characters of a text onto the screen.
 var getRenderText = function(text, posX, charset)
 {
-	var screen = Array();
+	// commands applied to the actual values
+	var commandList = new Array();
+
 	// build 2dimensional screen array
+	var screen = Array();
 	for(x = 0;x < screenWidth; x++)
 	{
 		var screeny = Array();
@@ -78,7 +119,7 @@ var getRenderText = function(text, posX, charset)
 		{
 			getSymbol=false;
 			// maybe add command and reset symbol.
-			if(parseCommand(symbol)==true)
+			if(parseCommand(symbol, commandList, false)==true)
 			{
 				symbol = "";
 			}
@@ -106,6 +147,25 @@ var getRenderText = function(text, posX, charset)
 			// its in the screen, draw it.
 			if(startx+chwidth-1 >= 0 && startx-chwidth+1 < screenWidth)
 			{
+				// get stuff for reset below.
+				var oldpalette = colours.getActualPaletteIndex();
+				
+				// check for commands and apply them.
+				for(var ci=0;ci<commandList.length;ci++)
+				{
+					cval = commandList[ci].value;
+					switch(commandList[ci].cmd)
+					{
+						case "p":
+						case "P":
+							colours.switchToPalette(cval);
+							break;
+						default:
+							break;
+					}
+				}
+				
+				// render the pixels.
 				for(var x=0;x<chwidth;x++)
 				{
 					for(var y=0;y<charheight;y++)
@@ -114,10 +174,13 @@ var getRenderText = function(text, posX, charset)
 						if(y>=0 && y<screenHeight && x+startx>=0 && x+startx<screenWidth)
 						{
 							// its really in the screen.
-							screen[x+startx][y] = chsym[y][x];
+							screen[x+startx][y] = colours.get(chsym[y][x]);
 						}
 					}
 				}
+				
+				// reset stuff.
+				colours.switchToPalette(oldpalette);
 			}
 
 			// do not count special chars.
@@ -128,32 +191,17 @@ var getRenderText = function(text, posX, charset)
 
 
 	// render the screen into a onedimensional array.
-	var pd = new Array();
+	var pd = new Uint32Array(screenHeight*screenWidth);
 	for(var y=0;y<screenHeight;y++)
 	{
 		for(var x=0;x<screenWidth;x++)
 		{
-			pd.push(screen[x][y]);
+			pd[y*screenWidth + x] = screen[x][y];
 		}
 	}
 
-	return convertScreenToColor(pd);
+	return pd; //convertScreenToColor(pd);
 };
-
-// ++++ checks if a symbol is a command and ads it to the command list.
-var parseCommand = function(symbol, verbose)
-{
-	if(verbose) console.log("Parsing: "+symbol);
-	if(symbol.length > 0)
-	{
-		if(symbol[0]=="%")
-		{
-			if(verbose) console.log("--> ITs A COMMAND!");
-			return true;
-		}
-	}
-	return false;
-}
 
 // ++++ get the real text length counting special symbols as 1.
 // charset is the loaded charset variable (with require).
@@ -172,7 +220,7 @@ var getRealTextLength = function(text, charset)
 		if(sym=="}")
 		{
 			getSymbol=false;
-			if(parseCommand(symbol, true)==true)
+			if(parseCommand(symbol, null, true)==true)
 			{
 				symbol = "";
 				vtlen--;
@@ -206,7 +254,7 @@ var getRealTextLength = function(text, charset)
 }
 
 // ++++ convert an array with color numbers to a real LED array with colors.
-var convertScreenToColor = function(arr)
+/*var convertScreenToColor = function(arr)
 {
 	var pd=new Uint32Array(arr.length);
 	for(var i=0;i<arr.length;i++)
@@ -215,6 +263,7 @@ var convertScreenToColor = function(arr)
 	}
 	return pd;
 }
+*/
 
 // ++++ get a clear screen array.
 var clearData =function()

@@ -46,10 +46,10 @@ var setColourDirect = function(paletteIndex,colourIndex, R, G, B)
 
 
 // switch to another palette.
-var switchToPalette = function(paletteIndex)
-{
-	actualpalette = paletteIndex;
-};
+var switchToPalette = function(paletteIndex) {actualpalette = paletteIndex;};
+
+// return the actual palette index.
+var getActualPaletteIndex = function() {return actualpalette;}
 
 // convert 3 values to an RGB-Integer.
 var rgb2Int = function(r, g, b) {
@@ -84,6 +84,19 @@ setColourDirect(1,6,127,127,0); 	// 6 = Yellow
 setColourDirect(1,7,127,0,64);		// 7 = Pink/Rose
 setColourDirect(1,8,0,127,64);		// 8 = Turkis
 
+// Standard set, switched colours
+setColourDirect(2,0,255,255,255); 	// 0 = White
+setColourDirect(2,1,0,0,0); 		// 1 = Black
+setColourDirect(2,2,255,0, 0); 		// 2 = Red
+setColourDirect(2,3,0,255,0); 		// 3 = Green
+setColourDirect(2,4,0,0,255); 		// 4 = Blue
+setColourDirect(2,5,255,127,0); 	// 5 = Orange
+setColourDirect(2,6,255,255,0); 	// 6 = Yellow
+setColourDirect(2,7,255,0,127);		// 7 = Pink/Rose
+setColourDirect(2,8,0,255,127);		// 8 = Turkis
+
+
+
 // EXPORTS
 module.exports.RGBtoInt = rgb2Int;
 module.exports.get = getColour;
@@ -91,3 +104,4 @@ module.exports.getDirect = getColourDirect;
 module.exports.set = setColour;
 module.exports.setColour = setColourDirect;
 module.exports.switchToPalette = switchToPalette;
+module.exports.getActualPaletteIndex = getActualPaletteIndex;

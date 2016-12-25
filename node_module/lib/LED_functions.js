@@ -62,14 +62,29 @@ var parseCommand = function(symbol, commandList, verbose)
 			if(symbol.length>1)
 			{
 				var cmd = new Object();
+				cmd.value = -1;
+				cmd.cmd = -1;
+				cmd.processed = false;
 				switch(symbol[1])
 				{
 					// change palette COMMAND
 					case "p":
 					case "P":
-						if(verbose) console.log("--> --> CHANGE PALETTE");
+						cmd.value = parseInt(symbol.substr(2));
+						if(!cmd.value || cmd.value == null || cmd.value == false)
+							cmd.value = 0;
+						if(verbose) console.log("  --> Switch to palette "+cmd.value);
 						cmd.cmd = "P";
-						cmd.value = 0;
+						valid = true;
+						if(commandList!=null) commandList.push(cmd);
+						break;
+					case "l":
+					case "L":
+						cmd.value = parseInt(symbol.substr(2));
+						if((cmd.value == null || cmd.value == false) && cmd.value!=0)
+							cmd.value = 1;
+						if(verbose) console.log("  --> Add a single vertical line in color "+cmd.value);
+						cmd.cmd = "L";
 						valid = true;
 						if(commandList!=null) commandList.push(cmd);
 						break;
@@ -80,10 +95,10 @@ var parseCommand = function(symbol, commandList, verbose)
 			
 			if(!valid && verbose)
 				console.log("--> Command does not exist: {"+symbol+"}");
-			return true;
+			return cmd;
 		}
 	}
-	return false;
+	return null;
 }
 
 // ++++ get (some) characters of a text onto the screen.
@@ -119,18 +134,32 @@ var getRenderText = function(text, posX, charset)
 		{
 			getSymbol=false;
 			// maybe add command and reset symbol.
-			if(parseCommand(symbol, commandList, false)==true)
+			var cmd=parseCommand(symbol, commandList, false);
+			if(cmd!=null)
 			{
 				symbol = "";
+				// check for commands and apply them (PRE CHARACTER SPACE).
+				cval = cmd.value;
+				switch(cmd.cmd)
+				{				
+					case "l":
+					case "L":
+						symbol="SingleVerticalLine";
+						break;
+					default:
+						break;
+				}
 			}
 		}
 
+		// get next character for special char or get direct symbol.
 		if(getSymbol) {
 			symbol+=sym;
 		}else{
 			if(sym!="}") {symbol=sym;}
 		}
 
+		// end of special character
 		if(sym=="{")
 		{
 			getSymbol=true;
@@ -138,19 +167,20 @@ var getRenderText = function(text, posX, charset)
 		}
 		
 		// there is something to render.
-		if(!getSymbol && symbol!="")
+		if((!getSymbol && symbol!="") || symbol == "SingleVerticalLine")
 		{
 			// get the symbol.
 			var chsym = charset.get(symbol);
 			var chwidth=charset.width(symbol);
 			// performance boost.
 			// its in the screen, draw it.
+
 			if(startx+chwidth-1 >= 0 && startx-chwidth+1 < screenWidth)
 			{
 				// get stuff for reset below.
 				var oldpalette = colours.getActualPaletteIndex();
 				
-				// check for commands and apply them.
+				// check for commands and apply them (CHARACTER SPACE).
 				for(var ci=0;ci<commandList.length;ci++)
 				{
 					cval = commandList[ci].value;
@@ -158,13 +188,23 @@ var getRenderText = function(text, posX, charset)
 					{
 						case "p":
 						case "P":
+							// change palette "for real"
 							colours.switchToPalette(cval);
+							break;					
+						case "l":
+						case "L":
+							// set the colour for the single vertical line.
+							if(symbol=="SingleVerticalLine")
+							{
+								for(svl=0;svl<chsym.length;svl++)
+									chsym[svl] = [cval];
+							}
 							break;
 						default:
 							break;
 					}
 				}
-				
+						
 				// render the pixels.
 				for(var x=0;x<chwidth;x++)
 				{
@@ -220,7 +260,7 @@ var getRealTextLength = function(text, charset)
 		if(sym=="}")
 		{
 			getSymbol=false;
-			if(parseCommand(symbol, null, true)==true)
+			if(parseCommand(symbol, null, true)!=null)
 			{
 				symbol = "";
 				vtlen--;

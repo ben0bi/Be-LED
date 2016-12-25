@@ -35,6 +35,21 @@ var turn90deg10x10left = function(arr)
 
 var scr = new Array();
 
+// Single Vertical Line (System)
+var scSingleVLine = new Array();
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scSingleVLine.push([0]);
+scr["SingleVerticalLine"] = scSingleVLine;
+
+
 // Palette Test Character for indices 0 to 9
 var scPal=new Array();
 scPal.push([0,1,2,3,4,5,6,7,8,9]);

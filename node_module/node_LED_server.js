@@ -1,4 +1,4 @@
-var AppVersion = "0.2.4";
+var AppVersion = "0.2.5";
 
 // attraction mode text.
 var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
@@ -132,7 +132,7 @@ setRealText(attractionText);
 // ++++ colouring
 
 // switch to eye friendly palette.
-colours.switchToPalette(2);
+colours.switchToPalette(0);
 
 // reset white to orange.
 //colours.set(1, 255, 127, 0);

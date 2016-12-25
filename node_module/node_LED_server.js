@@ -202,12 +202,22 @@ setInterval(function ()
 	frames++;
 	if(frames >= 7)
 	{
+		// fix for to short textes.
+		if(realTextLength < screenWidth)
+		{
+			while(realTextLength < screenWidth)
+			{
+				realText = realText + " ";
+				realTextLength = LED.getRealTextLength(realText, mcs);
+			}
+		}
+
 		RENDER();
 		frames = 0;
 		
 		// scroll
 		globalX--;
-		if(Math.abs(globalX)-screenWidth>realTextLength)
+		if(Math.abs(globalX) > realTextLength)
 			globalX = screenWidth;
 
 		// go through all colours

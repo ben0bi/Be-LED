@@ -95,8 +95,6 @@ setColourDirect(2,6,255,255,0); 	// 6 = Yellow
 setColourDirect(2,7,255,0,127);		// 7 = Pink/Rose
 setColourDirect(2,8,0,255,127);		// 8 = Turkis
 
-
-
 // EXPORTS
 module.exports.RGBtoInt = rgb2Int;
 module.exports.get = getColour;

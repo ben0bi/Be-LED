@@ -1,4 +1,4 @@
-var AppVersion = "0.2.3";
+var AppVersion = "0.2.4";
 
 // attraction mode text.
 var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
@@ -27,7 +27,8 @@ var PRECOUNT = parseInt(process.argv[2], 10) || 0,
 LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
 
 // global x position.
-var globalX = 0;
+var globalXInit = -screenWidth * 3;
+var globalX = globalXInit;
 
 // maybe get another default text.
 try
@@ -102,8 +103,19 @@ var getMyLocalIP = function()
 	return addresses;
 }
 
+// set the real text which is shown on the device.
+var setRealText = function(newText)
+{
+	var gap=" ";
+	while(LED.getRealTextLength(gap)<screenWidth)
+		gap+=" ";
+	realText=gap+newText+gap;
+	realTextLength=LED.getRealTextLength(realText, mcs);
+}
+
 // set default text with local ip.
 var realText = "";
+var realTextLength = 0;
 var localIP = getMyLocalIP();
 
 if(localIP.length > 0)
@@ -115,8 +127,7 @@ if(localIP.length > 0)
 	}
 	realText+="{Smiley} {Smiley} ";
 }
-realText+=attractionText;
-var realTextLength = LED.getRealTextLength(realText, mcs);
+setRealText(attractionText);
 
 // ++++ colouring
 
@@ -187,14 +198,14 @@ setInterval(function ()
 		localIP = getMyLocalIP();
 		if(localIP.length > 0)
 		{
-			realText = "Local IP: ";
+			var rt = "Local IP: ";
 			for(var loc=0;loc<localIP.length;loc++)
 			{
-				realText+=localIP[loc]+" {Smiley} ";
+				rt+=localIP[loc]+" {Smiley} ";
 			}
-			realText+="{Smiley} {Smiley} ";
-			realText+=attractionText;
-			realTextLength = LED.getRealTextLength(realText, mcs);
+			rt+="{Smiley} {Smiley} ";
+			rt+=attractionText;
+			setRealText(rt);
 		}
 	}
 		
@@ -202,23 +213,13 @@ setInterval(function ()
 	frames++;
 	if(frames >= 7)
 	{
-		// fix for to short textes.
-		if(realTextLength < screenWidth)
-		{
-			while(realTextLength < screenWidth)
-			{
-				realText = realText + " ";
-				realTextLength = LED.getRealTextLength(realText, mcs);
-			}
-		}
-
 		RENDER();
 		frames = 0;
 		
 		// scroll
 		globalX--;
-		if(Math.abs(globalX) > realTextLength)
-			globalX = screenWidth;
+		if(globalX <= screenWidth-realTextLength)
+			globalX = globalXInit;
 
 		// go through all colours
 		color+=0.1;
@@ -267,9 +268,8 @@ var server = my_http.createServer(function(request, response)
 				// TODO: add to array
 				var data = qs.parse(body);
 				console.log("+ Setting new Text: "+data.content_text);
-				realText=data.content_text
-				realTextLength = LED.getRealTextLength(realText,mcs);
-				globalX = screenWidth+2;
+				setRealText(data.content_text);
+				globalX = globalXInit;
 				response.write(realText);
 				response.end();
 			});

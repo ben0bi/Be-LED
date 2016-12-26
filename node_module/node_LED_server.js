@@ -43,6 +43,7 @@ try
 }catch(ex){
 	console.log("--> No default text file found, using hard coded text: "+attractionText);
 }
+
 // ++++ get a single character into the screen.
 /*
 var getRenderSymbol = function(symIndex)
@@ -127,7 +128,7 @@ if(localIP.length > 0)
 	}
 	realText+="{Smiley} {Smiley} ";
 }
-setRealText(attractionText);
+setRealText(realText+attractionText);
 
 // ++++ colouring
 

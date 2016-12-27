@@ -1,7 +1,7 @@
-var AppVersion = "0.2.5";
+var AppVersion = "0.2.6";
 
 // attraction mode text.
-var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
+var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
 
 // ++++ requires.
 var my_http = require("http");

@@ -893,19 +893,33 @@ scHalfHeart.push([0,0,0,0,1,1,0,0,0,0]);
 scHalfHeart = LF.mirrorV(scHalfHeart);
 scr[61] = scr["HalfHeart"] = scr["halfheart"] = scr["Halfheart"] = scr["halbherz"] = scr["HalbHerz"] = scr["Halbherz"] = scr["HALFHEART"] = scr["HALBHERZ"]= scHalfHeart;
 
+var sc3QHeart=new Array();
+sc3QHeart.push([0,0,1,0,0,0,1,0,0]);
+sc3QHeart.push([0,1,2,1,0,1,0,1,0]);
+sc3QHeart.push([1,2,2,2,1,0,0,0,1]);
+sc3QHeart.push([1,2,2,2,2,0,0,0,1]);
+sc3QHeart.push([1,2,2,2,2,0,0,0,1]);
+sc3QHeart.push([1,2,2,2,2,2,2,2,1]);
+sc3QHeart.push([0,1,2,2,2,2,2,1,0]);
+sc3QHeart.push([0,0,1,2,2,2,1,0,0]);
+sc3QHeart.push([0,0,0,1,2,1,0,0,0]);
+sc3QHeart.push([0,0,0,0,1,0,0,0,0]);
+sc3QHeart = LF.mirrorV(scHeart);
+scr[63] = scr["3QHeart"] = scr["3qheart"] = scr["3quarterheart"] = scr["dreiviertelherz"] = scr["DreiViertelHerz"] = scr["3QuarterHeart"] = scr["3Quarterheart"] = scr["3QHEART"] = scr["3QUARTERHEART"] = scr["DREIVIERTELHERZ"]= scr["Dreiviertelherz"] = scr["DreiviertelHerz"]= sc3QHeart;
+
 var scHeart=new Array();
-scHeart.push([0,0,1,0,0,0,0,1,0,0]);
-scHeart.push([0,1,1,1,0,0,1,1,1,0]);
-scHeart.push([1,1,1,1,1,1,1,1,1,1]);
-scHeart.push([1,1,1,1,1,1,1,1,1,1]);
-scHeart.push([1,1,1,1,1,1,1,1,1,1]);
-scHeart.push([1,1,1,1,1,1,1,1,1,1]);
-scHeart.push([0,1,1,1,1,1,1,1,1,0]);
-scHeart.push([0,0,1,1,1,1,1,1,0,0]);
-scHeart.push([0,0,0,1,1,1,1,0,0,0]);
-scHeart.push([0,0,0,0,1,1,0,0,0,0]);
+scHeart.push([0,0,1,0,0,0,1,0,0]);
+scHeart.push([0,1,2,1,0,1,2,1,0]);
+scHeart.push([1,2,2,2,1,2,2,2,1]);
+scHeart.push([1,2,2,2,2,2,2,2,1]);
+scHeart.push([1,2,2,2,2,2,2,2,1]);
+scHeart.push([1,2,2,2,2,2,2,2,1]);
+scHeart.push([0,1,2,2,2,2,2,1,0]);
+scHeart.push([0,0,1,2,2,2,1,0,0]);
+scHeart.push([0,0,0,1,2,1,0,0,0]);
+scHeart.push([0,0,0,0,1,0,0,0,0]);
 scHeart = LF.mirrorV(scHeart);
-scr[62] = scr["Heart"] = scr["heart"] = scr["fullheart"] = scr["herz"] = scr["Herz"] = scr["FullHeart"] = scr["Fullheart"] = scr["HEART"] = scr["FULLHEART"] = scr["HERZ"]= scHeart;
+scr[64] = scr["Heart"] = scr["heart"] = scr["fullheart"] = scr["herz"] = scr["Herz"] = scr["FullHeart"] = scr["Fullheart"] = scr["HEART"] = scr["FULLHEART"] = scr["HERZ"]= scHeart;
 
 // ---- exposed functions.
 var getMonoSym = function(index) 

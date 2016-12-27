@@ -78,6 +78,7 @@ var parseCommand = function(symbol, commandList, verbose)
 						valid = true;
 						if(commandList!=null) commandList.push(cmd);
 						break;
+					// single vertical line COMMAND
 					case "l":
 					case "L":
 						cmd.value = parseInt(symbol.substr(2));

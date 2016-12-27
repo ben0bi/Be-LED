@@ -974,7 +974,7 @@ sc3QHeart.push([0,0,1,0,0,0,1,0,0]);
 sc3QHeart.push([0,1,2,1,0,1,0,1,0]);
 sc3QHeart.push([1,2,2,2,1,0,0,0,1]);
 sc3QHeart.push([1,2,2,2,2,0,0,0,1]);
-sc3QHeart.push([1,2,2,2,2,0,0,0,1]);
+sc3QHeart.push([1,2,2,2,0,0,0,0,1]);
 sc3QHeart.push([1,2,2,2,2,2,2,2,1]);
 sc3QHeart.push([0,1,2,2,2,2,2,1,0]);
 sc3QHeart.push([0,0,1,2,2,2,1,0,0]);

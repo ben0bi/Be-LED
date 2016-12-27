@@ -21,7 +21,8 @@ var PRECOUNT = parseInt(process.argv[2], 10) || 0,
     screenWidth=WIDTH = parseInt(process.argv[3], 10) || 10,
     screenHeight=HEIGHT = parseInt(process.argv[4], 10) || 10,
     AFTERCOUNT = parseInt(process.argv[5], 10) || 0,
-    NUM_LEDS = PRECOUNT+ (WIDTH * HEIGHT)+ AFTERCOUNT;
+    NUM_LEDS = PRECOUNT+ (WIDTH * HEIGHT)+ AFTERCOUNT,
+    initial_speed = LED.getSpeed();
     pixelData = new Uint32Array(NUM_LEDS);
 
 LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
@@ -212,7 +213,7 @@ setInterval(function ()
 		
 	// move some stuff every some frames (120 = 1 second)
 	frames++;
-	if(frames >= 7)
+	if(frames >= LED.getSpeed())
 	{
 		RENDER();
 		frames = 0;
@@ -220,7 +221,11 @@ setInterval(function ()
 		// scroll
 		globalX--;
 		if(globalX <= screenWidth-realTextLength)
+		{
 			globalX = globalXInit;
+			// maybe reset speed.
+			LED.setSpeed(initial_speed);
+		}
 
 		// go through all colours
 		color+=0.1;
@@ -271,6 +276,7 @@ var server = my_http.createServer(function(request, response)
 				console.log("+ Setting new Text: "+data.content_text);
 				setRealText(data.content_text);
 				globalX = globalXInit;
+				LED.setSpeed(initial_speed);
 				response.write(realText);
 				response.end();
 			});

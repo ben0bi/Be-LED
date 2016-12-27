@@ -13,6 +13,10 @@ var screenHeight = 0;
 var preLEDs = 0;
 var afterLEDs = 0;
 
+var global_Speed = 7;
+var getSpeed = function() {return global_Speed;};
+var setSpeed = function(speed) {global_Speed=speed;};
+
 var setLEDDisplaySize = function(preSpecialLEDs, width, height, afterSpecialLEDs) 
 {
 	screenWidth=width;
@@ -67,28 +71,45 @@ var parseCommand = function(symbol, commandList, verbose)
 				cmd.processed = false;
 				switch(symbol[1])
 				{
-					// change palette COMMAND
+					// Change palette COMMAND
+					// Parameter: Palette index.
 					case "p":
 					case "P":
 						cmd.value = parseInt(symbol.substr(2));
 						if(!cmd.value || cmd.value == null || cmd.value == false)
 							cmd.value = 0;
 						if(verbose) console.log("  --> Switch to palette "+cmd.value);
-						cmd.cmd = "P";
+						cmd.cmd = "Palette";
 						valid = true;
 						if(commandList!=null) commandList.push(cmd);
 						break;
-					// single vertical line COMMAND
+						
+					// Single vertical line COMMAND
+					// Parameter: Color on the actual palette.
 					case "l":
 					case "L":
 						cmd.value = parseInt(symbol.substr(2));
 						if((cmd.value == null || cmd.value == false) && cmd.value!=0)
-							cmd.value = 1;
+							cmd.value = 1; // default color is the first one (not background)
 						if(verbose) console.log("  --> Add a single vertical line in color "+cmd.value);
-						cmd.cmd = "L";
+						cmd.cmd = "VerticalLine";
 						valid = true;
 						if(commandList!=null) commandList.push(cmd);
 						break;
+
+					// Set speed COMMAND
+					// Parameter: Speed to set. 0 is fastest.
+					case "s":
+					case "S":
+						cmd.value = parseInt(symbol.substr(2));
+						if((cmd.value == null || cmd.value == false) && cmd.value!=0)
+							cmd.value = 7; // default speed is 7
+						if(verbose) console.log("  --> Set the speed to "+cmd.value);
+						cmd.cmd = "Speed";
+						valid = true;
+						if(commandList!=null) commandList.push(cmd);
+						break;
+
 					default:
 						break;
 				}
@@ -143,8 +164,7 @@ var getRenderText = function(text, posX, charset)
 				cval = cmd.value;
 				switch(cmd.cmd)
 				{				
-					case "l":
-					case "L":
+					case "VerticalLine":
 						symbol="SingleVerticalLine";
 						break;
 					default:
@@ -173,9 +193,9 @@ var getRenderText = function(text, posX, charset)
 			// get the symbol.
 			var chsym = charset.get(symbol);
 			var chwidth=charset.width(symbol);
+			
 			// performance boost.
 			// its in the screen, draw it.
-
 			if(startx+chwidth-1 >= 0 && startx-chwidth+1 < screenWidth)
 			{
 				// get stuff for reset below.
@@ -187,19 +207,20 @@ var getRenderText = function(text, posX, charset)
 					cval = commandList[ci].value;
 					switch(commandList[ci].cmd)
 					{
-						case "p":
-						case "P":
+						case "Palette":
 							// change palette "for real"
 							colours.switchToPalette(cval);
 							break;					
-						case "l":
-						case "L":
+						case "VerticalLine":
 							// set the colour for the single vertical line.
 							if(symbol=="SingleVerticalLine")
 							{
 								for(svl=0;svl<chsym.length;svl++)
 									chsym[svl] = [cval];
 							}
+							break;
+						case "Speed":
+							global_Speed = cval;
 							break;
 						default:
 							break;
@@ -229,7 +250,6 @@ var getRenderText = function(text, posX, charset)
 				pixels+=chwidth;
 		}
 	}
-
 
 	// render the screen into a onedimensional array.
 	var pd = new Uint32Array(screenHeight*screenWidth);
@@ -404,6 +424,9 @@ module.exports.setDisplaySize = setLEDDisplaySize;
 module.exports.getRealTextLength = getRealTextLength;
 module.exports.getRenderText = getRenderText;
 module.exports.clearData = clearData;
+module.exports.getSpeed = getSpeed;
+module.exports.setSpeed = setSpeed;
 module.exports.mirrorH = mirrorH;
 module.exports.mirrorV = mirrorV;
+// fun stuff
 module.exports.addSnow = addSnow;

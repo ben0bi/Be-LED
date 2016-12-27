@@ -1,4 +1,4 @@
-0.2.7 + Speed S Command.
+0.2.7 + Speed S Command. 0 is fastest.
 0.2.6 + Forgot the 3-quarter-heart all the time, it is now in the fonts.
 0.2.5 + Forgot to add IP to the startup text again.
 0.2.4 + Some bug and cosmetic fixing for palette change.

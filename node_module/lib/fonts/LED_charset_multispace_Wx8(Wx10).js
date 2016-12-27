@@ -958,7 +958,7 @@ sc3QHeart.push([0,1,2,2,2,2,2,1,0]);
 sc3QHeart.push([0,0,1,2,2,2,1,0,0]);
 sc3QHeart.push([0,0,0,1,2,1,0,0,0]);
 sc3QHeart.push([0,0,0,0,1,0,0,0,0]);
-sc3QHeart = LF.mirrorV(scHeart);
+sc3QHeart = LF.mirrorV(sc3QHeart);
 scr[63] = scr["3QHeart"] = scr["3qheart"] = scr["3quarterheart"] = scr["dreiviertelherz"] = scr["DreiViertelHerz"] = scr["3QuarterHeart"] = scr["3Quarterheart"] = scr["3QHEART"] = scr["3QUARTERHEART"] = scr["DREIVIERTELHERZ"]= scr["Dreiviertelherz"] = scr["DreiviertelHerz"]= sc3QHeart;
 
 var scHeart=new Array();

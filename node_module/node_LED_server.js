@@ -45,35 +45,6 @@ try
 	console.log("--> No default text file found, using hard coded text: "+attractionText);
 }
 
-// ++++ get a single character into the screen.
-/*
-var getRenderSymbol = function(symIndex)
-{
-	var pd = new Uint32Array(NUM_LEDS);
-	var sc = mcs.get(symIndex);
-
-	// render a symbol
-	for(var y=0;y<sc.length;y++)
-	{
-		for(var x=0;x<sc[y].length;x++)
-		{
-			if(x+globalX < screenWidth && x+globalX >= 0)
-			{
-				var ind = y*screenWidth + x + globalX;
-				if(ind<NUM_LEDS)
-				{
-					var r=0;
-					if(sc[y][x]==1)
-						r=255;
-					pd[ind]=colours.get(sc[y][x]);
-				}
-			}
-		}
-	}
-	return pd;
-};
-*/
-
 // ++++ INITIALIZE
 ws281x.init(NUM_LEDS);
 // clear array before setting brightness.
@@ -101,7 +72,7 @@ var getMyLocalIP = function()
         		    addresses.push(address.address);
 		        }
 		}
-    	}
+    }
 	return addresses;
 }
 
@@ -147,6 +118,13 @@ function RENDER()
 	//var pixelData=getRenderSymbol("pal"); // or globalsymbol.
 	var screenData=LED.getRenderText(realText,globalX, mcs);
 //	var screenData=LED.addSnow(screenData,2); // some snow flakes.
+
+	// get pre and after led data.
+	// MUST be called after getRenderText because the text is parsed
+	// there for commands.
+	var preLEDData=LED.getPreLEDData();
+	var afterLEDData=LED.getAfterLEDData();
+	
 	var pi=0;
 	var plen=pixelData.length;
 	var slen=screenData.length;
@@ -156,7 +134,7 @@ function RENDER()
 		for(prei=0;prei<PRECOUNT;prei++)
 		{
 			if(pi<plen)
-				pixelData[pi]=colours.get(parseInt(color));
+				pixelData[pi]=preLEDData[prei];
 			pi++;
 		}
 	}
@@ -176,7 +154,7 @@ function RENDER()
 		for(ai=0;ai<AFTERCOUNT;ai++)
 		{
 			if(pi<plen)
-				pixelData[pi]=colours.get(color);
+				pixelData[pi]=afterLEDData[ai];
 			pi++;
 		}
 	}

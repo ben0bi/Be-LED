@@ -17,17 +17,45 @@ var global_Speed = 7;
 var getSpeed = function() {return global_Speed;};
 var setSpeed = function(speed) {global_Speed=speed;};
 
+// data for the special LEDs, set by command.
+var preLEDData = null;
+var getPreLEDData = function() {return preLEDData;};
+var afterLEDData = null;
+var getAfterLEDData = function() {return afterLEDData;};
+
+// set the LED display size.
 var setLEDDisplaySize = function(preSpecialLEDs, width, height, afterSpecialLEDs) 
 {
 	screenWidth=width;
 	screenHeight=height;
 	preLEDs=preSpecialLEDs;
 	afterLEDs=afterSpecialLEDs;
+	createEmptySpecialLEDData();
 	console.log("Display size: "+width+"x"+height);
 	console.log("--> Special LEDs before screen: "+preLEDs);	
-	console.log("--> Special LEDs after screen: "+afterLEDs);	
+	console.log("--> Special LEDs after screen: "+afterLEDs);
 }
 
+// creates empty (0) arrays for the special LEDs.
+var createEmptySpecialLEDData = function()
+{
+	preLEDData = null;
+	afterLEDData=null;
+	if(preLEDs>0)
+	{
+		preLEDData=[];
+		for(var i=0;i<preLEDs;i++)
+			preLEDData.push(0);
+	}
+	if(afterLEDs>0)
+	{
+		afterLEDData=[];
+		for(var i2=0;i2<afterLEDs;i2++)
+			afterLEDData.push(0);
+	}
+}
+
+// mirror a character/screen horizontally.
 var mirrorH = function(arr)
 {
 	var arr2 = Array();
@@ -41,7 +69,7 @@ var mirrorH = function(arr)
 	return arr2;
 };
 
-// mirror the screen vertically
+// mirror a character/screen vertically.
 var mirrorV = function(arr)
 {
 	var arr2 = Array();
@@ -68,9 +96,41 @@ var parseCommand = function(symbol, commandList, verbose)
 				var cmd = new Object();
 				cmd.value = -1;
 				cmd.cmd = -1;
-				cmd.processed = false;
+				cmd.waitfornextchar = false; // NOT USED YET
 				switch(symbol[1])
 				{
+					// set PRE LED index COMMAND / INDEX starts with 1!
+					case "*":
+						cmd.value = parseInt(symbol.substr(2));
+						if(!cmd.value || cmd.value == null || cmd.value == false)
+							cmd.value = 0;
+						if(verbose) console.log("  --> Change to Special LED at BEGIN with index: "+cmd.value);
+						cmd.cmd = "PreLED";
+						valid = true;
+						if(commandList!=null) commandList.push(cmd);
+						break;
+					// set AFTER LED index COMMAND / INDEX starts with 1!
+					case "+":
+						cmd.value = parseInt(symbol.substr(2));
+						if(!cmd.value || cmd.value == null || cmd.value == false)
+							cmd.value = 0;
+						if(verbose) console.log("  --> Change to Special LED at END with index: "+cmd.value);
+						cmd.cmd = "AfterLED";
+						valid = true;
+						if(commandList!=null) commandList.push(cmd);
+						break;
+					// set actual PRE LED color COMMAND.
+					case "c":
+					case "C":
+						cmd.value = parseInt(symbol.substr(2));
+						if(!cmd.value || cmd.value == null || cmd.value == false)
+							cmd.value = 0;
+						if(verbose) console.log("  --> Change actual special LED color to "+cmd.value);
+						cmd.cmd = "SpecialColor";
+						cmd.waitfornextchar = true;
+						valid = true;
+						if(commandList!=null) commandList.push(cmd);
+						break;
 					// Change palette COMMAND
 					// Parameter: Palette index.
 					case "p":
@@ -128,7 +188,7 @@ var getRenderText = function(text, posX, charset)
 {
 	// commands applied to the actual values
 	var commandList = new Array();
-
+	
 	// build 2dimensional screen array
 	var screen = Array();
 	for(x = 0;x < screenWidth; x++)
@@ -142,6 +202,10 @@ var getRenderText = function(text, posX, charset)
 	}
 
 	// render the text into the screen.
+	// first clear the special LED array.
+	// createEmptySpecialLEDData();
+	// the actual special LED.
+	var actualSpecialLED = 0;
 	var charheight = charset.height();
 	var pixels = 0; // actual x position on the text, in pixels.
 	var getSymbol = false;
@@ -166,6 +230,12 @@ var getRenderText = function(text, posX, charset)
 				{				
 					case "VerticalLine":
 						symbol="SingleVerticalLine";
+						break;
+					case "PreLED":
+						actualSpecialLED = cval;
+						break;
+					case "AfterLED":
+						actualSpecialLED = -(cval);
 						break;
 					default:
 						break;
@@ -221,6 +291,21 @@ var getRenderText = function(text, posX, charset)
 							break;
 						case "Speed":
 							global_Speed = cval;
+							break;
+						case "SpecialColor":
+							var index=Math.abs(actualSpecialLED);
+							// set a pre led.
+							if(index>0 && actualSpecialLED>0)
+							{
+								if(index<=preLEDs)
+									preLEDData[index-1]=colours.get(cval);
+							}
+							// set an afterled.
+							if(index>0 && actualSpecialLED<0)
+							{
+								if(index<=afterLEDs)
+									afterLEDData[index-1]=colours.get(cval);
+							}
 							break;
 						default:
 							break;
@@ -313,18 +398,6 @@ var getRealTextLength = function(text, charset)
 		return vtPlen;
 	return vtlen;
 }
-
-// ++++ convert an array with color numbers to a real LED array with colors.
-/*var convertScreenToColor = function(arr)
-{
-	var pd=new Uint32Array(arr.length);
-	for(var i=0;i<arr.length;i++)
-	{
-		pd[i] = colours.get(arr[i])
-	}
-	return pd;
-}
-*/
 
 // ++++ get a clear screen array.
 var clearData =function()
@@ -424,6 +497,8 @@ module.exports.setDisplaySize = setLEDDisplaySize;
 module.exports.getRealTextLength = getRealTextLength;
 module.exports.getRenderText = getRenderText;
 module.exports.clearData = clearData;
+module.exports.getPreLEDData = getPreLEDData;
+module.exports.getAfterLEDData = getAfterLEDData;
 module.exports.getSpeed = getSpeed;
 module.exports.setSpeed = setSpeed;
 module.exports.mirrorH = mirrorH;

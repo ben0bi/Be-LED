@@ -96,7 +96,7 @@ var parseCommand = function(symbol, commandList, verbose)
 				var cmd = new Object();
 				cmd.value = -1;
 				cmd.cmd = -1;
-				cmd.waitfornextchar = false; // NOT USED YET
+				cmd.waitfornextchar = 0; // NOT USED YET
 				switch(symbol[1])
 				{
 					// set PRE LED index COMMAND / INDEX starts with 1!
@@ -106,6 +106,7 @@ var parseCommand = function(symbol, commandList, verbose)
 							cmd.value = 0;
 						if(verbose) console.log("  --> Change to Special LED at BEGIN with index: "+cmd.value);
 						cmd.cmd = "PreLED";
+						cmd.waitfornextchar=1;
 						valid = true;
 						if(commandList!=null) commandList.push(cmd);
 						break;
@@ -290,21 +291,28 @@ var getRenderText = function(text, posX, charset)
 							}
 							break;
 						case "Speed":
+							// change the speed.
 							global_Speed = cval;
 							break;
 						case "SpecialColor":
-							var index=Math.abs(actualSpecialLED);
-							// set a pre led.
-							if(index>0 && actualSpecialLED>0)
+							if(cmd.waitfornextchar<=0)
 							{
-								if(index<=preLEDs)
-									preLEDData[index-1]=colours.get(cval);
-							}
-							// set an afterled.
-							if(index>0 && actualSpecialLED<0)
-							{
-								if(index<=afterLEDs)
-									afterLEDData[index-1]=colours.get(cval);
+								// set the color for a special LED.
+								var index=Math.abs(actualSpecialLED);
+								// set a pre led.
+								if(index>0 && actualSpecialLED>0)
+								{
+									if(index<=preLEDs)
+										preLEDData[index-1]=colours.get(cval);
+								}
+								// set an afterled.
+								if(index>0 && actualSpecialLED<0)
+								{
+									if(index<=afterLEDs)
+										afterLEDData[index-1]=colours.get(cval);
+								}
+							}else{
+								cmd.waitfornextchar--;
 							}
 							break;
 						default:

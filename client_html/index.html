@@ -53,12 +53,14 @@
 	</div>
 	<hr />
 
+	Special symbols and commands are embraced by curly braces {}.<br /><br />
+
 	<!-- symbols, WARNING: Can vary with other fonts. -->
 	<div id="div_font_symbols_link" style="display:block;">
-		<a href="#" onclick="$('#div_font_symbols').show();$('#div_font_symbols_link').hide();">Special Symbols</a>
+		<a href="#" onclick="$('#div_font_symbols').show();$('#div_font_symbols_link').hide();">Special Symbols &#8690;</a>
 	</div>
 	<div id="div_font_symbols" style="display: none;">
-		<a href="#" onclick="$('#div_font_symbols_link').show();$('#div_font_symbols').hide();">Special Symbols</a>
+		<a href="#" onclick="$('#div_font_symbols_link').show();$('#div_font_symbols').hide();">Special Symbols &#8689;</a>
 		<table border="1">
 			<tr>
 				<td>Text</td>
@@ -66,31 +68,103 @@
 				<td>Image</td>
 			</tr>
 			<tr>
-				<td>{Heart}, {Herz}, {FullHeart}, {}</td>
-				<td>Description</td>
+				<td>{Smiley}, {:)}</td>
+				<td>A standard smiley in one color. Colors: 0 (Background), 1 (Smiley)</td>
+				<td>Image</td>
+			</tr>
+			<tr>
+				<td>{FullSmiley}, {;)}</td>
+				<td>A standard smiley in 3 colors. Colors: 0 (Background), 1 (Outline), 2 (Background), 3 (Face)</td>
+				<td>Image</td>
+			</tr>
+			<tr>
+				<td>{Heart}, {Herz}, {FullHeart}</td>
+				<td>A fully colored Zelda-heart. Colors: 0 (Background), 1 (Outline), 2 (Inside)</td>
+				<td>Image</td>
+			</tr>
+			<tr>
+				<td>{3QHeart}, {3QuarterHeart}, {DreiviertelHerz}</td>
+				<td>A Zelda-heart colored to 3 quarters. Colors: 0 (Background), 1 (Outline), 2 (Inside)</td>
+				<td>Image</td>
+			</tr>
+			<tr>
+				<td>{HalfHeart}, {HalbHerz}</td>
+				<td>A Zelda-heart with one half colored. Colors: 0 (Background), 1 (Outline), 2 (Inside)</td>
+				<td>Image</td>
+			</tr>
+			<tr>
+				<td>{EmptyHeart}, {LeerHerz}</td>
+				<td>A Zelda-heart which is empty on the inside. Colors: 0 (Background), 1 (Outline)</td>
 				<td>Image</td>
 			</tr>
 		</table>
 	</div>
-	<hr />
 
 	<!-- commands -->
 	<div id="div_device_commands_link">
-		<a href="#" onclick="$('#div_device_commands').show();$('#div_device_commands_link').hide();">Device Commands</a>
+		<a href="#" onclick="$('#div_device_commands').show();$('#div_device_commands_link').hide();">Device Commands &#8690;</a>
 	</div>
 	<div id="div_device_commands" style="display: none;">
-		<a href="#" onclick="$('#div_device_commands_link').show();$('#div_device_commands').hide();">Device Commands</a>
+		<hr />
+		<a href="#" onclick="$('#div_device_commands_link').show();$('#div_device_commands').hide();">Device Commands &#8689;</a><br />
+		<br />
+		The character % defines the start of a command. Each command starts with a %, followed by the command character, followed by the command parameter.<br />
+		E.g. <i>{%p2}</i> is the "P" command with parameter 2, which switches to palette 2 for the next characters.<br />
+		<br />
+		<table border="1">
+			<tr>
+				<td>Command Name</td>
+				<td>Command Character/s</td>
+				<td>Parameter</td>
+				<td>Example</td>
+				<td>Command Description</td>
+			</tr>
+			<tr>
+				<td>Switch to Palette X</td>
+				<td>P, p</td>
+				<td>Palette Index</td>
+				<td>{%p2}</td>
+				<td>Switches to the given colour palette. Most symbols use colors from 0 up to 9. You can define as much palettes as you want (in code, yet) and switch between them in mid-text.</td>
+			</tr>
+			<tr>
+				<td>Set Speed</td>
+				<td>S, s</td>
+				<td>Scroll Speed</td>
+				<td>{%s7}</td>
+				<td>Set the scroll speed. You can set different speeds for different text passages. The bigger, the slower. Running at max 200frames/sec (0), default is 7.</td>
+			</tr>
+			<tr>
+				<td>Set actual PRE-LED index.</td>
+				<td>*</td>
+				<td>PRE-LED index.</td>
+				<td>{%*1}</td>
+				<td>Set the special-LED-index to an index BEFORE the screen starts, starting with 1. You must call this or the next command before setting special-LED-colours. Default is: Not set (0).</td>
+			</tr>
+			<tr>
+				<td>Set actual AFTER-LED index.</td>
+				<td>+</td>
+				<td>AFTER-LED index.</td>
+				<td>{%+1}</td>
+				<td>Set the special-LED-index to an index AFTER the screen starts, starting with 1. You must call this or the previous command before setting special-LED-colours. Default is: Not set (0).</td>
+			</tr>
+			<tr>
+				<td>Set special LED colour.</td>
+				<td>C, c</td>
+				<td>Colour Index.</td>
+				<td>{%c3}</td>
+				<td>Set the color for actual special LED. You need to use one of the previous two commands before this command. The light stays when the text restarts, so clear it if you need to.</td>
+			</tr>
+		</table>
 	</div>
-	
+
+	<div id="footer_wrapper">
+			<div id="menu"><a href="admin.html">Administration</a></div>
+			<hr>
+			<center>BE+LED by ben0bi @ ben0bi enterprises AND Web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+	</div>
+
 </div>
 
-<div id="footer_wrapper">
-	<div id="footer">
-		<div id="menu"><a href="admin.html">Administration</a></div>
-		<hr>
-		<center>BE+LED by ben0bi @ ben0bi enterprises AND Web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
-	</div>
-</div>
 
 <!-- JAVASCRIPTS -->
 
@@ -124,6 +198,18 @@ function ChangeLEDText()
 
 // get the led text.
 GetLEDText();
+
+$(document).ready(function() 
+{
+	var height = $("#wrapper").height();
+	var h2 = $("#footer_wrapper").height();
+	var footerY=parseInt($("#footer_wrapper").css("bottom"));
+	if(footerY <0)
+		h2 -= footerY;
+	$("#wrapper").css("min-height", height-h2);
+	console.log("Old Height: "+height+" / New Height: "+(height-h2)+" / FooterY:"+footerY);
+	console.log("Ready!");
+});
 </script>
 
 </body>

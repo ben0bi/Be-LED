@@ -61,7 +61,7 @@
 			}
 		},"text")
   		.fail(function() {
-			$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+			$("#result").html("<span class='failtext'>Connection error. The server may not be running. <a href='start_server.php'>[START SERVER (FAILSAFE)]</a></span>");
   		})		
 	}
 	
@@ -78,9 +78,9 @@
 			}
 		},"text")
   		.fail(function() {
-			$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+			$("#result").html("<span class='failtext'>Connection error. The server may not be running. <a href='start_server.php'>[START SERVER (FAILSAFE)]</a></span>");
 			// try to start the server.
-			document.location.href="start_server.php";
+			//document.location.href="start_server.php";
   		});
 	});
 </script>

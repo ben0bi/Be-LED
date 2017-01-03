@@ -3,7 +3,8 @@
 <br />
 Change the admin password.<br />
 <hr />
-<br /><table border="0" style="width:100%">
+<br />
+<table border="0" style="width:100%">
 	<tr>
 		<td class="input_field_wrapper"><input id="LED_defaultText" type="text" class="input_field" style="width: 100%"></input></td>
 		<td class="button_wrapper"><a href="#" onclick="SetDefaultText()" class="button" class="input_field"><nobr>Set Startup Text</nobr></a></td>
@@ -11,7 +12,10 @@ Change the admin password.<br />
 </table>
 <br />
 The startup text is shown when the server starts, until another text is set.<br />
+Hard coded default startup text: <i>by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}</i>
 <hr />
+<br />
+
 Result:
 <div id="result">++ Nothing Changed Yet ++</div>
 
@@ -26,6 +30,8 @@ var GetResetPassword = function()
 			$("#result").html("The server will not give you that page, sorry.");
 		}else if(data == "D0P3"){
 			$("#result").html("Something strange is going on. Something really strange.");
+		}else if(data=="WRONGPW"){
+			$("#result").html("The old password is wrong, sorry.");
 		}else{
 			// all ok, get password reset page.
 			origPass="";

@@ -222,6 +222,7 @@ setInterval(function ()
 // ++++ sending some protected html pages.
 function sendAdminPage() {return fs.readFileSync('./node_module/send_html/send_admin_page.html', "utf8");}
 function sendSetPasswordPage() {return fs.readFileSync('./node_module/send_html/send_new_admin_password.html', "utf8");};
+function sendFirstPasswordPage() {return fs.readFileSync('./node_module/send_html/send_new_admin_password_first.html', "utf8");};
 
 // ++++ text listening server.
 var serverPort = 3000;
@@ -291,8 +292,16 @@ var server = my_http.createServer(function(request, response)
 			response.end();
 			return;
 		}
+		
+		// first password on first loading of admin page.
+		if(url=="/thanksformyfirstpassword")
+		{
+			response.write(sendFirstPasswordPage());
+			response.end();
+			return;
+		}
 
-		// set admin password.
+		// set admin password (first timer).
 		if (url == '/setadminpasswordxhx')
 		{
 			var body = '';
@@ -306,6 +315,56 @@ var server = my_http.createServer(function(request, response)
 				fs.writeFileSync("./admin_password",pw, "utf8");
 				response.write("DONE");
 				response.end();
+			});
+			return;
+		}
+
+		// set admin password (second timer).
+		if (url == '/setadminpasswordxwx')
+		{
+			var body = '';
+			request.on('data', function(chunk) {
+			body += chunk;
+			});
+			request.on('end', function() {
+				var data = qs.parse(body);
+				var pw = SHA.sha256(data.password);
+				var oldpw = SHA.sha256(data.oldpass);
+
+				fs.readFile('./admin_password', 'utf8', function (err, FSdata)
+				{
+					var granted = false;
+					responsetext="N0P3";
+					if(err == null) {
+						console.log('+  Password file found.');
+						if(FSdata == oldpw) 
+						{
+							granted = true;
+						}else{
+							responsetext="WRONGPW";
+						}
+					} else if(err.code == 'ENOENT') {
+						// file does not exist
+						console.log("+  There is no password file. Sending OK!");
+						granted = true;
+					} else {
+						console.log('+  There is some error with the password file: ', err.code);
+						responsetext = "D0P3";
+					}
+					
+					if(!granted)
+					{
+						console.log("+  Password reset DENIED.");
+						console.log("+  Response: "+responsetext);
+					}else{
+						console.log("+  Password reset DONE.");
+						fs.writeFileSync("./admin_password",pw, "utf8");
+						responsetext="DONE";
+					}
+
+					response.write(responsetext);
+					response.end();
+				});				
 			});
 			return;
 		}
@@ -334,7 +393,7 @@ var server = my_http.createServer(function(request, response)
 					} else if(err.code == 'ENOENT') {
 						// file does not exist
 						console.log("+  There is no password file. Sending password creation page.");
-						responsetext=sendSetPasswordPage();
+						responsetext=sendFirstPasswordPage();
 						sendfile = true;
 						// hard coded default password: be+led
 						//if(data.password == "e579c47cffd1fc00d8671084969c2cc1a8b58269586ce66bc2f33973ba6f7cb5") {granted = true;}
@@ -381,7 +440,7 @@ var server = my_http.createServer(function(request, response)
 			} else if(err.code == 'ENOENT') {
 						// file does not exist
 						console.log("+  There is no password file. Sending password creation page.");
-						responsetext=sendSetPasswordPage();
+						responsetext=sendFirstPasswordPage();
 						sendfile = true;
 						// hard coded default password: be+led
 						//if(data.password == "e579c47cffd1fc00d8671084969c2cc1a8b58269586ce66bc2f33973ba6f7cb5") {granted = true;}

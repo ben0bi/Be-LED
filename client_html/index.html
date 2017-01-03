@@ -9,75 +9,80 @@
 <body>
 
 <div id="wrapper">
-<h1>Be+LED</h1>
+	<h1>Be+LED</h1>
 
-<table border="1" style="width:100%;">
-<tr>
-<td id="text_en" style="width: 50%; vertical-align: top;">
-<img src="data/images/en.jpg" class="localeimage"><br />
-Input your text, to let it run on the device shown below.<br />
-The text repeats until another text will be sent.<br />
-It will change when you press the "Change"-Button.<br />
-<br />
-You can use special symbols and commands between curly brackets {}. They are listed below.
-</td>
-<td id="text_de" style="width: 50%; vertical-align: top;">
-<img src="data/images/DE.jpg" class="localeimage"><br />
-Gib deinen Text ein, um ihn auf dem unten gezeigten Ger&auml;t durchlaufen zu lassen.<br />
-Der Text wiederholt sich so lange, bis ein anderer Text eingegeben wurde.<br />
-Der aktuelle Text wird ersetzt, sobald Du die "Change"-Schaltfl&auml;che dr&uuml;ckst.<br />
-<br />
-Mit geschweiften Klammern {} kannst Du spezielle Symbole anzeigen und Befehle ausf&uuml;hren. Sie sind unten aufgelistet.</br>
-</td>
+	<table border="1" style="width:100%;">
+	<tr>
+		<td id="text_en" style="width: 50%; vertical-align: top;">
+			<img src="data/images/en.jpg" class="localeimage"><br />
+			Input your text, to let it run on the device shown below.<br />
+			The text repeats until another text will be sent.<br />
+			It will change when you press the "Change"-Button.<br />
+			<br />
+			You can use special symbols and commands between curly brackets {}. They are listed below.
+		</td>
+		<td id="text_de" style="width: 50%; vertical-align: top;">
+			<img src="data/images/DE.jpg" class="localeimage"><br />
+			Gib deinen Text ein, um ihn auf dem unten gezeigten Ger&auml;t durchlaufen zu lassen.<br />
+			Der Text wiederholt sich so lange, bis ein anderer Text eingegeben wurde.<br />
+			Der aktuelle Text wird ersetzt, sobald Du die "Change"-Schaltfl&auml;che dr&uuml;ckst.<br />
+			<br />
+			Mit geschweiften Klammern {} kannst Du spezielle Symbole anzeigen und Befehle ausf&uuml;hren. Sie sind unten aufgelistet.</br>
+		</td>
+	</tr><tr>
+		<td colspan="2">
+			<table border="0" style="width: 100%">
+				<tr>
+					<td class="input_field_wrapper"><input type="text" id="LED_input_field" class="input_field" placeholder="Input your Text here. / Gib deinen Text hier ein." style="width: 100%"></input></td>
+					<td class="button_wrapper"><a href="#" onclick="ChangeLEDText();" class="button">Change</a></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
 
-</tr><tr>
-	<td colspan="2">
-		<table border="0" style="width: 100%">
+	<!-- show actual text. -->
+	<br />
+	Actual Text [<a href="#" onclick="GetLEDText();">refresh</a>]:<br />
+	<div id="actualtext">Please wait...</div><br />
+	<br />
+
+	<!-- device images -->
+	<div id="div_device_images">
+	[BILD Geraet/IMAGE Device] [Bild Standort/Image Location] [Gegenbild Standort/Counter-Image Location]
+	</div>
+	<hr />
+
+	<!-- symbols, WARNING: Can vary with other fonts. -->
+	<div id="div_font_symbols_link" style="display:block;">
+		<a href="#" onclick="$('#div_font_symbols').show();$('#div_font_symbols_link').hide();">Special Symbols</a>
+	</div>
+	<div id="div_font_symbols" style="display: none;">
+		<a href="#" onclick="$('#div_font_symbols_link').show();$('#div_font_symbols').hide();">Special Symbols</a>
+		<table border="1">
 			<tr>
-				<td class="input_field_wrapper"><input type="text" id="LED_input_field" class="input_field" placeholder="Input your Text here. / Gib deinen Text hier ein." style="width: 100%"></input></td>
-				<td class="button_wrapper"><a href="#" onclick="ChangeLEDText();" class="button">Change</a></td>
+				<td>Text</td>
+				<td>Description</td>
+				<td>Image</td>
+			</tr>
+			<tr>
+				<td>{Heart}, {Herz}, {FullHeart}, {}</td>
+				<td>Description</td>
+				<td>Image</td>
 			</tr>
 		</table>
-	</td>
-</tr>
-</table>
+	</div>
+	<hr />
 
-<!-- show actual text. -->
-<br />
-Actual Text [<a href="#" onclick="GetLEDText();">refresh</a>]:<br />
-<div id="actualtext">Please wait...</div><br />
-<br />
-
-<!-- device images -->
-<div id="div_device_images">
-[BILD Geraet/IMAGE Device] [Bild Standort/Image Location] [Gegenbild Standort/Counter-Image Location]
+	<!-- commands -->
+	<div id="div_device_commands_link">
+		<a href="#" onclick="$('#div_device_commands').show();$('#div_device_commands_link').hide();">Device Commands</a>
+	</div>
+	<div id="div_device_commands" style="display: none;">
+		<a href="#" onclick="$('#div_device_commands_link').show();$('#div_device_commands').hide();">Device Commands</a>
+	</div>
+	
 </div>
-<hr />
-
-<!-- symbols, WARNING: Can vary with other fonts. -->
-<div id="div_font_symbols">
-<h2>Special Symbols</h2>
-<table border="1">
-	<tr>
-		<td>Text</td>
-		<td>Description</td>
-		<td>Image</td>
-	</tr>
-	<tr>
-		<td>{Heart}, {Herz}, {FullHeart}, {}</td>
-		<td>Description</td>
-		<td>Image</td>
-	</tr>
-
-</table>
-</div>
-<hr />
-
-<!-- commands -->
-<div id="div_device_commands">
-</div>
-
-
 
 <div id="footer_wrapper">
 	<div id="footer">

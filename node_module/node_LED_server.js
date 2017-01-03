@@ -292,14 +292,6 @@ var server = my_http.createServer(function(request, response)
 			response.end();
 			return;
 		}
-		
-		// first password on first loading of admin page.
-		if(url=="/thanksformyfirstpassword")
-		{
-			response.write(sendFirstPasswordPage());
-			response.end();
-			return;
-		}
 
 		// set admin password (first timer).
 		if (url == '/setadminpasswordxhx')

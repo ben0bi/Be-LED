@@ -64,7 +64,7 @@ Extended, for debugging reasons and stuff:
 + Set password in autoboot/sudo_passwd
 + Call autoboot/autostart in your /etc/rc.local file. 
 	This is the/a linux autostart file.
-++ (Set another startup file in autoboot/autostart_after for your own needs.)
++ + (Set another startup file in autoboot/autostart_after for your own needs.)
 + Copy the content of client_html into your web directory.
 	(Maybe you need to install apache first...full node support maybe later.)
 + Restart your machine: It should run now.

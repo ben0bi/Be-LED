@@ -1,7 +1,7 @@
 var AppVersion = "0.2.7";
 
 // attraction mode text.
-var attractionText="by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
+var attractionText="{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
 
 // ++++ requires.
 var my_http = require("http");
@@ -86,22 +86,6 @@ var setRealText = function(newText)
 	realTextLength=LED.getRealTextLength(realText, mcs);
 }
 
-// set default text with local ip.
-var realText = "";
-var realTextLength = 0;
-var localIP = getMyLocalIP();
-
-if(localIP.length > 0)
-{
-	realText = "Local IP: ";
-	for(var loc=0;loc<localIP.length;loc++)
-	{
-		realText+=localIP[loc]+" {Smiley} ";
-	}
-	realText+="{Smiley} {Smiley} ";
-}
-setRealText(realText+attractionText);
-
 // ++++ colouring
 
 // switch to eye friendly palette.
@@ -168,6 +152,39 @@ var frames = 0;
 var globalsymbol = 0;
 var color = 0;
 
+// set default text with local ip.
+var realText = "";
+var oldText=""; // save the text to see if something changed.
+var realTextLength = 0;
+var localIP = [];
+setRealText(attractionText);
+
+// get and add the local ip to the text.
+var addLocalIP = function()
+{
+	localIP = getMyLocalIP();
+	if(localIP.length > 0)
+	{
+		var rt = "Local IP: ";
+		for(var loc=0;loc<localIP.length;loc++)
+		{
+			rt+=localIP[loc]+" {Smiley} ";
+		}
+		rt+="{Smiley} {Smiley} ";
+		rt+=attractionText;
+		setRealText(rt);
+		oldText = rt;
+		setTimeout(function() 
+		{
+			console.log("Resetting text...");
+			//if(realText==oldText)
+			//{
+				setRealText(attractionText);
+			//}
+		}, 2000);
+	}
+}
+
 // the loop function
 setInterval(function () 
 {
@@ -175,18 +192,7 @@ setInterval(function ()
 	// so wait until its here.
 	if(localIP.length<=0)
 	{
-		localIP = getMyLocalIP();
-		if(localIP.length > 0)
-		{
-			var rt = "Local IP: ";
-			for(var loc=0;loc<localIP.length;loc++)
-			{
-				rt+=localIP[loc]+" {Smiley} ";
-			}
-			rt+="{Smiley} {Smiley} ";
-			rt+=attractionText;
-			setRealText(rt);
-		}
+		addLocalIP();
 	}
 		
 	// move some stuff every some frames (120 = 1 second)

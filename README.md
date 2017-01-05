@@ -2,7 +2,7 @@ ThereWillBeLED
 a.k.a.
 Be+LED
 
-v0.2.5
+v0.3.0
 
 by ben0bi@web4me in 2016
 
@@ -81,14 +81,25 @@ display for the RaspbPi.
 
 (TODO)
 
-Administering the Box + NOT YET FUNCTIONAL
+Administering the Box.
 
 Go to BoxIP/admin.html and input the password you provided.
 If there is no password set, a password creation page pops up.
-If you forgot your password, just delete the admin_password file.
 
-The password will be SHA2 encoded in the file and when you send it.
+You can now:
+ + Reset your password.
+ + Set the startup text.
+ + Set the time of how long the local IP will be shown on the box. [NOT YET]
+ + Hide or show messages from the front page (index.html) and how many.
+
++ PASSWORD
+
+If you forgot your password, just delete the admin_password file directly on
+the file system, with a screen attached or over ssh.
+
+The password will be encoded in the file.
 The administer page will be sent as whole by node, if you input the right password.
-So, no one can change admin stuff (-html) if he does not know the password.
+So, no one can change admin stuff (per html) if he does not know the password.
 
-You can also change the password on the admin page. [not yet]
+You can also change the password on the admin page. For that you need to know
+the old password. See above if you forgot it.

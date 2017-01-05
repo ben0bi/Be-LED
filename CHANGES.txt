@@ -1,8 +1,19 @@
+0.3.0 + Forgot to update changes, here are some:
+	+ Color palettes changed. (Latest change)
+	+ Special LED commands. You can now control LEDs before
+		and after the screen. (It is a strip in the end.)
+	+ * to set Pre-LEDs.
+	+ + to set AfterLEDs.
+	+ c to set the color of the actual special LED.
+	+ Changes on the client website.
+		+ New password reset: Needs now the old password.
+			(If you forgot it, just delete the file on
+			the RasbPi directly.)
 0.2.7 + Speed S Command. 0 is fastest.
 0.2.6 + Forgot the 3-quarter-heart all the time, it is now in the fonts.
 0.2.5 + Forgot to add IP to the startup text again.
 0.2.4 + Some bug and cosmetic fixing for palette change.
-0.2.3 + FIrst command setup. P for palette change. Changes to palette 0 now.
+0.2.3 + First command setup. P for palette change. Changes to palette 0 now.
 0.2.2 + BugFix: Did not loop if the text has only one char.
 0.2.1 + Smaller gaps in font #3
 0.2.0 + Colouring lib changed, direct access possible now.

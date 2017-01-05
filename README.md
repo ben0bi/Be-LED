@@ -64,7 +64,7 @@ Extended, for debugging reasons and stuff:
 + Set password in autoboot/sudo_passwd
 + Call autoboot/autostart in your /etc/rc.local file. 
 	This is the/a linux autostart file.
-+ + (Set another startup file in autoboot/autostart_after for your own needs.)
+	+ (Set another startup file in autoboot/autostart_after for your own needs.)
 + Copy the content of client_html into your web directory.
 	(Maybe you need to install apache first...full node support maybe later.)
 + Restart your machine: It should run now.
@@ -79,8 +79,6 @@ display for the RaspbPi.
 
 *******************************************************************************
 
-(TODO)
-
 Administering the Box.
 
 Go to BoxIP/admin.html and input the password you provided.
@@ -92,7 +90,7 @@ You can now:
  + Set the time of how long the local IP will be shown on the box. [NOT YET]
  + Hide or show messages from the front page (index.html) and how many.
 
-+ PASSWORD
++++ PASSWORD +++
 
 If you forgot your password, just delete the admin_password file directly on
 the file system, with a screen attached or over ssh.

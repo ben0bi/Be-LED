@@ -248,7 +248,10 @@ var getRenderText = function(text, posX, charset)
 		if(getSymbol) {
 			symbol+=sym;
 		}else{
-			if(sym!="}") {symbol=sym;}
+			if(sym!="}") 
+			{
+				symbol=sym;
+			}
 		}
 
 		// end of special character

@@ -858,6 +858,7 @@ scr[54] = scr[">"]= scBr3c;
 // questionmark
 var scQuest=new Array();
 scQuest.push([0,0,0,0,0,0,0]);
+scQuest.push([0,0,0,0,0,0,0]);
 scQuest.push([0,0,1,1,1,0,0]);
 scQuest.push([0,1,0,0,0,1,0]);
 scQuest.push([0,0,0,0,1,0,0]);

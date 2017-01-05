@@ -1,3 +1,5 @@
+0.4.0 + Better structure of the main file.
+	+ Messages will now be added instead of overwritten.
 0.3.0 + Forgot to update changes, here are some:
 	+ Color palettes changed. (Latest change)
 	+ Special LED commands. You can now control LEDs before

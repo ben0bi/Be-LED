@@ -17,19 +17,32 @@ var LED=require("./lib/LED_functions");								// the basic LED functions. Maybe
 var colours = require("./lib/LED_colours");							// color palettes.
 
 // get width and height from console.
-var PRECOUNT = parseInt(process.argv[2], 10) || 0,
-    screenWidth=WIDTH = parseInt(process.argv[3], 10) || 10,
-    screenHeight=HEIGHT = parseInt(process.argv[4], 10) || 10,
-    AFTERCOUNT = parseInt(process.argv[5], 10) || 0,
-    NUM_LEDS = PRECOUNT+ (WIDTH * HEIGHT)+ AFTERCOUNT,
-    initial_speed = LED.getSpeed();
-    pixelData = new Uint32Array(NUM_LEDS);
+var PRECOUNT = parseInt(process.argv[2], 10) || 0,				// First parameter: count of special LEDs before screen.
+    screenWidth=WIDTH = parseInt(process.argv[3], 10) || 10,	// Second parameter: screen size (width)
+    screenHeight=HEIGHT = parseInt(process.argv[4], 10) || 10,	// Third parameter: screen size (height)
+    AFTERCOUNT = parseInt(process.argv[5], 10) || 0,			// Fourth parameter: count of special LEDs after screen.
+    NUM_LEDS = PRECOUNT+ (WIDTH * HEIGHT)+ AFTERCOUNT,			// Total LED count.
+    initial_speed = LED.getSpeed();								// Default speed.
+    pixelData = new Uint32Array(NUM_LEDS);						// The "real" screen array.
 
+// Pass parameters to the LED module.
 LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
 
 // global x position.
-var globalXInit = -screenWidth * 3;
-var globalX = globalXInit;
+var globalXInit = -screenWidth * 3;	// Default init position of text.
+var globalX = globalXInit;			// Scroll position.
+
+var realText = "";			// The text shown on the device.
+var realTextLength = 0; 	// The length of the text in pixels.
+var localIP = [];			// array for the local IP(s).
+var localIPText = "";		// text with the IPs to add to the screen.
+var waitForRemoveIP = 5000;	// Milliseconds to wait until the ip will be removed.
+var messages = [];			// message array.
+var maxMessageCount = 5; 	// maximum amount of messages to show.
+var messagesAfterAttractionText = true; // if false, the attraction text will be overwritten on message.
+
+// the port of the node server.
+var serverPort = 3000;
 
 // maybe get another default text.
 try
@@ -38,24 +51,11 @@ try
 	if(startuptext)
 	{
 		console.log('-->  Default text file found: '+startuptext);
-		//console.log(FSdata+" ==> "+data.password);
 		attractionText = startuptext;
 	}
 }catch(ex){
 	console.log("--> No default text file found, using hard coded text: "+attractionText);
 }
-
-// ++++ INITIALIZE
-ws281x.init(NUM_LEDS);
-// clear array before setting brightness.
-ws281x.render(LED.clearData());
-ws281x.setBrightness(32);
-
-// ++++ trap the SIGINT and reset before exit
-process.on('SIGINT', function () {
-  ws281x.reset();
-  process.nextTick(function () { process.exit(0); });
-});
 
 // ++++ Get local IP addresses of this device.
 var getMyLocalIP = function()
@@ -76,6 +76,23 @@ var getMyLocalIP = function()
 	return addresses;
 }
 
+// get and add the local ip to the text.
+var getLocalIP = function()
+{
+	console.log("Trying to get local IP.");
+	localIP = getMyLocalIP();
+	if(localIP.length > 0)
+	{
+		localIPText = "Local IP: ";
+		for(var loc=0;loc<localIP.length;loc++)
+		{
+			localIPText+=localIP[loc]+" {Smiley} ";
+		}
+		localIPText+="{Smiley} {Smiley} ";
+		addMessage("");
+	}
+}
+
 // set the real text which is shown on the device.
 var setRealText = function(newText)
 {
@@ -86,20 +103,32 @@ var setRealText = function(newText)
 	realTextLength=LED.getRealTextLength(realText, mcs);
 }
 
-// ++++ colouring
-
-// switch to eye friendly palette.
-colours.switchToPalette(0);
-
-// reset white to orange.
-//colours.set(1, 255, 127, 0);
-//colours.set(10,255,255,255);
+// add a message to the messages on the screen.
+var addMessage = function(message)
+{
+	if(message!=null && message!="")
+		messages.push(message);
+	
+	var rt = localIPText;
+	if(messagesAfterAttractionText==true)
+		rt+=attractionText+" ";
+	rt+=attractionText;		
+	
+	if(messages.length>0)
+	{
+		for(var m=0;m<messages.length;m++)
+		{
+			rt+=" +++ "+messages[m];
+		}
+		rt +=" +++";
+	}
+	setRealText(rt);
+}
 
 // ++++ RENDER FUNCTION
 function RENDER()
 {
 	// RENDER THE SCREEN
-	//var pixelData=getRenderSymbol("pal"); // or globalsymbol.
 	var screenData=LED.getRenderText(realText,globalX, mcs);
 //	var screenData=LED.addSnow(screenData,2); // some snow flakes.
 
@@ -112,6 +141,7 @@ function RENDER()
 	var pi=0;
 	var plen=pixelData.length;
 	var slen=screenData.length;
+
 	// render the pre array
 	if(PRECOUNT>0)
 	{
@@ -122,6 +152,7 @@ function RENDER()
 			pi++;
 		}
 	}
+
 	// render the screen data.
 	if(slen>0)
 	{
@@ -132,6 +163,7 @@ function RENDER()
 			pi++;
 		}
 	}
+
 	// render the after array
 	if(AFTERCOUNT>0)
 	{
@@ -147,43 +179,41 @@ function RENDER()
 	ws281x.render(pixelData);
 }
 
+// ++++ INITIALIZE
+ws281x.init(NUM_LEDS);
+// clear array before setting brightness.
+ws281x.render(LED.clearData());
+ws281x.setBrightness(32);
+
+// ++++ trap the SIGINT and reset before exit
+process.on('SIGINT', function () {
+  ws281x.reset();
+  process.nextTick(function () { process.exit(0); });
+});
+
+// wait some secs and then remove the local ip.
+setTimeout(function()
+{
+	console.log("--> Removing IP from screen.");
+	globalX=globalXInit;
+	localIPText = "";
+	addMessage("");
+}, waitForRemoveIP);
+
+// ++++ colouring
+
+// switch to eye friendly palette.
+colours.switchToPalette(0);
+
+// reset white to orange.
+//colours.set(1, 255, 127, 0);
+//colours.set(10,255,255,255);
+
 // ++++ animation-loop
 var frames = 0;
-var globalsymbol = 0;
 var color = 0;
 
-// set default text with local ip.
-var realText = "";
-var oldText=""; // save the text to see if something changed.
-var realTextLength = 0;
-var localIP = [];
 setRealText(attractionText);
-
-// get and add the local ip to the text.
-var addLocalIP = function()
-{
-	localIP = getMyLocalIP();
-	if(localIP.length > 0)
-	{
-		var rt = "Local IP: ";
-		for(var loc=0;loc<localIP.length;loc++)
-		{
-			rt+=localIP[loc]+" {Smiley} ";
-		}
-		rt+="{Smiley} {Smiley} ";
-		rt+=attractionText;
-		setRealText(rt);
-		oldText = rt;
-		setTimeout(function() 
-		{
-			console.log("Resetting text...");
-			//if(realText==oldText)
-			//{
-				setRealText(attractionText);
-			//}
-		}, 2000);
-	}
-}
 
 // the loop function
 setInterval(function () 
@@ -192,7 +222,7 @@ setInterval(function ()
 	// so wait until its here.
 	if(localIP.length<=0)
 	{
-		addLocalIP();
+		getLocalIP();
 	}
 		
 	// move some stuff every some frames (120 = 1 second)
@@ -215,15 +245,11 @@ setInterval(function ()
 		color+=0.1;
 		if(color>=20)
 			color=0;
-
-		// go through all symbols (old attraction mode)
-		globalsymbol++;
-		if(globalsymbol >= mcs.length())
-			globalsymbol = 0;
-
 	}
 }, 1000 / 200); // 200 frames / sec
 
+
+// ++++ SERVER STUFF.
 
 // ++++ sending some protected html pages.
 function sendAdminPage() {return fs.readFileSync('./node_module/send_html/send_admin_page.html', "utf8");}
@@ -231,10 +257,8 @@ function sendSetPasswordPage() {return fs.readFileSync('./node_module/send_html/
 function sendFirstPasswordPage() {return fs.readFileSync('./node_module/send_html/send_new_admin_password_first.html', "utf8");};
 
 // ++++ text listening server.
-var serverPort = 3000;
 var server = my_http.createServer(function(request, response)
 {
-	
 	// YOU MUST SET A RETURN AFTER EACH VALID COMMAND!
 	// The return must be at the end of the command-if, 
 	// NOT at the end of the async methods!
@@ -258,10 +282,10 @@ var server = my_http.createServer(function(request, response)
 			request.on('end', function() {
 				// TODO: add to array
 				var data = qs.parse(body);
-				console.log("+ Setting new Text: "+data.content_text);
-				setRealText(data.content_text);
-				globalX = globalXInit;
-				LED.setSpeed(initial_speed);
+				console.log("+ Adding a Text: "+data.content_text);
+				addMessage(data.content_text);
+				//globalX = globalXInit;
+				//LED.setSpeed(initial_speed);
 				response.write(realText);
 				response.end();
 			});

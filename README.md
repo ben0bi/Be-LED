@@ -60,22 +60,22 @@ sudo nano /etc/rc.local
 ******************************************************************************
 Extended, for debugging reasons and stuff:
 
-0. Set path in autoboot/autostart
-1. Set password in autoboot/sudo_passwd
-2. Call autoboot/autostart in your /etc/rc.local file. 
++ Set path in autoboot/autostart
++ Set password in autoboot/sudo_passwd
++ Call autoboot/autostart in your /etc/rc.local file. 
 	This is the/a linux autostart file.
-	2.1 (Set another startup file in autoboot/autostart_after for your own needs.)
-3. Copy the content of client_html into your web directory.
+++ (Set another startup file in autoboot/autostart_after for your own needs.)
++ Copy the content of client_html into your web directory.
 	(Maybe you need to install apache first...full node support maybe later.)
-3. Restart your machine: It should run now.
++ Restart your machine: It should run now.
 
-4. You can access the running program with "screen -R" or autoboot/stop
++ You can access the running program with "screen -R" or autoboot/stop
 
-5. On startup, the box shows its own local IP if it is connected to the LAN.
++ On startup, the box shows its own local IP if it is connected to the LAN.
 You can connect to that IP and change the text, without having to use a 
 display for the RaspbPi.
 
-6. Have Fun!
++ Have Fun!
 
 *******************************************************************************
 

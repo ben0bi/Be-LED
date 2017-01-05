@@ -1,3 +1,5 @@
-config/*
+config/admin_password
+config/default_text
+
 
 

@@ -3,6 +3,9 @@ var AppVersion = "0.4.1";
 // attraction mode text.
 var attractionText="{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
 
+var filename_password = './config/admin_password';
+var filename_defaulttext = './config/default_text';
+
 // ++++ requires.
 var my_http = require("http");
 var qs = require("querystring");
@@ -47,7 +50,7 @@ var serverPort = 3000;
 // maybe get another default text.
 try
 {
-	var startuptext = fs.readFileSync('./default_text', 'utf8');
+	var startuptext = fs.readFileSync(filename_defaulttext, 'utf8');
 	if(startuptext)
 	{
 		console.log('-->  Default text file found: '+startuptext);
@@ -66,11 +69,11 @@ var getMyLocalIP = function()
 	{
 	    for (var k2 in interfaces[k]) 
 		{
-        		var address = interfaces[k][k2];
-		        if (address.family === 'IPv4' && !address.internal) 
+        	var address = interfaces[k][k2];
+		    if (address.family === 'IPv4' && !address.internal) 
 			{
-        		    addresses.push(address.address);
-		        }
+        	    addresses.push(address.address);
+		    }
 		}
     }
 	return addresses;
@@ -306,7 +309,7 @@ var server = my_http.createServer(function(request, response)
 				var data = qs.parse(body);
 				var newtext = data.defaulttext;
 				console.log("+ Setting new default text: "+newtext);
-				fs.writeFileSync("./default_text",newtext, "utf8");
+				fs.writeFileSync(filename_defaulttext,newtext, "utf8");
 				response.write(newtext);
 				response.end();
 			});
@@ -334,7 +337,7 @@ var server = my_http.createServer(function(request, response)
 				var data = qs.parse(body);
 				var pw = SHA.sha256(data.password);
 				console.log("+ Setting new admin password. Hash: "+pw);
-				fs.writeFileSync("./admin_password",pw, "utf8");
+				fs.writeFileSync(filename_password,pw, "utf8");
 				response.write("DONE");
 				response.end();
 			});
@@ -353,7 +356,7 @@ var server = my_http.createServer(function(request, response)
 				var pw = SHA.sha256(data.password);
 				var oldpw = SHA.sha256(data.oldpass);
 
-				fs.readFile('./admin_password', 'utf8', function (err, FSdata)
+				fs.readFile(filename_password, 'utf8', function (err, FSdata)
 				{
 					var granted = false;
 					responsetext="N0P3";
@@ -380,7 +383,7 @@ var server = my_http.createServer(function(request, response)
 						console.log("+  Response: "+responsetext);
 					}else{
 						console.log("+  Password reset DONE.");
-						fs.writeFileSync("./admin_password",pw, "utf8");
+						fs.writeFileSync(filename_password,pw, "utf8");
 						responsetext="DONE";
 					}
 
@@ -403,7 +406,7 @@ var server = my_http.createServer(function(request, response)
 				console.log("+ Getting request for admin page.");
 				var responsetext="Uhh...There is something wrong.";
 				
-				fs.readFile('./admin_password', 'utf8', function (err, FSdata)
+				fs.readFile(filename_password, 'utf8', function (err, FSdata)
 				{
 					var granted = false;
 					var sendfile = false;
@@ -449,7 +452,7 @@ var server = my_http.createServer(function(request, response)
 	// check if there is a password file and send set-password-page if not.
 	if(url=="/isconfigured")
 	{		
-		fs.readFile('./admin_password', 'utf8', function (err, FSdata)
+		fs.readFile(filename_password, 'utf8', function (err, FSdata)
 		{
 			console.log("+ Is page configured?");
 			var sendfile = false;

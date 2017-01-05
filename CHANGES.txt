@@ -1,3 +1,4 @@
+0.4.2 + created a config dir. All files will be created there.
 0.4.1 + Questionmark did not work with the one font.
 0.4.0 + Better structure of the main file.
 	+ Messages will now be added instead of overwritten.

@@ -2,7 +2,7 @@ ThereWillBeLED
 a.k.a.
 Be+LED
 
-v0.4.0
+v0.4.2
 
 by ben0bi@web4me in 2016
 

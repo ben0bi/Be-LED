@@ -1,4 +1,4 @@
-var AppVersion = "0.4.2";
+var AppVersion = "0.4.3";
 
 // attraction mode text.
 var attractionText="{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
@@ -292,6 +292,14 @@ var server = my_http.createServer(function(request, response)
 				response.write(realText);
 				response.end();
 			});
+			return;
+		}
+
+		// return the default text.
+		if (url == '/givemethedefaulttext')
+		{
+			response.write(attractionText);
+			response.end();
 			return;
 		}
 

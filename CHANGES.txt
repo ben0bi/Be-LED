@@ -1,3 +1,7 @@
+0.4.3 
++ Typo: Described L command but used P.
++ Loading default text into input on the admin page.
++ added /html to deploy_html for the new RetroPie installation.
 0.4.2 + created a config dir. All files will be created there.
 0.4.1 + Questionmark did not work with the one font.
 0.4.0 + Better structure of the main file.

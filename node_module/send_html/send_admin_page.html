@@ -12,7 +12,7 @@ Change the admin password.<br />
 </table>
 <br />
 The startup text is shown when the server starts, until another text is set.<br />
-Hard coded default startup text: <i>by ben0bi@web4me {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}</i>
+Hard coded default startup text: <i>{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}</i>
 <hr />
 <br />
 
@@ -20,6 +20,29 @@ Result:
 <div id="result">++ Nothing Changed Yet ++</div>
 
 <script>
+	
+// load the default text into the input.
+$(document).ready(function()
+{
+	loadDefaultText();
+});
+
+var loadDefaultText = function()
+{
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/givemethedefaulttext",null,function(data,status,xhr) 
+	{
+		if(data == "N0P3") {
+			$("#result").html("The server will not give you the default text.");
+		}else if(data == "D0P3"){
+			$("#result").html("Something strange is going on. Something really strange.");
+		}else{
+			$("#LED_defaultText").val(data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+  	});
+};
 	
 // get the password reset page.
 var GetResetPassword = function()
@@ -44,7 +67,6 @@ var GetResetPassword = function()
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
   	});
 };
-
 
 // set the default text of the LED array.
 var SetDefaultText = function()

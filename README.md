@@ -31,7 +31,9 @@ Short Installment:
 On your Raspi, do that:
 
 + install node if not installed.
-+ install apache2 if not installed. 
+	node must be a 0.1x.x version.
++ install apache2 if not installed.
++ install screen if not installed.
 + The apache page is there because the box can always respond then,
 	also if the node server does not run.
 
@@ -44,7 +46,7 @@ sudo cp -r ThereWillBeLED/client_html/* /var/www
 (you can also use "./deploy_html" ;) )
 
 + /var/www is apaches default web directory. Use another one if you want.
-+ ok, now you have the stuff in the right directories, now..
++ ok, you have the stuff in the right directories, now..
 
 sudo nano /etc/rc.local
 

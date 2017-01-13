@@ -1,3 +1,6 @@
+0.4.4
++ Finally created an entry on the admin page to set the
+  time how long the IP will be shown.
 0.4.3 
 + Typo: Described L command but used P.
 + Loading default text into input on the admin page.

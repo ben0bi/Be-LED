@@ -1,10 +1,16 @@
-var AppVersion = "0.4.3";
+var AppVersion = "0.4.4";
+
+console.log(" ");
+console.log("Be+LED "+AppVersion+" by ben0bi in 2016ad / 30ahc");
+console.log(" ");
+
 
 // attraction mode text.
 var attractionText="{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}";
 
 var filename_password = './config/admin_password';
 var filename_defaulttext = './config/default_text';
+var filename_iptime = './config/local_ip_showtime';
 
 // ++++ requires.
 var my_http = require("http");
@@ -39,7 +45,7 @@ var realText = "";			// The text shown on the device.
 var realTextLength = 0; 	// The length of the text in pixels.
 var localIP = [];			// array for the local IP(s).
 var localIPText = "";		// text with the IPs to add to the screen.
-var waitForRemoveIP = 5000;	// Milliseconds to wait until the ip will be removed.
+var waitForRemoveIP = 10000;	// Milliseconds to wait until the ip will be removed.
 var messages = [];			// message array.
 var maxMessageCount = 5; 	// maximum amount of messages to show.
 var messagesAfterAttractionText = true; // if false, the attraction text will be overwritten on message.
@@ -58,6 +64,19 @@ try
 	}
 }catch(ex){
 	console.log("--> No default text file found, using hard coded text: "+attractionText);
+}
+
+// maybe get another IP time.
+try
+{
+	var iptime = fs.readFileSync(filename_iptime, 'utf8');
+	if(iptime)
+	{
+		console.log('-->  IP time file found: '+iptime);
+		waitForRemoveIP=parseInt(iptime);
+	}
+}catch(ex){
+	console.log("--> No default ip time found, using hard coded time: "+waitForRemoveIP);
 }
 
 // ++++ Get local IP addresses of this device.
@@ -94,6 +113,21 @@ var getLocalIP = function()
 		localIPText+="{Smiley} {Smiley} ";
 		addMessage("");
 		globalX = globalXInit;
+		
+		
+		// wait some secs and then remove the local ip.
+		if(waitForRemoveIP!=0)
+		{
+			if(waitForRemoveIP<0)
+				waitForRemoveIP=10; //just wait for 10ms, then hide the IP.
+			setTimeout(function()
+			{
+				console.log("--> Removing IP from screen.");
+				globalX=globalXInit;
+				localIPText = "";
+				addMessage("");
+			}, waitForRemoveIP);
+		}
 	}
 }
 
@@ -193,15 +227,6 @@ process.on('SIGINT', function () {
   ws281x.reset();
   process.nextTick(function () { process.exit(0); });
 });
-
-// wait some secs and then remove the local ip.
-setTimeout(function()
-{
-	console.log("--> Removing IP from screen.");
-	globalX=globalXInit;
-	localIPText = "";
-	addMessage("");
-}, waitForRemoveIP);
 
 // ++++ colouring
 
@@ -323,7 +348,39 @@ var server = my_http.createServer(function(request, response)
 			});
 			return;
 		}
-		
+
+		// return the ip time.
+		if (url == '/givemetheiptime')
+		{
+			var q = waitForRemoveIP/1000;
+			response.write(q.toString());
+			response.end();
+			return;
+		}
+
+		// set how long the ip will be shown.
+		if (url == '/setiptimexwx')
+		{
+			console.log("+ Getting new IP time..");
+			var body = '';
+			request.on('data', function(chunk) 
+			{
+				body += chunk;
+			});
+			request.on('end', function() 
+			{
+				var data = qs.parse(body);
+				var newtime = data.iptime;
+				var t = parseInt(newtime)*1000;
+				console.log("+ Setting new IP time: "+t);
+				waitForRemoveIP = t;
+				fs.writeFileSync(filename_iptime,t, "utf8");
+				response.write(t.toString());
+				response.end();
+			});
+			return;
+		}
+
 		// just send the password reset page. 
 		// This function is only accessible over the admin page,
 		// so no one should be able to guess it.
@@ -507,9 +564,6 @@ server.listen(serverPort);
 
 // ++++ final output.
 console.log("++++ LED SERVER RUNNING FOR "+NUM_LEDS+" UNITS  +++");
-console.log(" ");
-console.log("Be+LED "+AppVersion+" by ben0bi in 2016ad / 30ahc");
-console.log(" ");
 console.log("Local IPs:");
 console.log(localIP);
 var s = server.address();

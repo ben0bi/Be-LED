@@ -16,6 +16,19 @@ Hard coded default startup text: <i>{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart}
 <hr />
 <br />
 
+<table border="0" style="width:100%">
+	<tr>
+		<td class="input_field_wrapper"><input id="LED_IPTime" type="text" class="input_field" style="width: 100px"></input></td>
+		<td class="button_wrapper"><a href="#" onclick="SetIPTime()" class="button" class="input_field"><nobr>Set IP Time</nobr></a></td>
+	</tr>
+</table>
+<br />
+How many seconds will the IP be shown after startup?<br />
+Use <b>0</b> for forever.<br />
+Use <b>-1</b> for never. WARNING: You need to find out the IP by yourself then!
+<hr />
+<br />
+
 Result:
 <div id="result">++ Nothing Changed Yet ++</div>
 
@@ -25,8 +38,10 @@ Result:
 $(document).ready(function()
 {
 	loadDefaultText();
+	loadActualIPTime();
 });
 
+// load the default text into the admin page.
 var loadDefaultText = function()
 {
 	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/givemethedefaulttext",null,function(data,status,xhr) 
@@ -43,7 +58,25 @@ var loadDefaultText = function()
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
   	});
 };
-	
+
+// load the IP time into the admin page.
+var loadActualIPTime = function()
+{
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/givemetheiptime",null,function(data,status,xhr) 
+	{
+		if(data == "N0P3") {
+			$("#result").html("The server will not give you the IP time.");
+		}else if(data == "D0P3"){
+			$("#result").html("Something strange is going on. Something really strange.");
+		}else{
+			$("#LED_IPTime").val(data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+  	});
+};
+
 // get the password reset page.
 var GetResetPassword = function()
 {
@@ -89,6 +122,36 @@ var SetDefaultText = function()
 		}else{
 			// all good.
 			$("#result").html("Default startup text is now: "+data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+	});
+};
+
+// set time how long the ip will be shown on the LED array.
+var SetIPTime = function()
+{
+	var dtext = $("#LED_IPTime").val();
+	if(!dtext || dtext=="")
+	{
+		$("#result").html("You must input at least one character.");
+		return;
+	}
+	
+	var it=parseInt(dtext);
+	
+	console.log("Trying to set ip time to: "+it);
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setiptimexwx",{iptime: it},function(data,status,xhr) 
+	{
+		if(data == "N0P3") 
+		{
+			$("#result").html("The server will not set the IP time.");
+		}else if(data == "D0P3"){
+			$("#result").html("Could not set new IP time, something strange is going on. Something really strange.");
+		}else{
+			// all good.
+			$("#result").html("Default ip time is now (MS): "+data);
 		}
 	},"text")
   	.fail(function() {

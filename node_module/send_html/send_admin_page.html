@@ -20,6 +20,7 @@ Hard coded default startup text: <i>{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart}
 	<tr>
 		<td class="input_field_wrapper"><input id="LED_IPTime" type="text" class="input_field" style="width: 100px"></input></td>
 		<td class="button_wrapper"><a href="#" onclick="SetIPTime()" class="button" class="input_field"><nobr>Set IP Time</nobr></a></td>
+		<td class="button_wrapper"><a href="#" onclick="ShowIP()" class="button" class="input_field"><nobr>Show IP on device</nobr></a></td>
 	</tr>
 </table>
 <br />
@@ -152,6 +153,27 @@ var SetIPTime = function()
 		}else{
 			// all good.
 			$("#result").html("Default ip time is now (MS): "+data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+	});
+};
+
+// set time how long the ip will be shown on the LED array.
+var ShowIP = function()
+{
+	console.log("Showing IP on the device.");
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/showipxzx",null,function(data,status,xhr) 
+	{
+		if(data == "N0P3") 
+		{
+			$("#result").html("The server will not show the IP.");
+		}else if(data == "D0P3"){
+			$("#result").html("Could not show the IP, something strange is going on. Something really strange.");
+		}else{
+			// all good.
+			$("#result").html("IP is: "+data);
 		}
 	},"text")
   	.fail(function() {

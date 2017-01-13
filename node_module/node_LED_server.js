@@ -129,6 +129,7 @@ var getLocalIP = function()
 			}, waitForRemoveIP);
 		}
 	}
+	return localIP;
 }
 
 // set the real text which is shown on the device.
@@ -378,6 +379,18 @@ var server = my_http.createServer(function(request, response)
 				response.write(t.toString());
 				response.end();
 			});
+			return;
+		}
+		
+		// show the ip on the device
+		if(url=="/showipxzx")
+		{
+			var ips=getLocalIP();
+			var ip="not set";
+			if(ips.length>0)
+				ip=ips[0];
+			response.write(ip);
+			response.end();
 			return;
 		}
 

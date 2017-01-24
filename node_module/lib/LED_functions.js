@@ -298,7 +298,7 @@ var getRenderText = function(text, posX, charset)
 							global_Speed = cval;
 							break;
 						case "SpecialColor":
-							if(cmd.waitfornextchar<=0)
+							if(commandList[ci].waitfornextchar<=0)
 							{
 								// set the color for a special LED.
 								var index=Math.abs(actualSpecialLED);
@@ -315,7 +315,7 @@ var getRenderText = function(text, posX, charset)
 										afterLEDData[index-1]=colours.get(cval);
 								}
 							}else{
-								cmd.waitfornextchar--;
+								commandList[ci].waitfornextchar--;
 							}
 							break;
 						default:

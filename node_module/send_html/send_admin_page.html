@@ -6,12 +6,16 @@ Change the admin password.<br />
 <br />
 <table border="0" style="width:100%">
 	<tr>
-		<td class="input_field_wrapper"><input id="LED_defaultText" type="text" class="input_field" style="width: 100%"></input></td>
-		<td class="button_wrapper"><a href="#" onclick="SetDefaultText()" class="button" class="input_field"><nobr>Set Startup Text</nobr></a></td>
+		<td class="input_field_wrapper" colspan="2"><input id="LED_defaultText" type="text" class="input_field" style="width: 100%"></input></td>
+	</tr><tr>	
+		<td class="button_wrapper"><a href="#" onclick="SetDefaultText()" class="button" class="input_field"><nobr>Save Startup Text</nobr></a></td>
+		<td class="button_wrapper"><a href="#" onclick="ResetToDefaultText()" class="button" class="input_field"><nobr>Reset LED-Box Text</nobr></a></td>
 	</tr>
 </table>
 <br />
 The startup text is shown when the server starts, until another text is set.<br />
+When you press the Reset button, the box-text will be set to the default text instantly.<br/>
+<br />
 Hard coded default startup text: <i>{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart} {QuarterHeart} {HalfHeart} {DreiviertelHerz} {Herz} http://ben0bi.homenet.org {:)} {;)} {:)}</i>
 <hr />
 <br />
@@ -123,6 +127,27 @@ var SetDefaultText = function()
 		}else{
 			// all good.
 			$("#result").html("Default startup text is now: "+data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+	});
+};
+
+// reset to the default text of the LED array.
+var ResetToDefaultText = function()
+{	
+	console.log("Trying to reset to the default text.");
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/resettodefaulttextxtx",null,function(data,status,xhr) 
+	{
+		if(data == "N0P3") 
+		{
+			$("#result").html("The server will not reset to the default text.");
+		}else if(data == "D0P3"){
+			$("#result").html("Could not reset to default text, something strange is going on. Something really strange.");
+		}else{
+			// all good.
+			$("#result").html("LED box text is now: "+data);
 		}
 	},"text")
   	.fail(function() {

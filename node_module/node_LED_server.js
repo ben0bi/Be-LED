@@ -350,6 +350,15 @@ var server = my_http.createServer(function(request, response)
 			return;
 		}
 
+		// set default text which is shown after boot/restart.
+		if (url == '/resettodefaulttextxtx')
+		{
+			console.log("+ Resetting to default text..");
+			messages = new Array();
+			addMessage("");
+			return;
+		}
+		
 		// return the ip time.
 		if (url == '/givemetheiptime')
 		{

@@ -147,7 +147,7 @@ var ResetToDefaultText = function()
 			$("#result").html("Could not reset to default text, something strange is going on. Something really strange.");
 		}else{
 			// all good.
-			$("#result").html("LED box text is now: "+data);
+			$("#result").html(data);
 		}
 	},"text")
   	.fail(function() {

@@ -1,4 +1,4 @@
-var AppVersion = "0.4.4";
+var AppVersion = "0.4.5";
 
 console.log(" ");
 console.log("Be+LED "+AppVersion+" by ben0bi in 2016ad / 30ahc");
@@ -54,17 +54,22 @@ var messagesAfterAttractionText = true; // if false, the attraction text will be
 var serverPort = 3000;
 
 // maybe get another default text.
-try
+function loadDefaultStartupText()
 {
-	var startuptext = fs.readFileSync(filename_defaulttext, 'utf8');
-	if(startuptext)
+	try
 	{
-		console.log('-->  Default text file found: '+startuptext);
-		attractionText = startuptext;
-	}
-}catch(ex){
-	console.log("--> No default text file found, using hard coded text: "+attractionText);
+		var startuptext = fs.readFileSync(filename_defaulttext, 'utf8');
+		if(startuptext)
+		{
+			console.log('-->  Default text file found: '+startuptext);
+			attractionText = startuptext;
+		}
+	}catch(ex){
+		console.log("--> No default text file found, using hard coded text: "+attractionText);
+	}	
 }
+
+loadDefaultStartupText();
 
 // maybe get another IP time.
 try
@@ -355,7 +360,10 @@ var server = my_http.createServer(function(request, response)
 		{
 			console.log("+ Resetting to default text..");
 			messages = new Array();
+			loadDefaultStartupText();
 			addMessage("");
+			response.write("Text reset done.");
+			response.end();
 			return;
 		}
 		

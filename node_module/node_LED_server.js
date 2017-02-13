@@ -161,9 +161,9 @@ var addMessage = function(message)
 	{
 		for(var m=0;m<messages.length;m++)
 		{
-			rt+=" +++ "+messages[m];
+			rt+=" {%L6} "+messages[m];
 		}
-		rt +=" +++";
+		rt +=" {%L6}";
 	}
 	setRealText(rt);
 }

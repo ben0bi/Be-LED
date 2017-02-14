@@ -1,8 +1,4 @@
 <h1>Be+LED Administration</h1>
-<a href="#" onclick="GetResetPassword()" class="button">Set Password</a><br />
-<br />
-Change the admin password.<br />
-<hr />
 <br />
 <table border="0" style="width:100%">
 	<tr>
@@ -34,6 +30,22 @@ Use <b>-1</b> for never. WARNING: You need to find out the IP by yourself then!
 <hr />
 <br />
 
+<table border="0" style="width:100%">
+	<tr>
+		<td class="input_field_wrapper"><input id="LED_MaxMessageCount" type="text" class="input_field" style="width: 100px"></input></td>
+		<td class="button_wrapper"><a href="#" onclick="SetMaxMessageCount()" class="button" class="input_field"><nobr>Set max. Msg. Count</nobr></a></td>
+	</tr>
+</table>
+<br />
+How many messages will be shown until the ones at the begin will be deleted out? Default is 5. Use 1 for just one changing text.
+<hr />
+<br />
+<a href="#" onclick="GetResetPassword()" class="button">Set Password</a><br />
+<br />
+Change the admin password.<br />
+<hr />
+<br />
+
 Result:
 <div id="result">++ Nothing Changed Yet ++</div>
 
@@ -44,6 +56,7 @@ $(document).ready(function()
 {
 	loadDefaultText();
 	loadActualIPTime();
+	loadMaxMessageCount();
 });
 
 // load the default text into the admin page.
@@ -75,6 +88,24 @@ var loadActualIPTime = function()
 			$("#result").html("Something strange is going on. Something really strange.");
 		}else{
 			$("#LED_IPTime").val(data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+  	});
+};
+
+// load the max message count into the admin page.
+var loadMaxMessageCount = function()
+{
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/givemethemaxmessagecount",null,function(data,status,xhr) 
+	{
+		if(data == "N0P3") {
+			$("#result").html("The server will not give you the Max Message Count.");
+		}else if(data == "D0P3"){
+			$("#result").html("Something strange is going on. Something really strange.");
+		}else{
+			$("#LED_MaxMessageCount").val(data);
 		}
 	},"text")
   	.fail(function() {
@@ -185,7 +216,7 @@ var SetIPTime = function()
 	});
 };
 
-// set time how long the ip will be shown on the LED array.
+// get time how long the ip will be shown on the LED array.
 var ShowIP = function()
 {
 	console.log("Showing IP on the device.");
@@ -205,5 +236,36 @@ var ShowIP = function()
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
 	});
 };
+
+// set how many messages will be shown at maximum.
+var SetMaxMessageCount = function()
+{
+	var dtext = $("#LED_MaxMessageCount").val();
+	if(!dtext || dtext=="")
+	{
+		$("#result").html("You must input at least one character.");
+		return;
+	}
+	
+	var it=parseInt(dtext);
+	
+	console.log("Trying to set Max Message Count to: "+it);
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setmaxmessagecountxtx",{maxmessagecount: it},function(data,status,xhr) 
+	{
+		if(data == "N0P3") 
+		{
+			$("#result").html("The server will not set the Max Message Count.");
+		}else if(data == "D0P3"){
+			$("#result").html("Could not set new IP time, something strange is going on. Something really strange.");
+		}else{
+			// all good.
+			$("#result").html("Default Max Message Count is now: "+data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+	});
+};
+
 </script>
 

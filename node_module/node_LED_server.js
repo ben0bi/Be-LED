@@ -1,4 +1,4 @@
-var AppVersion = "0.4.5";
+var AppVersion = "0.4.7";
 
 console.log(" ");
 console.log("Be+LED "+AppVersion+" by ben0bi in 2016ad / 30ahc");
@@ -11,6 +11,7 @@ var attractionText="{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart} {QuarterHeart} 
 var filename_password = './config/admin_password';
 var filename_defaulttext = './config/default_text';
 var filename_iptime = './config/local_ip_showtime';
+var filename_maxmessagecount='./config/max_message_count';
 
 // ++++ requires.
 var my_http = require("http");
@@ -26,28 +27,28 @@ var LED=require("./lib/LED_functions");								// the basic LED functions. Maybe
 var colours = require("./lib/LED_colours");							// color palettes.
 
 // get width and height from console.
-var PRECOUNT = parseInt(process.argv[2], 10) || 0,				// First parameter: count of special LEDs before screen.
+var PRECOUNT = parseInt(process.argv[2], 10) || 0,		// First parameter: count of special LEDs before screen.
     screenWidth=WIDTH = parseInt(process.argv[3], 10) || 10,	// Second parameter: screen size (width)
     screenHeight=HEIGHT = parseInt(process.argv[4], 10) || 10,	// Third parameter: screen size (height)
-    AFTERCOUNT = parseInt(process.argv[5], 10) || 0,			// Fourth parameter: count of special LEDs after screen.
-    NUM_LEDS = PRECOUNT+ (WIDTH * HEIGHT)+ AFTERCOUNT,			// Total LED count.
-    initial_speed = LED.getSpeed();								// Default speed.
-    pixelData = new Uint32Array(NUM_LEDS);						// The "real" screen array.
+    AFTERCOUNT = parseInt(process.argv[5], 10) || 0,		// Fourth parameter: count of special LEDs after screen.
+    NUM_LEDS = PRECOUNT+ (WIDTH * HEIGHT)+ AFTERCOUNT,		// Total LED count.
+    initial_speed = LED.getSpeed();				// Default speed.
+    pixelData = new Uint32Array(NUM_LEDS);			// The "real" screen array.
 
 // Pass parameters to the LED module.
 LED.setDisplaySize(PRECOUNT,WIDTH, HEIGHT, AFTERCOUNT);
 
 // global x position.
 var globalXInit = -screenWidth * 3;	// Default init position of text.
-var globalX = globalXInit;			// Scroll position.
+var globalX = globalXInit;		// Scroll position.
 
 var realText = "";			// The text shown on the device.
-var realTextLength = 0; 	// The length of the text in pixels.
+var realTextLength = 0; 		// The length of the text in pixels.
 var localIP = [];			// array for the local IP(s).
-var localIPText = "";		// text with the IPs to add to the screen.
-var waitForRemoveIP = 10000;	// Milliseconds to wait until the ip will be removed.
+var localIPText = "";			// text with the IPs to add to the screen.
+var waitForRemoveIP = 10000;		// Milliseconds to wait until the ip will be removed.
 var messages = [];			// message array.
-var maxMessageCount = 5; 	// maximum amount of messages to show.
+var maxMessageCount = 5; 		// maximum amount of messages to show.
 var messagesAfterAttractionText = true; // if false, the attraction text will be overwritten on message.
 
 // the port of the node server.
@@ -69,6 +70,7 @@ function loadDefaultStartupText()
 	}	
 }
 
+// +++ load the default startup text.
 loadDefaultStartupText();
 
 // maybe get another IP time.
@@ -82,6 +84,19 @@ try
 	}
 }catch(ex){
 	console.log("--> No default ip time found, using hard coded time: "+waitForRemoveIP);
+}
+
+// maybe get another message count.
+try
+{
+	var maxmsg = fs.readFileSync(filename_maxmessagecount, 'utf8');
+	if(maxmsg)
+	{
+		console.log('--> Max Message Count file found: '+maxmsg);
+		maxMessageCount=parseInt(maxmsg);
+	}	
+}catch(ex){
+	console.log("--> No default message count found, using hard coded count: "+maxMessageCount);
 }
 
 // ++++ Get local IP addresses of this device.
@@ -152,6 +167,9 @@ var addMessage = function(message)
 {
 	if(message!=null && message!="")
 		messages.push(message);
+
+	if(messages.length > maxMessageCount)
+		messages = messages.slice(messages.length-maxMessageCount);
 	
 	var rt = localIPText;
 	if(messagesAfterAttractionText==true)
@@ -375,7 +393,7 @@ var server = my_http.createServer(function(request, response)
 			response.end();
 			return;
 		}
-
+		
 		// set how long the ip will be shown.
 		if (url == '/setiptimexwx')
 		{
@@ -411,6 +429,37 @@ var server = my_http.createServer(function(request, response)
 			return;
 		}
 
+		// return the message count.
+		if (url == '/givemethemaxmessagecount')
+		{
+			response.write(maxMessageCount.toString());
+			response.end();
+			return;
+		}
+
+		// set how long the ip will be shown.
+		if (url == '/setmaxmessagecountxtx')
+		{
+			console.log("+ Getting new Max Message Count..");
+			var body = '';
+			request.on('data', function(chunk) 
+			{
+				body += chunk;
+			});
+			request.on('end', function() 
+			{
+				var data = qs.parse(body);
+				var mx = data.maxmessagecount;
+				var t = parseInt(mx);
+				console.log("+ Setting new Max Message Count: "+t);
+				maxMessageCount = t;
+				fs.writeFileSync(filename_maxmessagecount,t, "utf8");
+				response.write(t.toString());
+				response.end();
+			});
+			return;
+		}
+		
 		// just send the password reset page. 
 		// This function is only accessible over the admin page,
 		// so no one should be able to guess it.

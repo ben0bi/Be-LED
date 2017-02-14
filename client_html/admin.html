@@ -9,22 +9,24 @@
 </head>
 <body>
 <div id="wrapper">
-	<h1>Be+LED Administration</h1>
-	<table border="0" style="width: 100%">
-		<tr>
-			<td class="input_field_wrapper"><input type="password" id="password_field" class="input_field" placeholder="Password please." style="width: 100%"></input></td>
-			<td class="button_wrapper"><a href="#" onclick="sendPassword();" class="button">Login</a></td>
-		</tr>
-	</table>
+	<div id="internwrapper">
+		<h1>Be+LED Administration</h1>
+		<table border="0" style="width: 100%">
+			<tr>
+				<td class="input_field_wrapper"><input type="password" id="password_field" class="input_field" placeholder="Password please." style="width: 100%"></input></td>
+				<td class="button_wrapper"><a href="#" onclick="sendPassword();" class="button">Login</a></td>
+			</tr>
+		</table>
 	
-	<div id="result"></div>
-</div>
+		<div id="result"></div>	
+	</div>
 
-<div id="footer_wrapper">
-	<div id="footer">
-		<div id="menu"><a href="index.html">Main Page</a></div>
-		<hr>
-		<center>BE+LED by ben0bi @ ben0bi enterprises AND Web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+	<div id="footer_wrapper">
+		<div id="footer">
+			<div id="menu"><a href="index.html">Main Page</a></div>
+			<hr>
+			<center>BE+LED by ben0bi @ ben0bi enterprises AND Web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+		</div>
 	</div>
 </div>
 
@@ -56,7 +58,7 @@
 				// ok, reset values to not get them from memory.
 				origPass="";
 				sendpass="";
-				$("#wrapper").html(data);
+				$("#internwrapper").html(data);
 				logged_in = true;
 			}
 		},"text")

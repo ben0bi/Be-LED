@@ -1,6 +1,7 @@
 config/admin_password
 config/default_text
 config/local_ip_showtime
+config/max_message_count
 
 
 

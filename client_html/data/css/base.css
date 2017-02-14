@@ -61,3 +61,14 @@ html, body
 	padding-right: auto;
 }
 
+.pixel
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 5px;
+	height: 4px;
+	background-color: #FF00FF;
+	border-radius: 5px;
+}
+

@@ -68,32 +68,32 @@
 			<tr>
 				<td>{Smiley}, {:)}</td>
 				<td>A standard smiley in one color. Colors: 0 (Background), 1 (Smiley)</td>
-				<td>Image</td>
+				<td id="sym_smiley">Image</td>
 			</tr>
 			<tr>
 				<td>{FullSmiley}, {;)}</td>
 				<td>A standard smiley in 3 colors. Colors: 0 (Background), 1 (Outline), 2 (Background), 3 (Face)</td>
-				<td>Image</td>
+				<td id="sym_fullsmiley">Image</td>
 			</tr>
 			<tr>
 				<td>{Heart}, {Herz}, {FullHeart}</td>
 				<td>A fully colored Zelda-heart. Colors: 0 (Background), 1 (Outline), 2 (Inside)</td>
-				<td>Image</td>
+				<td id="sym_heart">Image</td>
 			</tr>
 			<tr>
 				<td>{3QHeart}, {3QuarterHeart}, {DreiviertelHerz}</td>
 				<td>A Zelda-heart colored to 3 quarters. Colors: 0 (Background), 1 (Outline), 2 (Inside)</td>
-				<td>Image</td>
+				<td id="sym_3qheart">Image</td>
 			</tr>
 			<tr>
 				<td>{HalfHeart}, {HalbHerz}</td>
 				<td>A Zelda-heart with one half colored. Colors: 0 (Background), 1 (Outline), 2 (Inside)</td>
-				<td>Image</td>
+				<td id="sym_halfheart">Image</td>
 			</tr>
 			<tr>
 				<td>{EmptyHeart}, {LeerHerz}</td>
 				<td>A Zelda-heart which is empty on the inside. Colors: 0 (Background), 1 (Outline)</td>
-				<td>Image</td>
+				<td id="sym_emptyheart">Image</td>
 			</tr>
 		</table>
 	</div>
@@ -200,18 +200,100 @@ function ChangeLEDText()
 	},"text");
 }
 
+// returns a pixel table. (10x10)
+function drawPixels(which)
+{	
+	var sc=[];
+
+	switch(which)
+	{
+// DEFINE SYMBOLS HERE
+		case "Smiley":
+			sc.push([0,0,0,1,1,1,1,0,0,0]);
+			sc.push([0,0,1,0,0,0,0,1,0,0]);
+			sc.push([0,1,0,0,0,0,0,0,1,0]);
+			sc.push([1,0,0,1,0,0,1,0,0,1]);
+			sc.push([1,0,0,0,0,0,0,0,0,1]);
+			sc.push([1,0,0,0,0,0,0,0,0,1]);
+			sc.push([1,0,0,1,0,0,1,0,0,1]);
+			sc.push([0,1,0,0,1,1,0,0,1,0]);
+			sc.push([0,0,1,0,0,0,0,1,0,0]);
+			sc.push([0,0,0,1,1,1,1,0,0,0]);
+			break;
+		case "FullSmiley":
+			sc.push([0,0,0,1,1,1,1,0,0,0]);
+			sc.push([0,0,1,3,3,3,3,1,0,0]);
+			sc.push([0,1,3,3,3,3,3,3,1,0]);
+			sc.push([1,3,2,2,3,3,2,2,3,1]);
+			sc.push([1,3,3,2,3,3,2,3,3,1]);
+			sc.push([1,3,3,3,3,3,3,3,3,1]);
+			sc.push([1,3,2,2,2,2,2,2,3,1]);
+			sc.push([0,1,3,2,2,2,2,3,1,0]);
+			sc.push([0,0,1,3,3,3,3,1,0,0]);
+			sc.push([0,0,0,1,1,1,1,0,0,0]);
+			break;
+		case "EmptyHeart":
+			sc.push([0,0,1,0,0,0,1,0,0]);
+			sc.push([0,1,0,1,0,1,0,1,0]);
+			sc.push([1,0,0,0,1,0,0,0,1]);
+			sc.push([1,0,0,0,0,0,0,0,1]);
+			sc.push([1,0,0,0,0,0,0,0,1]);
+			sc.push([1,0,0,0,0,0,0,0,1]);
+			sc.push([0,1,0,0,0,0,0,1,0]);
+			sc.push([0,0,1,0,0,0,1,0,0]);
+			sc.push([0,0,0,1,0,1,0,0,0]);
+			sc.push([0,0,0,0,1,0,0,0,0]);
+			break;
+		default:
+			break;
+	}
+
+	var tx="<table border='0'>";
+	
+	// colour the table cell.
+	for(var y=0;y<sc.length;y++)
+	{
+		tx+="<tr>\n";
+		for(var x=0;x<sc[y].length;x++)
+		{
+			var col="000000";
+			switch(sc[y][x])
+			{
+				case 1: col = "FFFFFF";break;
+				case 2: col = "FF0000";break;
+				case 3: col = "00FF00";break;
+				case 4: col = "0000FF";break;
+				case 5: col = "FFAA00";break;
+				case 6: col = "FFFF00";break;
+				case 7: col = "FF00AA";break;
+				case 8: col = "00FFAA";break;
+				default: break;
+			};
+			tx+="<td class='pixel' style='background-color: #"+col+";'></td>\n";
+		}
+		tx+="</tr>";
+	}
+	tx+="</table>\n";
+	return tx;
+}
+
 // get the led text.
 GetLEDText();
 
 $(document).ready(function() 
 {
+// define footer position
 	var height = $("#wrapper").height();
 	var h2 = $("#footer_wrapper").height();
 	var footerY=parseInt($("#footer_wrapper").css("bottom"));
 	if(footerY <0)
 		h2 -= footerY;
 	$("#wrapper").css("min-height", height-h2);
-	console.log("Old Height: "+height+" / New Height: "+(height-h2)+" / FooterY:"+footerY);
+	
+// create images for the symbols
+	$("#sym_smiley").html(drawPixels("Smiley"));
+	$("#sym_fullsmiley").html(drawPixels("FullSmiley"));
+	$("#sym_emptyheart").html(drawPixels("EmptyHeart"));
 	console.log("Ready!");
 });
 </script>

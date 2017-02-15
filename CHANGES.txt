@@ -1,5 +1,6 @@
 0.4.7 + You can now set how much messages there will be shown.
-		+ First icons for the symbols on the index page.
+		+ Icons for the symbols on the index page.
+		+ Added colour palette description on index page.
 0.4.6 + Messages are separated with a vertical line | in colour 6 instead of +++
 0.4.5 + Text reset on admin page works now.
 0.4.4

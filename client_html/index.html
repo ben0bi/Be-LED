@@ -51,14 +51,17 @@
 	</div>
 	<hr />
 
-	Special symbols and commands are embraced with curly braces {}.<br /><br />
-
+	Special symbols and commands are embraced with curly braces {}.<br />
+	* The colors can differ on the device, depending on the LED type and power consumption. Also note that the Pink/Rose colour is the only colour that stays the same over all palettes.
+	<br />
+	<br />
 	<!-- symbols, WARNING: Can vary with other fonts. -->
 	<div id="div_font_symbols_link" style="display:block;">
-		<a href="#" onclick="$('#div_font_symbols').show();$('#div_font_symbols_link').hide();">Special Symbols &#8690;</a>
+		<a onclick="$('#div_font_symbols').show();$('#div_font_symbols_link').hide();">Special Symbols &#8690;</a>
 	</div>
 	<div id="div_font_symbols" style="display: none;">
-		<a href="#" onclick="$('#div_font_symbols_link').show();$('#div_font_symbols').hide();">Special Symbols &#8689;</a>
+		<a onclick="$('#div_font_symbols_link').show();$('#div_font_symbols').hide();">Special Symbols &#8689;</a><br />
+		<br />
 		<table border="1">
 			<tr>
 				<td>Text</td>
@@ -96,15 +99,16 @@
 				<td id="sym_emptyheart">Image</td>
 			</tr>
 		</table>
+		<br /><br />
 	</div>
 
 	<!-- commands -->
 	<div id="div_device_commands_link">
-		<a href="#" onclick="$('#div_device_commands').show();$('#div_device_commands_link').hide();">Device Commands &#8690;</a>
+		<a onclick="$('#div_device_commands').show();$('#div_device_commands_link').hide();">Device Commands &#8690;</a>
 	</div>
 	<div id="div_device_commands" style="display: none;">
 		<hr />
-		<a href="#" onclick="$('#div_device_commands_link').show();$('#div_device_commands').hide();">Device Commands &#8689;</a><br />
+		<a onclick="$('#div_device_commands_link').show();$('#div_device_commands').hide();">Device Commands &#8689;</a><br />
 		<br />
 		The character % defines the start of a command. Each command starts with a %, followed by the command character, followed by the command parameter.<br />
 		E.g. <i>{%p2}</i> is the "P" command with parameter 2, which switches to palette 2 for the next characters.<br />
@@ -159,8 +163,92 @@
 				<td>Set the color for actual special LED. You need to use one of the previous two commands before this command. The light stays when the text restarts, so clear it if you need to.</td>
 			</tr>
 		</table>
+		<br /><br />
 	</div>
 
+	<!-- colour palettes -->
+	<div id="div_palettes_link" style="display: block;">
+		<a onclick="$('#div_palettes').show();$('#div_palettes_link').hide();">Colour Palettes &#8690;</a>
+	</div>
+	<div id="div_palettes" style="display: none;">
+		<hr />
+		<a onclick="$('#div_palettes_link').show();$('#div_palettes').hide();">Colour Palettes &#8689;</a><br />
+		<br />
+		<table border="1">
+			<tr><td>Palette ID</td><td>Info</td><td>Colours</td></tr>
+			<tr>
+				<td>0</td>
+				<td>Default palette</td>
+				<td>
+					<table border="1">
+						<tr><td>Color ID</td><td>Name</td><td>Hex Color</td><td>R G B</td><td>Sample*</td><td>Color ID</td></tr>
+						<tr><td>0</td><td>Black</td><td>0x000000</td><td>0 0 0</td><td style="background-color:#000000;"></td><td>0</td></tr>
+						<tr><td>1</td><td>White</td><td>0xFFFFFF</td><td>255 255 255</td><td style="background-color:#FFFFFF;"></td><td>1</td></tr>
+						<tr><td>2</td><td>Red</td><td>0xFF0000</td><td>255 0 0</td><td style="background-color:#FF0000;"></td><td>2</td></tr>
+						<tr><td>3</td><td>Green</td><td>0x00FF00</td><td>0 255 0</td><td style="background-color:#00FF00;"></td><td>3</td></tr>
+						<tr><td>4</td><td>Blue</td><td>0x0000FF</td><td>0 0 255</td><td style="background-color:#0000FF;"></td><td>4</td></tr>
+						<tr><td>5</td><td>Orange</td><td>0xFF7F00</td><td>255 127 0</td><td style="background-color:#FF7F00;"></td><td>5</td></tr>
+						<tr><td>6</td><td>Yellow</td><td>0xFFFF00</td><td>255 255 0</td><td style="background-color:#FFFF00;"></td><td>6</td></tr>
+						<tr><td>7</td><td>Pink/Rose</td><td>0xFF007F</td><td>255 0 127</td><td style="background-color:#FF007F;"></td><td>7</td></tr>
+						<tr><td>8</td><td>Turkis</td><td>0x00FF7F</td><td>0 255 127</td><td style="background-color:#00FF7F;"></td><td>8</td></tr>					
+					</table>
+				</td>
+			</tr>
+
+			<tr><td>1</td><td>Eye friendly palette</td>
+			<td>
+				<table border="1">
+					<tr><td>Color ID</td><td>Name</td><td>Hex Color</td><td>R G B</td><td>Sample*</td><td>Color ID</td></tr>
+						<tr><td>0</td><td>Black</td><td>0x000000</td><td>0 0 0</td><td style="background-color:#000000;"></td><td>0</td></tr>
+						<tr><td>1</td><td>White</td><td>0xFFC87F</td><td>255 200 127</td><td style="background-color:#FFC87F;"></td><td>1</td></tr>
+						<tr><td>2</td><td>Red</td><td>0xFF0000</td><td>255 0 0</td><td style="background-color:#FF0000;"></td><td>2</td></tr>
+						<tr><td>3</td><td>Green</td><td>0x00FF00</td><td>0 255 0</td><td style="background-color:#00FF00;"></td><td>3</td></tr>
+						<tr><td>4</td><td>Blue</td><td>0x00007F</td><td>0 0 127</td><td style="background-color:#00007F;"></td><td>4</td></tr>
+						<tr><td>5</td><td>Orange</td><td>0xFF7F00</td><td>255 127 0</td><td style="background-color:#FF7F00;"></td><td>5</td></tr>
+						<tr><td>6</td><td>Yellow</td><td>0x7F7F00</td><td>127 127 0</td><td style="background-color:#7F7F00;"></td><td>6</td></tr>
+						<tr><td>7</td><td>Pink/Rose</td><td>0x7F0040</td><td>127 0 64</td><td style="background-color:#7F0040;"></td><td>7</td></tr>
+						<tr><td>8</td><td>Turkis</td><td>0x007F40</td><td>0 127 64</td><td style="background-color:#007F40;"></td><td>8</td></tr>					
+				</table>
+			</td></tr>
+
+			<tr>
+				<td>2</td>
+				<td>Default palette, switched colours</td>
+				<td>
+					<table border="1">
+						<tr><td>Color ID</td><td>Name</td><td>Hex Color</td><td>R G B</td><td>Sample*</td><td>Color ID</td></tr>
+						<tr><td>0</td><td>White</td><td>0xFFFFFF</td><td>255 255 255</td><td style="background-color:#FFFFFF;"></td><td>0</td></tr>
+						<tr><td>1</td><td>Black</td><td>0x000000</td><td>0 0 0</td><td style="background-color:#000000;"></td><td>1</td></tr>
+						<tr><td>2</td><td>Green</td><td>0x00FF00</td><td>0 255 0</td><td style="background-color:#00FF00;"></td><td>3</td></tr>
+						<tr><td>3</td><td>Red</td><td>0xFF0000</td><td>255 0 0</td><td style="background-color:#FF0000;"></td><td>2</td></tr>
+						<tr><td>4</td><td>Yellow</td><td>0xFFFF00</td><td>255 255 0</td><td style="background-color:#FFFF00;"></td><td>6</td></tr>
+						<tr><td>5</td><td>Turkis</td><td>0x00FF7F</td><td>0 255 127</td><td style="background-color:#00FF7F;"></td><td>8</td></tr>					
+						<tr><td>6</td><td>Blue</td><td>0x0000FF</td><td>0 0 255</td><td style="background-color:#0000FF;"></td><td>4</td></tr>
+						<tr><td>7</td><td>Pink/Rose</td><td>0xFF007F</td><td>255 0 127</td><td style="background-color:#FF007F;"></td><td>7</td></tr>
+						<tr><td>8</td><td>Orange</td><td>0xFF7F00</td><td>255 127 0</td><td style="background-color:#FF7F00;"></td><td>5</td></tr>
+					</table>
+				</td>
+			</tr>
+
+			<tr><td>3</td><td>Eye friendly palette, switched colours</td>
+			<td>
+				<table border="1">
+					<tr><td>Color ID</td><td>Name</td><td>Hex Color</td><td>R G B</td><td>Sample*</td><td>Color ID</td></tr>
+						<tr><td>0</td><td>White</td><td>0xFFC87F</td><td>255 200 127</td><td style="background-color:#FFC87F;"></td><td>0</td></tr>
+						<tr><td>1</td><td>Black</td><td>0x000000</td><td>0 0 0</td><td style="background-color:#000000;"></td><td>1</td></tr>
+						<tr><td>2</td><td>Green</td><td>0x00FF00</td><td>0 255 0</td><td style="background-color:#00FF00;"></td><td>2</td></tr>
+						<tr><td>3</td><td>Red</td><td>0xFF0000</td><td>255 0 0</td><td style="background-color:#FF0000;"></td><td>3</td></tr>
+						<tr><td>4</td><td>Yellow</td><td>0x7F7F00</td><td>127 127 0</td><td style="background-color:#7F7F00;"></td><td>4</td></tr>
+						<tr><td>5</td><td>Turkis</td><td>0x007F40</td><td>0 127 64</td><td style="background-color:#007F40;"></td><td>5</td></tr>					
+						<tr><td>6</td><td>Blue</td><td>0x00007F</td><td>0 0 127</td><td style="background-color:#00007F;"></td><td>6</td></tr>
+						<tr><td>7</td><td>Pink/Rose</td><td>0x7F0040</td><td>127 0 64</td><td style="background-color:#7F0040;"></td><td>7</td></tr>
+						<tr><td>8</td><td>Orange</td><td>0xFF7F00</td><td>255 127 0</td><td style="background-color:#FF7F00;"></td><td>8</td></tr>
+				</table>
+			</td></tr>
+		</table>
+		<br /><br />
+	</div>
+	
 	<div id="footer_wrapper">
 			<div id="menu"><a href="admin.html">Administration</a></div>
 			<hr>
@@ -244,6 +332,54 @@ function drawPixels(which)
 			sc.push([0,0,0,1,0,1,0,0,0]);
 			sc.push([0,0,0,0,1,0,0,0,0]);
 			break;
+		case "QuarterHeart":
+			sc.push([0,0,1,0,0,0,1,0,0]);
+			sc.push([0,1,0,1,0,1,0,1,0]);
+			sc.push([1,0,0,0,1,0,0,0,1]);
+			sc.push([1,0,0,0,0,0,0,0,1]);
+			sc.push([1,0,0,0,0,0,0,0,1]);
+			sc.push([1,2,2,2,2,0,0,0,1]);
+			sc.push([0,1,2,2,2,0,0,1,0]);
+			sc.push([0,0,1,2,2,0,1,0,0]);
+			sc.push([0,0,0,1,2,1,0,0,0]);
+			sc.push([0,0,0,0,1,0,0,0,0]);
+			break;
+		case "HalfHeart":
+			sc.push([0,0,1,0,0,0,1,0,0]);
+			sc.push([0,1,2,1,0,1,0,1,0]);
+			sc.push([1,2,2,2,1,0,0,0,1]);
+			sc.push([1,2,2,2,2,0,0,0,1]);
+			sc.push([1,2,2,2,0,0,0,0,1]);
+			sc.push([1,2,2,2,2,0,0,0,1]);
+			sc.push([0,1,2,2,0,0,0,1,0]);
+			sc.push([0,0,1,2,2,0,1,0,0]);
+			sc.push([0,0,0,1,0,1,0,0,0]);
+			sc.push([0,0,0,0,1,0,0,0,0]);
+			break;
+		case "3QHeart":
+			sc.push([0,0,1,0,0,0,1,0,0]);
+			sc.push([0,1,2,1,0,1,0,1,0]);
+			sc.push([1,2,2,2,1,0,0,0,1]);
+			sc.push([1,2,2,2,2,0,0,0,1]);
+			sc.push([1,2,2,2,2,0,0,0,1]);
+			sc.push([1,2,2,2,2,2,2,2,1]);
+			sc.push([0,1,2,2,2,2,2,1,0]);
+			sc.push([0,0,1,2,2,2,1,0,0]);
+			sc.push([0,0,0,1,2,1,0,0,0]);
+			sc.push([0,0,0,0,1,0,0,0,0]);
+			break;
+		case "Heart":
+			sc.push([0,0,1,0,0,0,1,0,0]);
+			sc.push([0,1,2,1,0,1,2,1,0]);
+			sc.push([1,2,2,2,1,2,2,2,1]);
+			sc.push([1,2,2,2,2,2,2,2,1]);
+			sc.push([1,2,2,2,2,2,2,2,1]);
+			sc.push([1,2,2,2,2,2,2,2,1]);
+			sc.push([0,1,2,2,2,2,2,1,0]);
+			sc.push([0,0,1,2,2,2,1,0,0]);
+			sc.push([0,0,0,1,2,1,0,0,0]);
+			sc.push([0,0,0,0,1,0,0,0,0]);
+			break;
 		default:
 			break;
 	}
@@ -294,6 +430,10 @@ $(document).ready(function()
 	$("#sym_smiley").html(drawPixels("Smiley"));
 	$("#sym_fullsmiley").html(drawPixels("FullSmiley"));
 	$("#sym_emptyheart").html(drawPixels("EmptyHeart"));
+	$("#sym_quarterheart").html(drawPixels("QuarterHeart"));
+	$("#sym_halfheart").html(drawPixels("HalfHeart"));
+	$("#sym_3qheart").html(drawPixels("3QHeart"));
+	$("#sym_heart").html(drawPixels("Heart"));
 	console.log("Ready!");
 });
 </script>

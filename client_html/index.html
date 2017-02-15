@@ -252,7 +252,7 @@
 	<div id="footer_wrapper">
 			<div id="menu"><a href="admin.html">Administration</a></div>
 			<hr>
-			<center>BE+LED by ben0bi @ Web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016-2017ad / 30-31ahc</center>
+			<center>BE+LED by ben0bi @ Web<font color="#FF0000">4me</font>, a subsidiary branch of <font color="#FF0000">4me</font> GmbH, Grenchen, Switzerland in 2016-2017ad / 30-31ahc</center>
 	</div>
 
 </div>
@@ -418,13 +418,8 @@ GetLEDText();
 
 $(document).ready(function() 
 {
-// define footer position
-	var height = $("#wrapper").height();
-	var h2 = $("#footer_wrapper").height();
-	var footerY=parseInt($("#footer_wrapper").css("bottom"));
-	if(footerY <0)
-		h2 -= footerY;
-	$("#wrapper").css("min-height", height-h2);
+
+	set_footer_position();
 	
 // create images for the symbols
 	$("#sym_smiley").html(drawPixels("Smiley"));

@@ -1,3 +1,4 @@
+0.4.8 + Fixed a small bug with the footer position on the web pages.
 0.4.7 + You can now set how much messages there will be shown.
 		+ Icons for the symbols on the index page.
 		+ Added colour palette description on index page.

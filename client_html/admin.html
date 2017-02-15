@@ -25,7 +25,7 @@
 		<div id="footer">
 			<div id="menu"><a href="index.html">Main Page</a></div>
 			<hr>
-			<center>BE+LED by ben0bi @ ben0bi enterprises AND Web4me, a subsidiary branch of 4me GmbH, Grenchen, Switzerland in 2016ad / 30ahc</center>
+			<center>BE+LED by ben0bi @ Web<font color="#FF0000">4me</font>, a subsidiary branch of <font color="#FF0000">4me</font> GmbH, Grenchen, Switzerland in 2016-2017ad / 30-31ahc</center>
 		</div>
 	</div>
 </div>
@@ -69,6 +69,8 @@
 	
 	$(document).ready(function()
 	{
+		set_footer_position();
+		
 		var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/isconfigured",null,function(data,status,xhr) 
 		{
 			if(data == "N0P3" || data == "D0P3")

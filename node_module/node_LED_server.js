@@ -1,4 +1,4 @@
-var AppVersion = "0.4.9";
+var AppVersion = "0.5.0";
 
 console.log(" ");
 console.log("Be+LED "+AppVersion+" by ben0bi in 2016ad / 30ahc");

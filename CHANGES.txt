@@ -1,3 +1,5 @@
+0.5.0 + Can SET the value from 0.4.9
+	+ This is the first version made to be released.
 0.4.9 + Added check for adding startup text if there is a message.
 	+ Can get the value but not set it yet.
 0.4.8 + Fixed a small bug with the footer position on the web pages.
@@ -9,7 +11,7 @@
 0.4.4
 + Finally created an entry on the admin page to set the
   time how long the IP will be shown.
-0.4.3 
+0.4.3
 + Typo: Described L command but used P.
 + Loading default text into input on the admin page.
 + added /html to deploy_html for the new RetroPie installation.

@@ -289,10 +289,10 @@ var SetMaxMessageCount = function()
 		{
 			$("#result").html("The server will not set the Max Message Count.");
 		}else if(data == "D0P3"){
-			$("#result").html("Could not set new IP time, something strange is going on. Something really strange.");
+			$("#result").html("Could not set new max message count, something strange is going on. Something really strange.");
 		}else{
 			// all good.
-			$("#result").html("Default Max Message Count is now: "+data);
+			$("#result").html("Max Message Count is now: "+data);
 		}
 	},"text")
   	.fail(function() {
@@ -303,7 +303,24 @@ var SetMaxMessageCount = function()
 // change the remove attraction text setting.
 var removeCheckChanged = function()
 {
-	alert("pressed");
+	var checked=$('#remove_startup_text').prop('checked');
+	
+	console.log("Trying to set messagesAfterStartupText to: "+checked);
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/setmessagesafterattractiontextyty",{messagesafterattractiontext: checked},function(data,status,xhr) 
+	{
+		if(data == "N0P3") 
+		{
+			$("#result").html("The server will not set messagesAfterAttractionText.");
+		}else if(data == "D0P3"){
+			$("#result").html("Could not set new messagesAfterAttractionText, something strange is going on. Something really strange.");
+		}else{
+			// all good.
+			$("#result").html("messagesAfterStartupText is now: "+data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+	});
 };
 
 </script>

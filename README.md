@@ -2,11 +2,11 @@ ThereWillBeLED
 a.k.a.
 Be+LED
 
-v0.4.4
+v0.5.0
 
 by ben0bi@web4me in 2016
 
-Autostarting node LED array server.
+Autostarting nodejs LED array server.
 Needs a Raspberry-Pi running Node.js.
 
 The ws2811-LED Panel/Strip must be connected to pin 6 and have its own power.
@@ -90,7 +90,8 @@ You can now:
  + Reset your password.
  + Set the startup text.
  + Set the time of how long the local IP will be shown on the box. [NOT YET]
- + Hide or show messages from the front page (index.html) and how many.
+ + Set, how many messages normal users can add at maximum, until the first ones will be deleted.
+ + Set, if the attractiontext will be shown after messages come in.
 
 +++ PASSWORD +++
 

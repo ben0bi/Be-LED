@@ -1,4 +1,4 @@
-var AppVersion = "0.4.8";
+var AppVersion = "0.4.9";
 
 console.log(" ");
 console.log("Be+LED "+AppVersion+" by ben0bi in 2016ad / 30ahc");
@@ -12,6 +12,7 @@ var filename_password = './config/admin_password';
 var filename_defaulttext = './config/default_text';
 var filename_iptime = './config/local_ip_showtime';
 var filename_maxmessagecount='./config/max_message_count';
+var filename_messagesafterattractiontext="./config/messages_after_attractiontext";
 
 // ++++ requires.
 var my_http = require("http");
@@ -98,6 +99,22 @@ try
 }catch(ex){
 	console.log("--> No default message count found, using hard coded count: "+maxMessageCount);
 }
+
+// maybe get another messagesAfterAttractionText.
+try
+{
+	var msga = fs.readFileSync(filename_messagesafterattractiontext, 'utf8');
+	if(msga)
+	{
+		console.log('--> MessagesAfterAttractionText: '+msga);
+		messagesAfterAttractionText=false;
+		if(msga=="true" || msga=="TRUE" || msga==1 || msga==true)
+			messagesAfterAttractionText=true;
+	}	
+}catch(ex){
+	console.log("--> No default messagesAfterAttractionText found, using hard coded default: "+messagesAfterAttractionText);
+}
+
 
 // ++++ Get local IP addresses of this device.
 var getMyLocalIP = function()
@@ -437,7 +454,7 @@ var server = my_http.createServer(function(request, response)
 			return;
 		}
 
-		// set how long the ip will be shown.
+		// set the maximum message count.
 		if (url == '/setmaxmessagecountxtx')
 		{
 			console.log("+ Getting new Max Message Count..");
@@ -454,6 +471,42 @@ var server = my_http.createServer(function(request, response)
 				console.log("+ Setting new Max Message Count: "+t);
 				maxMessageCount = t;
 				fs.writeFileSync(filename_maxmessagecount,t, "utf8");
+				response.write(t.toString());
+				response.end();
+			});
+			return;
+		}
+		
+		// return if the startup text will be removed if a message comes in.
+		if (url == '/givemessagesafterattractiontext')
+		{
+			if(messagesAfterAttractionText)
+				response.write("true");
+			else
+				response.write("false");
+			response.end();
+			return;
+		}
+
+		// set messagesAfterAttractionText
+		if (url == '/setmessagesafterattractiontextyty')
+		{
+			console.log("+ Getting messagesAfterAttractionText");
+			var body = '';
+			request.on('data', function(chunk) 
+			{
+				body += chunk;
+			});
+			request.on('end', function() 
+			{
+				var data = qs.parse(body);
+				var mx = data.messagesafterattractiontext;
+				var t=false;
+				if(mx==true || mx=="true" || mx>=1)
+					t=true;
+				console.log("+ Setting new value: "+t);
+				messagesAfterAttractionText = t;
+				fs.writeFileSync(filename_messagesafterattractiontext,t, "utf8");
 				response.write(t.toString());
 				response.end();
 			});

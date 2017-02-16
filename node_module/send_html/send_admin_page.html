@@ -9,6 +9,10 @@
 	</tr>
 </table>
 <br />
+<label>	<input type="checkbox" id="remove_startup_text" onchange="removeCheckChanged();">
+	Show the startup text also after a message comes in? Default is: Checked (True, Yes)</label>
+<br />
+<br />
 The startup text is shown when the server starts, until another text is set.<br />
 When you press the Reset button, the box-text will be set to the default text instantly.<br/>
 <br />
@@ -16,6 +20,19 @@ Hard coded default startup text: <i>{%P3}by ben0bi@web4me{%L0}{%P1} {EmptyHeart}
 <hr />
 <br />
 
+<table border="0" style="width:100%">
+	<tr>
+		<td class="input_field_wrapper"><input id="LED_MaxMessageCount" type="text" class="input_field" style="width: 100px"></input></td>
+		<td class="button_wrapper"><a href="#" onclick="SetMaxMessageCount()" class="button" class="input_field"><nobr>Set max. Msg. Count</nobr></a></td>
+	</tr>
+	<tr>
+</table>
+<br />
+How many messages will be shown until the ones at the begin will be deleted out? Default is 5. Use 1 for just one changing text.<br />
+<br />
+
+<hr />
+<br />
 <table border="0" style="width:100%">
 	<tr>
 		<td class="input_field_wrapper"><input id="LED_IPTime" type="text" class="input_field" style="width: 100px"></input></td>
@@ -30,16 +47,7 @@ Use <b>-1</b> for never. WARNING: You need to find out the IP by yourself then!
 <hr />
 <br />
 
-<table border="0" style="width:100%">
-	<tr>
-		<td class="input_field_wrapper"><input id="LED_MaxMessageCount" type="text" class="input_field" style="width: 100px"></input></td>
-		<td class="button_wrapper"><a href="#" onclick="SetMaxMessageCount()" class="button" class="input_field"><nobr>Set max. Msg. Count</nobr></a></td>
-	</tr>
-</table>
-<br />
-How many messages will be shown until the ones at the begin will be deleted out? Default is 5. Use 1 for just one changing text.
-<hr />
-<br />
+
 <a href="#" onclick="GetResetPassword()" class="button">Set Password</a><br />
 <br />
 Change the admin password.<br />
@@ -57,6 +65,7 @@ $(document).ready(function()
 	loadDefaultText();
 	loadActualIPTime();
 	loadMaxMessageCount();
+	loadMessagesAfterStartupText();
 });
 
 // load the default text into the admin page.
@@ -106,6 +115,30 @@ var loadMaxMessageCount = function()
 			$("#result").html("Something strange is going on. Something really strange.");
 		}else{
 			$("#LED_MaxMessageCount").val(data);
+		}
+	},"text")
+  	.fail(function() {
+		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
+  	});
+};
+
+// load if startup text will be shown after a message comes in.
+var loadMessagesAfterStartupText = function()
+{
+	var jqXHR = $.post("http://"+srvr+":"+LEDPort+"/givemessagesafterattractiontext",null,function(data,status,xhr) 
+	{
+		if(data == "N0P3") {
+			$("#result").html("The server will not give you messagesAfterStartupText.");
+		}else if(data == "D0P3"){
+			$("#result").html("Something strange is going on. Something really strange.");
+		}else{
+			if(data=="true" || data==true)
+			{
+				$("#remove_startup_text").attr('checked', true).prop('checked',true);
+			}else{
+				alert("no");
+				$("#remove_startup_text").removeAttr('checked').prop('checked',false);
+			}
 		}
 	},"text")
   	.fail(function() {
@@ -265,6 +298,12 @@ var SetMaxMessageCount = function()
   	.fail(function() {
 		$("#result").html("<span class='failtext'>Connection error. The server may not be running.</span>");
 	});
+};
+
+// change the remove attraction text setting.
+var removeCheckChanged = function()
+{
+	alert("pressed");
 };
 
 </script>

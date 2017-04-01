@@ -8,6 +8,6 @@
 # Command> node_LED_server.js preLEDS width height afterLEDS
 
 echo "Starting server."
-sudo -S node node_LED_server.js 1 10 10 0 <autoboot/sudo_passwd
+sudo -S /home/pi/nodejs/bin/node node_LED_server.js 0 10 2 0 <autoboot/sudo_passwd
 echo "done."
 

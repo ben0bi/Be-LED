@@ -1,3 +1,6 @@
+0.5.1 + Directory structure change.
+	+ Setup for better npm inclusion. No package.json, but the node_modules-dir is now "npm only".
+	+ New autoboot scripts for starting the server with a manually installed node version in /home/pi/nodejs
 0.5.0 + Can SET the value from 0.4.9
 	+ This is the first version made to be released.
 0.4.9 + Added check for adding startup text if there is a message.

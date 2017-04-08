@@ -2,7 +2,7 @@
 # Script called by autostart.
 # by ben0bi@web4me in 2016
 
-# Server takes 2 parameters: Width and Height.
+# Server takes 4 parameters: preLEDs Width Height afterLEDs.
 # Start the server with 100 (10x10) LEDs.
 
 # WARNING: You must maybe change each and every directory here for your config.

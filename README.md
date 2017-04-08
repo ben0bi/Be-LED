@@ -2,12 +2,15 @@ ThereWillBeLED
 a.k.a.
 Be+LED
 
-v0.5.0
+v0.5.1
 
 by ben0bi@web4me in 2016
 
 Autostarting nodejs LED array server.
 Needs a Raspberry-Pi running Node.js.
+
+Maybe you need to reinstall the rpi-ws281x-native library
+	npm install rpi-ws281x-native
 
 The ws2811-LED Panel/Strip must be connected to pin 6 and have its own power.
 
@@ -18,7 +21,8 @@ The ws2811-LED Panel/Strip must be connected to pin 6 and have its own power.
 
 ******************************************************************************
 Important:
-You NEED to operate from the ROOT DIR of this application.
+
+You NEED[ed] to operate from the ROOT DIR of this application.
 (You can NOT "cd autoboot" and then "./autostart_after", 
 it must be "autoboot/autostart_after". Also, as far as I know, 
 you can also NOT "cd node_client" and then "sudo node node_LED_server.js ...",
@@ -31,7 +35,6 @@ Short Installment:
 On your Raspi, do that:
 
 + install node if not installed.
-	node must be a 0.1x.x version.
 + install apache2 if not installed.
 + install screen if not installed.
 + The apache page is there because the box can always respond then,

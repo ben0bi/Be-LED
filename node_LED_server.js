@@ -1,4 +1,4 @@
-var AppVersion = "0.5.1";
+var AppVersion = "0.5.2";
 
 console.log(" ");
 console.log("Be+LED "+AppVersion+" by ben0bi in 2016ad / 30ahc");
@@ -22,10 +22,10 @@ var os = require('os'); // for getting the IP.
 
 var SHA = require('./lib/sha256');
 
-var ws281x = require('./node_modules/rpi-ws281x-native/lib/ws281x-native');  // the LED driver.
-var mcs=require("./lib/fonts/LED_charset_multispace_Wx7(Wx10)");	// the charset to use.
-var LED=require("./lib/LED_functions");								// the basic LED functions. Maybe the charset provides some own methods.
-var colours = require("./lib/LED_colours");							// color palettes.
+var ws281x = require('./node_modules/rpi-ws281x-native/lib/ws281x-native');  	// the LED driver.
+var mcs=require("./lib/fonts/LED_charset_multispace_Wx5");			// the charset to use.
+var LED=require("./lib/LED_functions");						// the basic LED functions. Maybe the charset provides some own methods.
+var colours = require("./lib/LED_colours");					// color palettes.
 
 // get width and height from console.
 var PRECOUNT = parseInt(process.argv[2], 10) || 0,		// First parameter: count of special LEDs before screen.
@@ -177,6 +177,7 @@ var setRealText = function(newText)
 		gap+=" ";
 	realText=gap+newText+gap;
 	realTextLength=LED.getRealTextLength(realText, mcs);
+	globalXInit= -realTextLength; // new for Wx5 font.
 }
 
 // add a message to the messages on the screen.
@@ -300,8 +301,18 @@ setInterval(function ()
 	{
 		RENDER();
 		frames = 0;
+
+		// scroll (for Wx5 font)
+		globalX++;
+		if(globalX >= 0)
+		{
+			globalX = globalXInit;
+			// maybe reset speed.
+			LED.setSpeed(initial_speed);
+		}
 		
-		// scroll
+	
+/*		// scroll (for Wx10 fonts)
 		globalX--;
 		if(globalX <= screenWidth-realTextLength)
 		{
@@ -309,7 +320,8 @@ setInterval(function ()
 			// maybe reset speed.
 			LED.setSpeed(initial_speed);
 		}
-
+	
+*/
 		// go through all colours
 		color+=0.1;
 		if(color>=20)

@@ -47,7 +47,7 @@ var realText = "";			// The text shown on the device.
 var realTextLength = 0; 		// The length of the text in pixels.
 var localIP = [];			// array for the local IP(s).
 var localIPText = "";			// text with the IPs to add to the screen.
-var waitForRemoveIP = 10000;		// Milliseconds to wait until the ip will be removed.
+var waitForRemoveIP = 20000;		// Milliseconds to wait until the ip will be removed.
 var messages = [];			// message array.
 var maxMessageCount = 5; 		// maximum amount of messages to show.
 var messagesAfterAttractionText = true; // if false, the attraction text will be overwritten on message.
@@ -177,7 +177,7 @@ var setRealText = function(newText)
 		gap+=" ";
 	realText=gap+newText+gap;
 	realTextLength=LED.getRealTextLength(realText, mcs);
-	globalXInit= -realTextLength; // new for Wx5 font.
+	//globalXInit= -realTextLength; // new for Wx5 font.
 }
 
 // add a message to the messages on the screen.
@@ -302,17 +302,7 @@ setInterval(function ()
 		RENDER();
 		frames = 0;
 
-		// scroll (for Wx5 font)
-		globalX++;
-		if(globalX >= 0)
-		{
-			globalX = globalXInit;
-			// maybe reset speed.
-			LED.setSpeed(initial_speed);
-		}
-		
-	
-/*		// scroll (for Wx10 fonts)
+		// scroll (for Wx10 fonts)
 		globalX--;
 		if(globalX <= screenWidth-realTextLength)
 		{
@@ -321,7 +311,6 @@ setInterval(function ()
 			LED.setSpeed(initial_speed);
 		}
 	
-*/
 		// go through all colours
 		color+=0.1;
 		if(color>=20)
